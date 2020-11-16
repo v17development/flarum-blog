@@ -15,7 +15,7 @@
     "support": {
         "issues": "https://github.com/v17development/flarum-blog/issues",
         "source": "https://github.com/v17development/flarum-blog",
-        "docs": "https://community.v17.dev/knowledgebase"
+        "docs": "https://community.v17.dev/knowledgebase/category/flarum-blog"
     },
     "autoload": {
         "psr-4": {
@@ -27,7 +27,8 @@
         "ext-json": "*"
     },
     "suggest": {
-        "fof/sitemap": "Allows you to generate powerful sitemap.xml files"
+        "flarum/tags": "Allows you to generate powerful sitemap.xml files",
+        "v17development/flarum-seo": "Adds Flarum SEO and Social media tags"
     },
     "extra": {
         "flarum-extension": {
