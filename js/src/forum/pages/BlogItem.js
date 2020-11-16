@@ -62,8 +62,6 @@ export default class BlogItem extends Page {
     if (article.payload && article.payload.included) {
       const articleId = article.id();
 
-      console.log(article.payload.included);
-
       includedPosts = article.payload.included
         .filter(
           (record) =>
@@ -76,8 +74,6 @@ export default class BlogItem extends Page {
         .sort((a, b) => a.id() - b.id())
         .slice(0, 20);
     }
-
-    console.log(includedPosts);
 
     this.stream = new PostStream({ discussion: article, includedPosts });
     this.stream.on('positionChanged', this.positionChanged.bind(this));
@@ -139,7 +135,7 @@ export default class BlogItem extends Page {
                   ))}
 
                   <div className={"Post-body"}>
-                    {!this.loading && this.article.blogMeta() && this.article.blogMeta().isPendingReview() && (
+                    {!this.loading && this.article.blogMeta() && this.article.blogMeta().isPendingReview() == true && (
                       <blockquote class="uncited" style={{ fontSize: '16px' }}><div><span className={"far fa-clock"} style={{ marginRight: '5px' }} /> {app.translator.trans('v17development-flarum-blog.forum.review_article.pending_review')}</div></blockquote>
                     )}
 

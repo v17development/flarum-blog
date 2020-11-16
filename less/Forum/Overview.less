@@ -9,6 +9,10 @@
 .FlarumBlogOverview {
   padding: 30px 20px;
 
+  .FlarumBlogWrite {
+    float: right;
+  }
+
   .BlogFeatured {
     h2 {
       margin-top: 0;
@@ -54,6 +58,7 @@
           z-index: 2;
           top: 10px;
           right: 10px;
+          text-align: right;
 
           span {
             display: inline-block;
@@ -65,6 +70,7 @@
             text-transform: uppercase;
             border-radius: 4px;
             margin-left: 5px;
+            margin-bottom: 5px;
           }
         }
 
@@ -160,6 +166,8 @@
     .BlogList {
       @media screen and (min-width: 768px) {
         flex-grow: 1;
+        flex-shrink: 1;
+        width: 100%;
         margin-right: 25px;
       }
 
@@ -177,8 +185,8 @@
           display: flex;
 
           .BlogList-item-photo {
-            max-width: 250px;
-            flex-grow: 1;
+            width: 240px;
+            flex-grow: 0;
             flex-shrink: 0;
           }
 
@@ -208,6 +216,10 @@
             margin: 0 0 13px;
             font-size: 22px;
             font-weight: 400;
+
+            i {
+              margin-left: 10px;
+            }
           }
 
           p {
@@ -248,7 +260,7 @@
     // Sidebar
     .Sidebar {
       @media screen and (min-width: 768px) {
-        max-width: 300px;
+        width: 300px;
         flex-shrink: 0;
         flex-grow: 1;
       }

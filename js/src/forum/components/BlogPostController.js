@@ -6,6 +6,7 @@ import Button from 'flarum/components/Button';
 import Dropdown from 'flarum/components/Dropdown';
 import BlogPostSettingsModal from './Modals/BlogPostSettingsModal';
 import EditPostComposer from 'flarum/components/EditPostComposer';
+import extractText from 'flarum/utils/extractText';
 import RenameArticleModal from './Modals/RenameArticleModal';
 
 export default class BlogPostController extends Component {
@@ -128,7 +129,7 @@ export default class BlogPostController extends Component {
               onclick: () => {
                 // Confirm deletion
                 if (confirm(extractText(app.translator.trans('core.forum.discussion_controls.delete_confirmation')))) {
-                  // Redirect if the current page is an knowledge base article
+                  // Redirect if the current page is an blog article
                   if (app.history.getCurrent().name === 'blogArticle') {
                     if(app.previous) {
                       app.history.back();

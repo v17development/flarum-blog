@@ -43,8 +43,8 @@ export default function() {
           <div style={{ textAlign: 'center', padding: '40px 20px' }}>
             <LoadingIndicator size={"large"} />
             
-            <h2 style={{ marginTop: '40px' }}>{app.translator.trans('v17development-flarum-support.forum.utils.redirect.title')}</h2>
-            {app.translator.trans('v17development-flarum-support.forum.utils.redirect.link', {
+            <h2 style={{ marginTop: '40px' }}>{app.translator.trans('v17development-flarum-blog.forum.utils.redirect.title')}</h2>
+            {app.translator.trans('v17development-flarum-blog.forum.utils.redirect.link', {
               a: <a href={url} />
             })}
           </div>

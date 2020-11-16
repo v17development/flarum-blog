@@ -43,7 +43,7 @@ export default class BlogPostSettingsModal extends Modal {
     items.add('summary', (
       <div className="Form-group">
         <label>Article summary:</label>
-        <textarea className="FormControl" value={this.summary()} placeholder={"Please enter a summary"} oninput={m.withAttr('value', this.summary)}/>
+        <textarea className="FormControl" style={{ maxWidth: '100%', minWidth: '100%', width: '100%', minHeight: '120px' }} value={this.summary()} placeholder={"Please enter a summary"} oninput={m.withAttr('value', this.summary)}/>
 
         <small>This summary will be visible on the blog overview page and will be used for SEO purposes.</small>
       </div>
@@ -53,6 +53,8 @@ export default class BlogPostSettingsModal extends Modal {
       <div className="Form-group">
         <label>Article image URL:</label>
         <input type="text" className="FormControl" value={this.featuredImage()} placeholder={"https://"} oninput={m.withAttr('value', this.featuredImage)}/>
+
+        <small>Best image resolution for social media: 1200x630</small>
 
         {this.featuredImage() != "" && (
           <img src={this.featuredImage()} alt={this.props.article.title()} title={"Blog post image"} width={"100%"} style={{ marginTop: '15px' }} />

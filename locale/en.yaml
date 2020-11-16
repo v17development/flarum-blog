@@ -1,10 +1,15 @@
 v17development-flarum-blog:
   forum:
     blog: "Blog"
-    view_blog: "View blog"
-    view_post: "View post"
     read_more: "Read more"
     hidden: "Hidden"
+    recent_posts: "Recent blog posts"
+    categories: "Categories"
+    return_to_overview: "Return to blog overview "
+    no_more_posts: "No more blog posts."
+    
+    compose:
+      write_article: "Write article"
 
     validation:
       missing_id: "Missing ID"
@@ -19,6 +24,7 @@ v17development-flarum-blog:
       locked: "The comment section is disabled for this article"
 
     review_article:
+      pending_review_title: "Pending review"
       pending_review: "This article is pending review and has not yet been published"
       approve_article: "Approve article"
       approve_article_approved: "The article has been approved and published"
@@ -34,3 +40,8 @@ v17development-flarum-blog:
       delete_forever: "Delete forever"
       enable_comments: "Enable comments"
       disable_comments: "Disable comments"
+
+    utils:
+      redirect:
+        title: "Redirecting you to our blog article..."
+        link: "<a>Click here</a> if the page does not redirect you"

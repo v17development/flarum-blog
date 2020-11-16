@@ -13,6 +13,7 @@ use Flarum\Discussion\Discussion;
 
 // Controllers
 use V17Development\FlarumBlog\Controller\BlogOverviewController;
+use V17Development\FlarumBlog\Controller\BlogItemController;
 
 // API controllers
 use V17Development\FlarumBlog\Api\Controller\CreateBlogMetaController;
@@ -32,9 +33,8 @@ return [
         ->js(__DIR__.'/js/dist/forum.js')
         ->css(__DIR__ . '/less/Forum.less')
         ->route('/blog', 'blog.overview', BlogOverviewController::class)
-        // ->route('/blog/categories', 'blog.categories', BlogOverviewController::class)
-        // ->route('/blog/category/{category}', 'blog.category', BlogOverviewController::class)
-        ->route('/blog/{id:[\d\S]+(?:-[^/]*)?}', 'blog.post', BlogOverviewController::class)
+        ->route('/blog/category/{category}', 'blog.category', BlogOverviewController::class)
+        ->route('/blog/{id:[\d\S]+(?:-[^/]*)?}', 'blog.post', BlogItemController::class)
         // Shall we add RSS?
         // ->get('/blog/rss.xml', 'blog.rss.xml', RSS::class)
     ,

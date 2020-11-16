@@ -8,7 +8,7 @@ export default class BlogCategories extends Component {
   view() {
     return (
       <div className={"BlogCategories"}>
-        <h3>Categories</h3>
+        <h3>{app.translator.trans('v17development-flarum-blog.forum.categories')}</h3>
 
         {this.blogCategories && this.blogCategories.map(tagId => {
           const tag = app.store.getById('tags', tagId);

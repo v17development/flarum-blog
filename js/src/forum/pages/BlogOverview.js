@@ -1,6 +1,9 @@
 import Page from 'flarum/components/Page';
+import Button from 'flarum/components/Button';
 import humanTime from 'flarum/helpers/humanTime';
 import BlogCategories from '../components/BlogCategories';
+import BlogComposer from '../utils/BlogComposer';
+import tooltip from '../utils/tooltip';
 
 export default class BlogOverview extends Page {
   init() {
@@ -34,7 +37,7 @@ export default class BlogOverview extends Page {
     } else {
       app.store.find('discussions', {
         filter: {
-          q: 'is:blog'
+          q: `is:blog${m.route.param('slug') ? ` tag:${m.route.param('slug')}` : ''}`
         },
         include: 'user,tags,firstPost,blogMeta'
       })
@@ -59,12 +62,39 @@ export default class BlogOverview extends Page {
     m.lazyRedraw();
   }
 
+  title() {
+    if(!m.route.param('slug')) {
+      return <h2>{app.translator.trans('v17development-flarum-blog.forum.recent_posts')}</h2>;
+    }
+
+    const tag = app.store.all('tags').filter(tag => tag.slug() === m.route.param('slug'));
+
+    return (
+      <h2>
+        {tag && tag[0] && tag[0].name()}
+        <small> - <a href={app.route("blog")} config={m.route}>{app.translator.trans('v17development-flarum-blog.forum.return_to_overview')}</a></small>
+      </h2>
+    );
+  }
+
   view() {
     return (
       <div className={"FlarumBlogOverview"}>
         <div className={"container"}>
           <div className={"BlogFeatured"}>
-            <h2>Recent blog posts</h2>
+            {app.forum.attribute('canWriteBlogPosts') && (
+              <Button 
+                className={"Button FlarumBlogWrite"}
+                onclick={() => this.newArticle()}
+                icon={"fas fa-pencil"}
+                >
+                {app.translator.trans('v17development-flarum-blog.forum.compose.write_article')}
+              </Button>
+            )}
+
+            {this.title()}
+
+            <div style={{ clear: 'both' }} />
 
             <div className={"BlogFeatured-list"}>
               {/* Ghost data */}
@@ -97,6 +127,12 @@ export default class BlogOverview extends Page {
                       )}
                       {article.isSticky() && (
                         <span><i className={"fas fa-thumbtack"} /></span>
+                      )}
+                      {((article.blogMeta() && article.blogMeta().isPendingReview() == true) || article.isHidden()) && (
+                        <span><i className={"fas fa-eye-slash"} /></span>
+                      )}
+                      {article.blogMeta() && article.blogMeta().isPendingReview() == true && (
+                        <span title={app.translator.trans('v17development-flarum-blog.forum.review_article.pending_review')} config={tooltip.bind(this)} data-placement={"bottom"}><i className={"far fa-clock"} /> {app.translator.trans('v17development-flarum-blog.forum.review_article.pending_review_title')}</span>
                       )}
                     </div>
 
@@ -145,7 +181,15 @@ export default class BlogOverview extends Page {
                     config={m.route}>
                     <div className={"BlogList-item-photo FlarumBlog-default-image"} style={{ backgroundImage: blogImage }}></div>
                     <div className={"BlogList-item-content"}>
-                      <h4>{article.title()}</h4>
+                      <h4>
+                        {article.title()}
+                        {((article.blogMeta() && article.blogMeta().isPendingReview() == true) || article.isHidden()) && (
+                          <i className={"fas fa-eye-slash"} />
+                        )}
+                        {article.blogMeta() && article.blogMeta().isPendingReview() == true && (
+                          <i className={"far fa-clock"} title={app.translator.trans('v17development-flarum-blog.forum.review_article.pending_review')} config={tooltip.bind(this)} />
+                        )}
+                      </h4>
                       <p>{summary}</p>
 
                       <div className={"data"}>
@@ -159,7 +203,7 @@ export default class BlogOverview extends Page {
               })}
 
               {!this.isLoading && this.posts.length === 0 && (
-                <p className={"FlarumBlog-reached-end"}>No more blog posts.</p>
+                <p className={"FlarumBlog-reached-end"}>{app.translator.trans('v17development-flarum-blog.forum.no_more_posts')}</p>
               )}
             </div>
 
@@ -170,5 +214,27 @@ export default class BlogOverview extends Page {
         </div>
       </div>
     )
+  }
+
+  newArticle() {
+    const component = new BlogComposer({
+        user: app.session.user
+    });
+
+    let tags = [];
+
+    app.forum.attribute('blogTags').forEach(tagId => {
+      const tag = app.store.getById('tags', tagId);
+      
+      if(tags.length === 0 && !tag.isChild()) {
+        tags.push(tag);
+      }
+    });
+
+    // Update tags
+    component.tags = tags;
+
+    app.composer.load(component);
+    app.composer.show();
   }
 }
