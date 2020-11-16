@@ -1,0 +1,42 @@
+{
+    "name": "v17development/flarum-blog",
+    "description": "Adds a blog section to your forum",
+    "type": "flarum-extension",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jasper Vriends - V17 Development",
+            "email": "jasper@v17.nl"
+        }, {
+            "name": "Pascal Boschma - V17 Development",
+            "email": "pascal@v17.nl"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/v17development/flarum-blog/issues",
+        "source": "https://github.com/v17development/flarum-blog",
+        "docs": "https://community.v17.dev/knowledgebase"
+    },
+    "autoload": {
+        "psr-4": {
+            "V17Development\\FlarumBlog\\": "src/"
+        }
+    },
+    "require": {
+        "flarum/core": "^0.1.0-beta.12",
+        "ext-json": "*"
+    },
+    "suggest": {
+        "fof/sitemap": "Allows you to generate powerful sitemap.xml files"
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "Blog",
+            "icon": {
+                "name": "fas fa-blog",
+                "backgroundColor": "#2dc0e6",
+                "color": "#ffffff"
+            }
+        }
+    }
+}

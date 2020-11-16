@@ -1,0 +1,36 @@
+v17development-flarum-blog:
+  forum:
+    blog: "Blog"
+    view_blog: "View blog"
+    view_post: "View post"
+    read_more: "Read more"
+    hidden: "Hidden"
+
+    validation:
+      missing_id: "Missing ID"
+
+    article:
+      title: "Title"
+      slug: "Slug"
+      summary: "Summary"
+
+    comment_section:
+      comments: "Comments"
+      locked: "The comment section is disabled for this article"
+
+    review_article:
+      pending_review: "This article is pending review and has not yet been published"
+      approve_article: "Approve article"
+      approve_article_approved: "The article has been approved and published"
+
+    tools:
+      rename_article: "Rename article"
+      edit_article: "Edit article"
+      update_category: "Update categories"
+      article_settings: "Article settings"
+      approve_article: "Approve article"
+      hide_article: "Hide article"
+      recover_article: "Recover article"
+      delete_forever: "Delete forever"
+      enable_comments: "Enable comments"
+      disable_comments: "Disable comments"
