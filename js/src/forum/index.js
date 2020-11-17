@@ -5,6 +5,7 @@ import Discussion from 'flarum/models/Discussion';
 import BlogOverview from "./pages/BlogOverview";
 import redirector from "./utils/redirector";
 import BlogMeta from "../common/Models/BlogMeta";
+import extendTagOverview from "./utils/extendTagOverview";
 
 // Register Flarum Blog
 app.initializers.add('v17development-flarum-blog', app => {
@@ -18,5 +19,10 @@ app.initializers.add('v17development-flarum-blog', app => {
 
   Discussion.prototype.blogMeta = Model.hasOne('blogMeta');
 
+  // Redirect discussions/tags to their blog post/overview
   redirector();
+
+  // Extend tag overview.
+  // Hide tags which are used as blog category
+  extendTagOverview();
 });
