@@ -18,6 +18,9 @@ use V17Development\FlarumBlog\Controller\BlogItemController;
 // Extender
 use V17Development\FlarumBlog\Extenders\ThemeExtender;
 
+// Access
+use V17Development\FlarumBlog\Access\DiscussionPolicy;
+
 // API controllers
 use V17Development\FlarumBlog\Api\Controller\CreateBlogMetaController;
 use V17Development\FlarumBlog\Api\Controller\UpdateBlogMetaController;
@@ -61,6 +64,8 @@ return [
         $events->subscribe(AddDiscussionBlogMetaRelationship::class);
         $events->subscribe(ForumAttributesListener::class);
         $events->subscribe(CreateBlogMetaOnDiscussionCreate::class);
+
+        $events->subscribe(DiscussionPolicy::class);
 
         $events->subscribe(FilterBlogArticles::class);
     })
