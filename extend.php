@@ -15,6 +15,12 @@ use Flarum\Discussion\Discussion;
 use V17Development\FlarumBlog\Controller\BlogOverviewController;
 use V17Development\FlarumBlog\Controller\BlogItemController;
 
+// Extender
+use V17Development\FlarumBlog\Extenders\ThemeExtender;
+
+// Access
+use V17Development\FlarumBlog\Access\DiscussionPolicy;
+
 // API controllers
 use V17Development\FlarumBlog\Api\Controller\CreateBlogMetaController;
 use V17Development\FlarumBlog\Api\Controller\UpdateBlogMetaController;
@@ -48,6 +54,9 @@ return [
 
     new Extend\Locales(__DIR__ . '/locale'),
 
+    // Add theme extender
+    new ThemeExtender(),
+
     (new Extend\Model(Discussion::class))
         ->hasOne('blogMeta', BlogMeta::class, 'discussion_id'),
 
@@ -55,6 +64,8 @@ return [
         $events->subscribe(AddDiscussionBlogMetaRelationship::class);
         $events->subscribe(ForumAttributesListener::class);
         $events->subscribe(CreateBlogMetaOnDiscussionCreate::class);
+
+        $events->subscribe(DiscussionPolicy::class);
 
         $events->subscribe(FilterBlogArticles::class);
     })

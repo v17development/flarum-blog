@@ -38,8 +38,7 @@ export default class BlogOverview extends Page {
       app.store.find('discussions', {
         filter: {
           q: `is:blog${m.route.param('slug') ? ` tag:${m.route.param('slug')}` : ''}`
-        },
-        include: 'user,tags,firstPost,blogMeta'
+        }
       })
         .then(this.show.bind(this))
         .catch(() => {
@@ -52,7 +51,12 @@ export default class BlogOverview extends Page {
 
   // Show blog posts
   show(articles) {
-    if(articles.length === 0) return;
+    if(articles.length === 0) {
+      this.isLoading = false;
+      m.lazyRedraw();
+      
+      return;
+    }
 
     this.featuredPosts = articles.slice(0, 3);
     this.posts = articles.length >= 4 ? articles.slice(3, articles.length) : [];
@@ -202,8 +206,12 @@ export default class BlogOverview extends Page {
                 )
               })}
 
-              {!this.isLoading && this.posts.length === 0 && (
+              {!this.isLoading && this.featuredPosts.length > 0 && this.posts.length === 0 && (
                 <p className={"FlarumBlog-reached-end"}>{app.translator.trans('v17development-flarum-blog.forum.no_more_posts')}</p>
+              )}
+
+              {!this.isLoading && this.featuredPosts.length === 0 && this.posts.length === 0 && (
+                <p className={"FlarumBlog-reached-end"}>{app.translator.trans('v17development-flarum-blog.forum.category_empty')}</p>
               )}
             </div>
 

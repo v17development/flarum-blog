@@ -36,7 +36,7 @@ export default class BlogPostController extends Component {
     buttons.push(
       Button.component({
         className: 'Button',
-        disabled: !articlePost.canEdit(),
+        disabled: !articlePost || !articlePost.canEdit(),
         onclick: () => {
           app.composer.load(new EditPostComposer({post: articlePost}));
           app.composer.show();

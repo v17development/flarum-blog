@@ -36,9 +36,7 @@ export default class BlogItem extends Page {
       // before stuff is drawn to the page.
       setTimeout(this.show.bind(this, preloadBlogOverview), 0);
     } else {
-      app.store.find('discussions', m.route.param('id').split('-')[0], {
-        include: 'user,tags,firstPost,blogMeta,posts,posts.discussion,posts.user'
-      })
+      app.store.find('discussions', m.route.param('id').split('-')[0])
         .then(this.show.bind(this))
         .catch(() => {
           m.redraw();

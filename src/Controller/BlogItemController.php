@@ -30,8 +30,7 @@ class BlogItemController
         $queryParams = $request->getQueryParams();
 
         $params = [
-            'id' => (int) Arr::get($queryParams, 'id'),
-            'include' => 'user,tags,firstPost,blogMeta,posts,posts.discussion,posts.user'
+            'id' => (int) Arr::get($queryParams, 'id')
         ];
 
         // Find blog item

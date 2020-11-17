@@ -31,7 +31,7 @@ class BlogGambit extends AbstractRegexGambit
      */
     protected function conditions(AbstractSearch $search, array $matches, $negate)
     {
-        $tagsArray = explode("|", $this->settings->get('blog_tags'));
+        $tagsArray = explode("|", $this->settings->get('blog_tags', ''));
 
         $search->getQuery()->where(function ($query) use ($tagsArray, $negate) {
             foreach ($tagsArray as $tagId) {
