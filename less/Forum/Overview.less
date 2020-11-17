@@ -182,12 +182,20 @@
 
         // Default style
         &-default {
-          display: flex;
+          @media screen and (min-width: 650px) {
+            display: flex;
+          }
 
           .BlogList-item-photo {
-            width: 240px;
-            flex-grow: 0;
-            flex-shrink: 0;
+            @media screen and (min-width: 650px) {
+              width: 240px;
+              flex-grow: 0;
+              flex-shrink: 0;
+            }
+
+            @media screen and (max-width: 650px) {
+              height: 160px;
+            }
           }
 
           .BlogList-item-content {
