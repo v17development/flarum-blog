@@ -7,6 +7,7 @@ v17development-flarum-blog:
     categories: "Categories"
     return_to_overview: "Return to blog overview "
     no_more_posts: "No more blog posts."
+    category_empty: "There are no blog posts in this category."
     
     compose:
       write_article: "Write article"
