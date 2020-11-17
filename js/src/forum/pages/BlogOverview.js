@@ -38,8 +38,7 @@ export default class BlogOverview extends Page {
       app.store.find('discussions', {
         filter: {
           q: `is:blog${m.route.param('slug') ? ` tag:${m.route.param('slug')}` : ''}`
-        },
-        include: 'user,tags,firstPost,blogMeta'
+        }
       })
         .then(this.show.bind(this))
         .catch(() => {

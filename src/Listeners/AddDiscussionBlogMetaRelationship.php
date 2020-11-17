@@ -26,7 +26,7 @@ class AddDiscussionBlogMetaRelationship
     public function includeRelationship(WillGetData $event)
     {
         if ($event->controller->serializer === DiscussionSerializer::class) {
-            $event->addInclude(['blogMeta']);
+            $event->addInclude(['blogMeta', 'firstPost', 'user']);
         }
     }
 

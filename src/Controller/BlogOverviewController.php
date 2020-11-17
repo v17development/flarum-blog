@@ -32,8 +32,7 @@ class BlogOverviewController
         $apiDocument = $this->getApiDocument($request->getAttribute('actor'), [
             "filter" => [
                 "q" => "is:blog" . (Arr::get($queryParams, 'category') ? " tag:" . Arr::get($queryParams, 'category') : "")
-            ],
-            "include" => "user,tags,firstPost,blogMeta"
+            ]
         ]);
 
         // Set payload
