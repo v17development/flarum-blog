@@ -36,6 +36,7 @@ class ForumAttributesListener
             $event->attributes['blogTags'] = explode("|", $this->settings->get('blog_tags', ''));
             $event->attributes['blogRedirectsEnabled'] = $this->settings->get('blog_redirects_enabled', 'both');
             $event->attributes['blogHideTags'] = $this->settings->get('blog_hide_tags', true);
+            $event->attributes['blogCategoryHierarchy'] = $this->settings->get('blog_category_hierarchy', true);
             $event->attributes['canApproveBlogPosts'] = $event->actor->can('blog.canApprovePosts');
             $event->attributes['canWriteBlogPosts'] = $event->actor->can('blog.writeArticles');
         }

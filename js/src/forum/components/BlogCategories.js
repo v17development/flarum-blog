@@ -19,14 +19,14 @@ export default class BlogCategories extends Component {
 
           // Add tag
           tags.push(
-            <a href={app.route("blogCategory", { slug: tag.slug() })} className={"BlogCategories-item"} config={m.route}><span><i className={tag.icon()} /></span> {tag.name()}</a>
+            <a href={app.route("blogCategory", { slug: tag.slug() })} className={`BlogCategories-item BlogCategories-item-${tag.id()}`} config={m.route}><span><i className={tag.icon()} /></span> {tag.name()}</a>
           );
 
           // Add tags
           app.store.all('tags').forEach(_tag => {
             if(_tag.isChild() && _tag.parent().id() === tag.id()) {
               tags.push(
-                <a href={app.route("blogCategory", { slug: _tag.slug() })} className={"BlogCategories-item"} config={m.route}><span><i className={_tag.icon()} /></span> {_tag.name()}</a>
+                <a href={app.route("blogCategory", { slug: _tag.slug() })} className={`BlogCategories-item BlogCategories-item-${_tag.id()} ${app.forum.attribute('blogCategoryHierarchy') == true ? 'BlogCategories-item-child' : ''}`} config={m.route}><span><i className={_tag.icon()} /></span> {_tag.name()}</a>
               );
             }
           });

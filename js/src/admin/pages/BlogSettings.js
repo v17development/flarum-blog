@@ -19,6 +19,7 @@ export default class BlogSettings extends Page {
     this.hideTagsInList = app.data.settings.blog_hide_tags ? app.data.settings.blog_hide_tags : true;
     this.allowComments = app.data.settings.blog_allow_comments ? app.data.settings.blog_allow_comments : true;
     this.requiresReviewOnPost = app.data.settings.blog_requires_review ? app.data.settings.blog_requires_review : false;
+    this.addCategoryHierarchy = app.data.settings.blog_category_hierarchy ? app.data.settings.blog_category_hierarchy : true;
   }
 
   view() {
@@ -64,7 +65,13 @@ export default class BlogSettings extends Page {
                   <b>Blog posts requires review</b>, 
                   <div className="helpText">When posting an article, it will not be visible directly and needs to be reviewed by a moderator.</div>,
                 ]
-              }),
+              })
+            ]
+          })}
+            
+          {FieldSet.component({
+            label: "Categories",
+            children: [
               Switch.component({
                 state: this.hideTagsInList == true,
                 onchange: (val) => {
@@ -74,6 +81,17 @@ export default class BlogSettings extends Page {
                 children: [
                   <b>Hide tags in taglist</b>, 
                   <div className="helpText">When enabled, this extension will hide the blog tags from your homepage. After changing this setting, clear the cache of your forum.</div>,
+                ]
+              }),
+              Switch.component({
+                state: this.addCategoryHierarchy == true,
+                onchange: (val) => {
+                  this.addCategoryHierarchy = val;
+                  this.hasChanges = true;
+                },
+                children: [
+                  <b>Show tag hierarchy</b>, 
+                  <div className="helpText">Add spacing to child-categories and give the category-list a hierarchy.</div>,
                 ]
               }),
             ]
@@ -157,7 +175,8 @@ export default class BlogSettings extends Page {
       blog_redirects_enabled: this.redirectsEnabled,
       blog_hide_tags: this.hideTagsInList,
       blog_requires_review: this.requiresReviewOnPost,
-      blog_allow_comments: this.allowComments
+      blog_allow_comments: this.allowComments,
+      blog_category_hierarchy: this.addCategoryHierarchy
     })
       .then(() => {
         this.hasChanges = false;
