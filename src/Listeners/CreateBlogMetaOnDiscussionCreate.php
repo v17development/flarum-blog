@@ -20,7 +20,7 @@ class CreateBlogMetaOnDiscussionCreate
     {
         // Get Flarum settings
         $this->settings = $settings;
-        $this->blogTags = explode("|", $this->settings->get('blog_tags', []));
+        $this->blogTags = explode("|", $this->settings->get('blog_tags', ''));
     }
 
     /**
