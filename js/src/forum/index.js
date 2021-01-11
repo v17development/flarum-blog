@@ -6,6 +6,8 @@ import BlogOverview from "./pages/BlogOverview";
 import redirector from "./utils/redirector";
 import BlogMeta from "../common/Models/BlogMeta";
 import extendTagOverview from "./utils/extendTagOverview";
+import discussionRouting from "./utils/discussionRouting";
+import compat from "./compat";
 
 // Register Flarum Blog
 app.initializers.add('v17development-flarum-blog', app => {
@@ -25,4 +27,9 @@ app.initializers.add('v17development-flarum-blog', app => {
   // Extend tag overview.
   // Hide tags which are used as blog category
   extendTagOverview();
+
+  // Make that blog articles have a blog route and not a discussion route
+  discussionRouting();
 });
+
+compat();
