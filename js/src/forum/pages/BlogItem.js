@@ -1,10 +1,10 @@
 import Page from 'flarum/components/Page';
-import avatar from 'flarum/helpers/avatar';
 import Button from 'flarum/components/Button';
+import CommentPost from 'flarum/components/CommentPost';
 import ReplyComposer from 'flarum/components/ReplyComposer';
 import PostStream from 'flarum/components/PostStream';
-import BlogCategories from '../components/BlogCategories';
 import BlogPostController from '../components/BlogPostController';
+import BlogItemSidebar from '../components/BlogItemSidebar/BlogItemSidebar';
 
 export default class BlogItem extends Page {
   init() {
@@ -90,6 +90,21 @@ export default class BlogItem extends Page {
     return (
       <div className={"FlarumBlogItem"}>
         <div className={"container"}>
+          <div className={"FlarumBlog-ToolButtons"}>
+            <Button 
+              className={"Button"}
+              onclick={() => {
+                if(app.previous && app.previous.props.routeName === "blog") {
+                  app.history.back();
+                }else{
+                  m.route(app.route("blog"));
+                }
+              }}
+              icon={"fas fa-angle-left"}
+              >
+              {app.translator.trans('v17development-flarum-blog.forum.return_to_overview')}
+            </Button>
+          </div>
           <div className={"FlarumBlog-Article"}>
             <div className={"FlarumBlog-Article-Container"}>
               <div className={"FlarumBlog-Article-Content"}>
@@ -132,14 +147,13 @@ export default class BlogItem extends Page {
                     </div>
                   ))}
 
-                  <div className={"Post-body"}>
-                    {!this.loading && this.article.blogMeta() && this.article.blogMeta().isPendingReview() == true && (
+                  {!this.loading && this.article.blogMeta() && this.article.blogMeta().isPendingReview() == true && (
+                    <div className={"Post"}>
                       <blockquote class="uncited" style={{ fontSize: '16px' }}><div><span className={"far fa-clock"} style={{ marginRight: '5px' }} /> {app.translator.trans('v17development-flarum-blog.forum.review_article.pending_review')}</div></blockquote>
-                    )}
+                    </div>
+                  )}
 
-                    {!this.loading && articlePost && m.trust(articlePost.contentHtml())}
-
-                  </div>
+                  {!this.loading && articlePost && <CommentPost post={articlePost} />}
                 </div>
               </div>
 
@@ -156,31 +170,7 @@ export default class BlogItem extends Page {
               </div>
             </div>
 
-            <div className={"FlarumBlog-Article-Author"}>
-              <div className={"FlarumBlog-Article-Author-Info"}>
-                <div className={`FlarumBlog-Article-Author-background ${this.loading ? 'FlarumBlog-Author-Ghost' : ''}`} style={{ backgroundColor: this.article && this.article.user() ? this.article && this.article.user().color() : null }} />
-
-                <div className={"FlarumBlog-Article-Author-Avatar"}>{this.article && this.article.user() ? avatar(this.article.user()) : <span className={"Avatar FlarumBlog-Author-Ghost"} />}</div>
-
-                {this.article && this.article.user() && (
-                  <div style={{ padding: '0 20px 20px' }}>
-                    <span className={"FlarumBlog-Article-Author-Name"}>{this.article.user().displayName()}</span>
-                    <p className={"FlarumBlog-Article-Author-Bio"}>{this.article.user().bio()}</p>
-                  </div>
-                )}
-
-                {this.loading && (
-                  <div>
-                    <span className={"FlarumBlog-Article-Author-Name FlarumBlog-Author-Ghost"}>&nbsp;</span>
-                    <p className={"FlarumBlog-Article-Author-Bio FlarumBlog-Author-Ghost"}>&nbsp;</p>
-                    <p className={"FlarumBlog-Article-Author-Bio FlarumBlog-Author-Ghost"}>&nbsp;</p>
-                    <p className={"FlarumBlog-Article-Author-Bio FlarumBlog-Author-Ghost"}>&nbsp;</p>
-                  </div>
-                )}
-              </div>
-
-              <BlogCategories />
-            </div>
+            <BlogItemSidebar article={this.article} loading={this.loading} />
           </div>
         </div>
       </div>

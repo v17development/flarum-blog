@@ -38,7 +38,8 @@ export default class BlogOverview extends Page {
       app.store.find('discussions', {
         filter: {
           q: `is:blog${m.route.param('slug') ? ` tag:${m.route.param('slug')}` : ''}`
-        }
+        },
+        sort: '-createdAt'
       })
         .then(this.show.bind(this))
         .catch(() => {
@@ -234,7 +235,7 @@ export default class BlogOverview extends Page {
     app.forum.attribute('blogTags').forEach(tagId => {
       const tag = app.store.getById('tags', tagId);
       
-      if(tags.length === 0 && !tag.isChild()) {
+      if(tag && tags.length === 0 && !tag.isChild()) {
         tags.push(tag);
       }
     });
