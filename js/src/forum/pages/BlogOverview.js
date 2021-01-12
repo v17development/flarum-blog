@@ -4,6 +4,7 @@ import humanTime from 'flarum/helpers/humanTime';
 import BlogCategories from '../components/BlogCategories';
 import BlogComposer from '../utils/BlogComposer';
 import tooltip from '../utils/tooltip';
+import LanguageDropdown from '../components/LanguageDropdown/LanguageDropdown';
 
 export default class BlogOverview extends Page {
   init() {
@@ -17,6 +18,10 @@ export default class BlogOverview extends Page {
     this.featuredPosts = [];
     this.posts = [];
     this.hasMore = null;
+
+    this.languages = app.store.all('discussion-languages');
+
+    this.currentSelectedLanguage = m.route.param('lang') ? m.route.param('lang') : app.translator.locale;
 
     // Send history push
     app.history.push('blog');
@@ -35,19 +40,29 @@ export default class BlogOverview extends Page {
       // before stuff is drawn to the page.
       setTimeout(this.show.bind(this, preloadBlogOverview), 0);
     } else {
-      app.store.find('discussions', {
-        filter: {
-          q: `is:blog${m.route.param('slug') ? ` tag:${m.route.param('slug')}` : ''}`
-        },
-        sort: '-createdAt'
-      })
-        .then(this.show.bind(this))
-        .catch(() => {
-          m.redraw();
-        });
+      this.reloadData();
     }
 
     m.lazyRedraw();
+  }
+
+  reloadData() {
+    let q = `is:blog${m.route.param('slug') ? ` tag:${m.route.param('slug')}` : ''}`;
+
+    if(this.languages !== null && this.languages.length >= 1) {
+      q += ` language:${this.currentSelectedLanguage}`
+    }
+
+    app.store.find('discussions', {
+      filter: {
+        q
+      },
+      sort: '-createdAt'
+    })
+      .then(this.show.bind(this))
+      .catch(() => {
+        m.redraw();
+      });
   }
 
   // Show blog posts
@@ -87,15 +102,31 @@ export default class BlogOverview extends Page {
       <div className={"FlarumBlogOverview"}>
         <div className={"container"}>
           <div className={"BlogFeatured"}>
-            {app.forum.attribute('canWriteBlogPosts') && (
-              <Button 
-                className={"Button FlarumBlogWrite"}
-                onclick={() => this.newArticle()}
-                icon={"fas fa-pencil"}
-                >
-                {app.translator.trans('v17development-flarum-blog.forum.compose.write_article')}
-              </Button>
-            )}
+            <div className={"BlogOverviewButtons"}>
+              {app.forum.attribute('canWriteBlogPosts') && (
+                <Button 
+                  className={"Button"}
+                  onclick={() => this.newArticle()}
+                  icon={"fas fa-pencil"}
+                  >
+                  {app.translator.trans('v17development-flarum-blog.forum.compose.write_article')}
+                </Button>
+              )}
+
+              {(this.languages !== null && this.languages.length >= 1) && (
+                <LanguageDropdown 
+                  selected={this.currentSelectedLanguage}
+                  onclick={(language) => {
+                    this.currentSelectedLanguage = language;
+
+                    m.route(document.location.pathname, {
+                      lang: language
+                    })
+
+                    this.reloadData();
+                  }} />
+              )}
+            </div>
 
             {this.title()}
 

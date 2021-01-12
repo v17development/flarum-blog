@@ -6,6 +6,7 @@ use Flarum\Frontend\Document;
 use Flarum\Api\Controller\ListDiscussionsController;
 use Flarum\Api\Client;
 use Flarum\User\User;
+use Flarum\Extension\ExtensionManager;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Flarum\Tags\TagRepository;
@@ -13,11 +14,12 @@ use Illuminate\Support\Arr;
 
 class BlogOverviewController
 {
-    public function __construct(Client $api, TagRepository $tagRepository, TranslatorInterface $translator)
+    public function __construct(Client $api, TagRepository $tagRepository, TranslatorInterface $translator, ExtensionManager $extensionManager)
     {
         $this->api = $api;
         $this->translator = $translator;
         $this->tagRepository = $tagRepository;
+        $this->extensionManager = $extensionManager;
     }
 
     public function __invoke(Document $document, ServerRequestInterface $request)
@@ -28,10 +30,19 @@ class BlogOverviewController
             \V17Development\FlarumSeo\Extend::setTitle($this->translator->trans('v17development-flarum-blog.forum.blog'));
         }
 
+        $q = "";
+        
+        // Add language support
+        if($this->extensionManager->isEnabled("fof-discussion-language")) {
+            $q = "language:{$document->language} ";
+        }
+
+        $q .= "is:blog" . (Arr::get($queryParams, 'category') ? " tag:" . Arr::get($queryParams, 'category') : "");
+
         // Preload blog posts
         $apiDocument = $this->getApiDocument($request->getAttribute('actor'), [
             "filter" => [
-                "q" => "is:blog" . (Arr::get($queryParams, 'category') ? " tag:" . Arr::get($queryParams, 'category') : "")
+                "q" => $q
             ],
             "sort" => "-createdAt"
         ]);
