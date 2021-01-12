@@ -18,6 +18,7 @@ export default class BlogSettings extends Page {
     this.redirectsEnabled = app.data.settings.blog_redirects_enabled ? app.data.settings.blog_redirects_enabled : 'both';
     this.hideTagsInList = app.data.settings.blog_hide_tags ? app.data.settings.blog_hide_tags : true;
     this.allowComments = app.data.settings.blog_allow_comments ? app.data.settings.blog_allow_comments : true;
+    this.hideOnDiscussionList = app.data.settings.blog_filter_discussion_list ? app.data.settings.blog_filter_discussion_list : true;
     this.requiresReviewOnPost = app.data.settings.blog_requires_review ? app.data.settings.blog_requires_review : false;
     this.addCategoryHierarchy = app.data.settings.blog_category_hierarchy ? app.data.settings.blog_category_hierarchy : true;
   }
@@ -64,6 +65,17 @@ export default class BlogSettings extends Page {
                 children: [
                   <b>Blog posts requires review</b>, 
                   <div className="helpText">When posting an article, it will not be visible directly and needs to be reviewed by a moderator.</div>,
+                ]
+              }),
+              Switch.component({
+                state: this.hideOnDiscussionList == true,
+                onchange: (val) => {
+                  this.hideOnDiscussionList = val;
+                  this.hasChanges = true;
+                },
+                children: [
+                  <b>Don't show on discussion list</b>, 
+                  <div className="helpText">Hide blog posts from the discussions list.</div>,
                 ]
               })
             ]
@@ -170,13 +182,14 @@ export default class BlogSettings extends Page {
    */
   save() {
     this.isSaving = true;
-    
+
     saveSettings({
       blog_redirects_enabled: this.redirectsEnabled,
       blog_hide_tags: this.hideTagsInList,
       blog_requires_review: this.requiresReviewOnPost,
       blog_allow_comments: this.allowComments,
-      blog_category_hierarchy: this.addCategoryHierarchy
+      blog_category_hierarchy: this.addCategoryHierarchy,
+      blog_filter_discussion_list: this.hideOnDiscussionList
     })
       .then(() => {
         this.hasChanges = false;

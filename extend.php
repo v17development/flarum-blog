@@ -10,6 +10,7 @@ use Flarum\Extend;
 use Extend\Locales;
 use Extend\Routes;
 use Flarum\Discussion\Discussion;
+use Flarum\Discussion\Event\Searching;
 
 // Controllers
 use V17Development\FlarumBlog\Controller\BlogOverviewController;
@@ -33,6 +34,9 @@ use V17Development\FlarumBlog\Listeners\CreateBlogMetaOnDiscussionCreate;
 
 // Models
 use V17Development\FlarumBlog\BlogMeta\BlogMeta;
+
+// Filters
+use V17Development\FlarumBlog\Filter\FilterDiscussionsForBlogPosts;
 
 return [
     (new Extend\Frontend('forum'))
@@ -66,6 +70,8 @@ return [
         $events->subscribe(CreateBlogMetaOnDiscussionCreate::class);
 
         $events->subscribe(DiscussionPolicy::class);
+
+        $events->listen(Searching::class, FilterDiscussionsForBlogPosts::class);
 
         $events->subscribe(FilterBlogArticles::class);
     })
