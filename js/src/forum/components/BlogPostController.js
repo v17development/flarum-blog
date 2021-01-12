@@ -18,6 +18,10 @@ export default class BlogPostController extends Component {
     const article = this.props.article;
     let buttons = [];
 
+    // Working for GlowingBlue version
+    const LanguageDiscussionModal = flarum.extensions['fof-discussion-language'] && typeof flarum.extensions['fof-discussion-language'].components !== "undefined" ? 
+      flarum.extensions['fof-discussion-language'].components.LanguageDiscussionModal : null;
+
     // Rename article
     if(article.canRename()) {
       buttons.push(
@@ -90,6 +94,17 @@ export default class BlogPostController extends Component {
           icon: 'fas fa-thumbs-up',
           children: app.translator.trans('v17development-flarum-blog.forum.review_article.approve_article')
         })
+      );
+    }
+
+    // Language
+    if (article.canChangeLanguage && article.canChangeLanguage() && LanguageDiscussionModal) {
+      buttons.push(
+          Button.component({
+              children: app.translator.trans('fof-discussion-language.forum.discussion_controls.change_language_button'),
+              icon: 'fas fa-globe',
+              onclick: () => app.modal.show(new LanguageDiscussionModal({ discussion: article }))
+          })
       );
     }
 

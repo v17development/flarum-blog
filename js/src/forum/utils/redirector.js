@@ -22,6 +22,7 @@ export default function() {
   // Redirect discussion to blog article
   override(DiscussionPage.prototype, 'show', function(original, discussion) {
     const discussionRedirectEnabled = app.forum.attribute('blogRedirectsEnabled') === 'both' || app.forum.attribute('blogRedirectsEnabled') === 'discussions_only';
+    
     if(discussionRedirectEnabled && discussion && discussion && discussion.tags().length > 0) {
       const blogTags = app.forum.attribute('blogTags');
 
@@ -38,9 +39,10 @@ export default function() {
 
         // Setting the 3rd argument to true replaces the current state in the browser history, that way the browser back button works as expected.
         m.route(url, null, true);
+        return null;
       }
-    } else {
-      return original();
     }
+
+    return original(discussion);
   });
 }
