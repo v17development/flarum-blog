@@ -1435,7 +1435,7 @@ var BlogOverview = /*#__PURE__*/function (_Page) {
   _proto.reloadData = function reloadData() {
     var q = "is:blog" + (m.route.param('slug') ? " tag:" + m.route.param('slug') : '');
 
-    if (this.languages !== null && this.languages.length >= 0) {
+    if (this.languages !== null && this.languages.length >= 1) {
       q += " language:" + this.currentSelectedLanguage;
     }
 
@@ -1494,7 +1494,7 @@ var BlogOverview = /*#__PURE__*/function (_Page) {
         return _this.newArticle();
       },
       icon: "fas fa-pencil"
-    }, app.translator.trans('v17development-flarum-blog.forum.compose.write_article')), this.languages !== null && this.languages.length >= 0 && m(_components_LanguageDropdown_LanguageDropdown__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    }, app.translator.trans('v17development-flarum-blog.forum.compose.write_article')), this.languages !== null && this.languages.length >= 1 && m(_components_LanguageDropdown_LanguageDropdown__WEBPACK_IMPORTED_MODULE_7__["default"], {
       selected: this.currentSelectedLanguage,
       onclick: function onclick(language) {
         _this.currentSelectedLanguage = language;

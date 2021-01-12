@@ -49,7 +49,7 @@ export default class BlogOverview extends Page {
   reloadData() {
     let q = `is:blog${m.route.param('slug') ? ` tag:${m.route.param('slug')}` : ''}`;
 
-    if(this.languages !== null && this.languages.length >= 0) {
+    if(this.languages !== null && this.languages.length >= 1) {
       q += ` language:${this.currentSelectedLanguage}`
     }
 
@@ -113,7 +113,7 @@ export default class BlogOverview extends Page {
                 </Button>
               )}
 
-              {(this.languages !== null && this.languages.length >= 0) && (
+              {(this.languages !== null && this.languages.length >= 1) && (
                 <LanguageDropdown 
                   selected={this.currentSelectedLanguage}
                   onclick={(language) => {
