@@ -18,6 +18,7 @@ export default class BlogOverview extends Page {
     this.featuredPosts = [];
     this.posts = [];
     this.hasMore = null;
+    this.isLoadingMore = false;
 
     this.languages = app.store.all('discussion-languages');
 
@@ -74,12 +75,34 @@ export default class BlogOverview extends Page {
       return;
     }
 
+    // Set pagination
+    this.hasMore = articles.payload.links && articles.payload.links.next ? articles.payload.links.next : null;
+
     this.featuredPosts = articles.slice(0, 3);
     this.posts = articles.length >= 4 ? articles.slice(3, articles.length) : [];
 
     this.isLoading = false;
 
     m.lazyRedraw();
+  }
+
+  // Load more blog posts
+  loadMore() {
+    this.isLoadingMore = true;
+
+    app.store
+      .find(this.hasMore.replace(app.forum.attribute('apiUrl'), ""))
+      .then(data => {
+        data.map(article => this.posts.push(article));
+
+        // Update hasmore button
+        this.hasMore = data.payload.links && data.payload.links.next ? data.payload.links.next : null;
+      })
+      .catch(() => { })
+      .then(() => {
+        this.isLoadingMore = false;
+        m.redraw();
+      })
   }
 
   title() {
@@ -238,12 +261,25 @@ export default class BlogOverview extends Page {
                 )
               })}
 
-              {!this.isLoading && this.featuredPosts.length > 0 && this.posts.length === 0 && (
+              {!this.isLoading && this.featuredPosts.length > 0 && this.hasMore === null && (
                 <p className={"FlarumBlog-reached-end"}>{app.translator.trans('v17development-flarum-blog.forum.no_more_posts')}</p>
               )}
 
               {!this.isLoading && this.featuredPosts.length === 0 && this.posts.length === 0 && (
                 <p className={"FlarumBlog-reached-end"}>{app.translator.trans('v17development-flarum-blog.forum.category_empty')}</p>
+              )}
+
+              {!this.isLoading && this.hasMore !== null && (
+                <div className={"FlarumBlog-reached-load-more"}>
+                  <Button 
+                    className={"Button"}
+                    onclick={() => this.loadMore()}
+                    icon={"fas fa-chevron-down"}
+                    loading={this.isLoadingMore}
+                    >
+                    {app.translator.trans('core.forum.discussion_list.load_more_button')}
+                  </Button>
+                </div>
               )}
             </div>
 
