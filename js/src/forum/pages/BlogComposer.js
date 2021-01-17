@@ -245,7 +245,6 @@ export default class BlogComposer extends Page {
         isSized: this.blogMeta.isSized(),
       } : null
     };
-    console.log(data);
 
     this.isSaving = true;
 

@@ -123,8 +123,6 @@ export default class BlogPostSettingsModal extends Modal {
       return;
     }
 
-    console.log(this.submitData());
-
     this.loading = true;
 
     this.meta
