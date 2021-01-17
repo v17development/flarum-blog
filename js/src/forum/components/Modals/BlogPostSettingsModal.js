@@ -7,8 +7,13 @@ export default class BlogPostSettingsModal extends Modal {
   init() {
     super.init();
 
-    this.isNew = this.props.article.blogMeta() ? false : true;
-    this.meta = this.props.article.blogMeta() ? this.props.article.blogMeta() : app.store.createRecord('blogMeta');
+    if(this.props.article) {
+      this.meta = this.props.article && this.props.article.blogMeta() ? this.props.article.blogMeta() : app.store.createRecord('blogMeta');
+    }else{
+      this.meta = this.props.meta ? this.props.meta : app.store.createRecord('blogMeta');
+    }
+    
+    this.isNew = this.meta.exists;
     
     this.summary = m.prop(this.meta.summary() || '');
 
@@ -57,7 +62,7 @@ export default class BlogPostSettingsModal extends Modal {
         <small>Best image resolution for social media: 1200x630</small>
 
         {this.featuredImage() != "" && (
-          <img src={this.featuredImage()} alt={this.props.article.title()} title={"Blog post image"} width={"100%"} style={{ marginTop: '15px' }} />
+          <img src={this.featuredImage()} alt={"Article image"} title={"Blog post image"} width={"100%"} style={{ marginTop: '15px' }} />
         )}
       </div>
     ), 30);
@@ -96,7 +101,7 @@ export default class BlogPostSettingsModal extends Modal {
       isFeatured: this.isFeatured(),
       isSized: this.isSized(),
       isPendingReview: this.isPendingReview(),
-      relationships: this.isNew && {
+      relationships: this.isNew && !this.props.isComposer && {
         discussion: this.props.article
       }
     };
@@ -104,13 +109,27 @@ export default class BlogPostSettingsModal extends Modal {
 
   onsubmit(e) {
     e.preventDefault();
+    
+    // Submit data
+    if(this.props.onsubmit) {
+      // Update attributes
+      this.meta.pushData({
+        attributes: this.submitData()
+      });
+
+      // Push
+      this.props.onsubmit(this.meta);
+
+      this.hide();
+      return;
+    }
 
     this.loading = true;
 
     this.meta
       .save(this.submitData())
       .then(() => {
-        if(this.isNew) {
+        if(this.props.article) {
           this.props.article.pushData({
             relationships: {
               blogMeta: this.meta

@@ -49,6 +49,7 @@
         background-repeat: no-repeat;
         background-size: cover;
         height: 300px;
+        margin-bottom: 20px;
 
         @media screen and (min-width: 840px) {
           height: 400px;
@@ -60,14 +61,23 @@
 
         .FlarumBlog-Article-Content-Edit-Dropdown {
           position: absolute;
-          top: 25px;
+          top: 0px;
           right: 20px;
+        }
+
+        .FlarumBlog-Article-Content-EditButtons {
+          text-align: center;
+          padding-top: 10px;
+
+          .Button {
+            margin: 0 5px;
+          }
         }
       }
 
       .FlarumBlog-Article-Categories {
         text-align: center;
-        padding: 30px 0 10px;
+        padding: 10px 0;
 
         a, span {
           display: inline-block;
@@ -93,6 +103,10 @@
           text-align: center;
           text-transform: uppercase;
           margin-top: 0;
+
+          i {
+            margin-left: 15px;
+          }
         }
 
         p {

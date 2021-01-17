@@ -8,6 +8,7 @@ import BlogMeta from "../common/Models/BlogMeta";
 import extendTagOverview from "./utils/extendTagOverview";
 import discussionRouting from "./utils/discussionRouting";
 import compat from "./compat";
+import BlogComposer from "./pages/BlogComposer";
 
 // Register Flarum Blog
 app.initializers.add('v17development-flarum-blog', app => {
@@ -15,7 +16,10 @@ app.initializers.add('v17development-flarum-blog', app => {
   
   app.routes.blogCategory = { path: '/blog/category/:slug', component: BlogOverview.component() };
 
+  app.routes.blogComposer = { path: '/blog/compose', component: BlogComposer.component() };
+
   app.routes.blogArticle = { path: '/blog/:id', component: BlogItem.component() };
+
 
   app.store.models.blogMeta = BlogMeta;
 

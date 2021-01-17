@@ -46,3 +46,14 @@ v17development-flarum-blog:
       redirect:
         title: "Redirecting you to our blog article..."
         link: "<a>Click here</a> if the page does not redirect you"
+
+    composer:
+      no_title: "No title"
+      enter_message_here: "Enter your message here"
+      post_article: "Post article"
+      select_category: "Select a category"
+      edit_categories: "Edit categories"
+      write: "Write"
+      view: "View"
+      nothing_to_preview: "Nothing to preview"
+      comment_section: "The comment section is not available when composing an article."
