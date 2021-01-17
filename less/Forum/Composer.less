@@ -1,0 +1,80 @@
+.Flarum-Blog-Composer {
+  position: relative;
+
+  .TextEditor-controls {
+    border: 0;
+    margin: 0;
+    padding-left: 0;
+  }
+
+  .ComposerBody-avatar {
+    display: none;
+  }
+
+  .ComposerBody-content {
+    margin: 0;
+  }
+
+  .ComposerBody-header {
+    display: none;
+  }
+
+  .Flarum-Blog-Composer-preview, .TextEditor textarea {
+    min-height: 250px;
+  }
+
+  .Flarum-Blog-Composer-tabs {
+    border-bottom: 1px solid #EEEEEE;
+    margin-bottom: 15px;
+    padding-left: 35px;
+
+    button:not(.Button) {
+      display: inline-block;
+      padding: 8px 20px;
+      font-size: 14px;
+      line-height: 20px;
+      color: #586069;
+      background-color: transparent;
+      border: 1px solid transparent;
+      border-bottom: 0;
+      margin-bottom: -1px;
+      outline: none;
+
+      &:hover {
+        color: #464a4e;
+      }
+
+      &.AricleComposerButtonSelected {
+        color: #464a4e;
+        background-color: #fff;
+        border-color: #d1d5da;
+        border-radius: 3px 3px 0 0;
+      }
+    }
+
+    .Button {
+      float: right;
+
+      &.ComposerCancel {
+        border-radius: 3px 0 0 0;
+      }
+
+      &.ComposerSave {
+        border-radius: 0 3px 0 0;
+      }
+    }
+  }
+
+  .Flarum-Blog-Composer-body {
+    padding: 0 !important;
+    margin: 5px !important;
+    box-shadow: unset;
+    height: unset;
+    border-radius: 4px;
+  
+    @media screen and (max-width: 767px) {
+      position: relative !important;
+      top: unset;
+    }
+  }
+}

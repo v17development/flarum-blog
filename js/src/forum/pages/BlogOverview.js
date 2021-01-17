@@ -293,24 +293,32 @@ export default class BlogOverview extends Page {
   }
 
   newArticle() {
-    const component = new BlogComposer({
-        user: app.session.user
-    });
-
+    let foundMainTag = false;
     let tags = [];
 
-    app.forum.attribute('blogTags').forEach(tagId => {
-      const tag = app.store.getById('tags', tagId);
-      
-      if(tag && tags.length === 0 && !tag.isChild()) {
-        tags.push(tag);
+    const blogTags = app.forum.attribute('blogTags');
+
+    // Pre-select selected tags
+    app.store.all('tags').forEach(_tag => {
+      // Find main blog tag
+      if(!foundMainTag && !_tag.isChild() && blogTags.indexOf(_tag.id()) >= 0) {
+        tags.push(_tag);
       }
     });
 
-    // Update tags
-    component.tags = tags;
+    // Get current category
+    const currentCategory = app.store.getBy('tags', 'slug', m.route.param('slug'));
 
-    app.composer.load(component);
-    app.composer.show();
+    if(currentCategory) {
+      tags.push(currentCategory);
+    }
+
+    // Redirect to the composer
+    m.route(
+      app.route("blogComposer", { 
+        tags: tags.map((tag) => tag.id()).join(),
+        lang: this.languages.length > 0 ? this.currentSelectedLanguage : undefined
+      })
+    );
   }
 }

@@ -15,6 +15,7 @@ use Flarum\Discussion\Event\Searching;
 // Controllers
 use V17Development\FlarumBlog\Controller\BlogOverviewController;
 use V17Development\FlarumBlog\Controller\BlogItemController;
+use V17Development\FlarumBlog\Controller\BlogComposerController;
 
 // Extender
 use V17Development\FlarumBlog\Extenders\ThemeExtender;
@@ -43,6 +44,7 @@ return [
         ->js(__DIR__.'/js/dist/forum.js')
         ->css(__DIR__ . '/less/Forum.less')
         ->route('/blog', 'blog.overview', BlogOverviewController::class)
+        ->route('/blog/compose', 'blog.compose', BlogComposerController::class)
         ->route('/blog/category/{category}', 'blog.category', BlogOverviewController::class)
         ->route('/blog/{id:[\d\S]+(?:-[^/]*)?}', 'blog.post', BlogItemController::class)
         // Shall we add RSS?

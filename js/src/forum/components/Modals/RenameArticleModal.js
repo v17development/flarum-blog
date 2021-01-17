@@ -46,12 +46,14 @@ export default class RenameArticleModal extends Modal {
       </div>
     ), 50);
 
-    items.add('slug', (
-      <div className="Form-group">
-        <label>{app.translator.trans('v17development-flarum-blog.forum.article.slug')}:</label>
-        <input className="FormControl" placeholder={app.translator.trans('v17development-flarum-blog.forum.article.slug')} value={this.slug()} oninput={m.withAttr('value', this.slug)}/>
-      </div>
-    ), 40);
+    if(!this.props.onChange) {
+      items.add('slug', (
+        <div className="Form-group">
+          <label>{app.translator.trans('v17development-flarum-blog.forum.article.slug')}:</label>
+          <input className="FormControl" placeholder={app.translator.trans('v17development-flarum-blog.forum.article.slug')} value={this.slug()} oninput={m.withAttr('value', this.slug)}/>
+        </div>
+      ), 40);
+    }
 
     items.add('submit', (
       <div className="Form-group">
@@ -78,6 +80,14 @@ export default class RenameArticleModal extends Modal {
     e.preventDefault();
 
     this.loading = true;
+
+    // Do not save
+    if(this.props.onChange) {
+      this.props.onChange(this.name());
+      this.hide();
+
+      return;
+    }
 
     this.article.save({
       title: this.name(),
