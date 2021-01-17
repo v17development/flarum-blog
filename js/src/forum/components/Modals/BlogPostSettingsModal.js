@@ -14,7 +14,7 @@ export default class BlogPostSettingsModal extends Modal {
       this.meta = this.attrs.meta ? this.attrs.meta : app.store.createRecord('blogMeta');
     }
     
-    this.isNew = this.meta.exists;
+    this.isNew = !this.meta.exists;
     
     this.summary = Stream(this.meta.summary() || '');
 
@@ -100,9 +100,9 @@ export default class BlogPostSettingsModal extends Modal {
       isFeatured: this.isFeatured(),
       isSized: this.isSized(),
       isPendingReview: this.isPendingReview(),
-      relationships: this.isNew && !this.attrs.isComposer && {
+      relationships: this.isNew && !this.attrs.isComposer ? {
         discussion: this.attrs.article
-      }
+      } : null
     };
   }
 
@@ -122,6 +122,8 @@ export default class BlogPostSettingsModal extends Modal {
       this.hide();
       return;
     }
+
+    console.log(this.submitData());
 
     this.loading = true;
 

@@ -61,7 +61,7 @@ class CreateBlogMetaHandler
         $data = $command->data;
 
         // Validate discussion exists
-        $discussionId = array_get($data, 'relationships.discussion.data.id');
+        $discussionId = Arr::get($data, 'relationships.discussion.data.id');
         $discussion = $this->discussion->findOrFail($discussionId, $actor);
 
         // Discussion does not exist
