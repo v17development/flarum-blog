@@ -25,7 +25,7 @@ class FilterDiscussionsForBlogPosts
 	public function handle(Searching $event)
 	{
 		// Do we need to filter?
-		if($this->settings->get('blog_filter_discussion_list', true) != 'true') {
+		if(filter_var($this->settings->get('blog_filter_discussion_list'), FILTER_VALIDATE_BOOLEAN) === false) {
 			return;
 		}
 

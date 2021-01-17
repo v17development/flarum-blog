@@ -70,7 +70,7 @@ class BlogItemController
                 }
 
                 // Add article image
-                if($blogMeta->summary) {
+                if($blogMeta->featured_image) {
                     \V17Development\FlarumSeo\Extend::setImage($blogMeta->featured_image);
                 }
             }

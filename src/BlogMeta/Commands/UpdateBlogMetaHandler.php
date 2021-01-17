@@ -6,7 +6,6 @@ use Flarum\Foundation\ValidationException;
 use Flarum\Discussion\Discussion;
 use Flarum\Discussion\DiscussionRepository;
 use Flarum\Settings\SettingsRepositoryInterface;
-use Flarum\User\AssertPermissionTrait;
 use Symfony\Component\Translation\TranslatorInterface;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 use V17Development\FlarumBlog\BlogMeta\BlogMeta;
@@ -15,8 +14,6 @@ use Illuminate\Support\Arr;
 
 class UpdateBlogMetaHandler
 {
-    use AssertPermissionTrait;
-
     /**
      * @var DiscussionRepository
      */
@@ -58,7 +55,7 @@ class UpdateBlogMetaHandler
         $actor = $command->actor;
 
         // Make sure the actor can edit blog-data
-        $this->assertCan($actor, 'blog.writeArticles');
+        $actor->assertCan('blog.writeArticles');
 
         // Data
         $id = $command->id;

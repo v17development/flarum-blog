@@ -5,14 +5,13 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Jasper Vriends - V17 Development",
-            "email": "jasper@v17.nl"
-        }, {
-            "name": "Pascal Boschma - V17 Development",
-            "email": "pascal@v17.nl"
+            "name": "V17 Development",
+            "email": "info@v17.dev"
         }
     ],
+    "homepage": "https://v17.dev/projects/flarum-blog",
     "support": {
+        "forum": "https://discuss.flarum.org/d/25392",
         "issues": "https://github.com/v17development/flarum-blog/issues",
         "source": "https://github.com/v17development/flarum-blog",
         "docs": "https://community.v17.dev/knowledgebase/category/flarum-blog"
@@ -23,16 +22,17 @@
         }
     },
     "require": {
-        "flarum/core": "^0.1.0-beta.12",
+        "flarum/core": "^0.1.0-beta.15",
         "ext-json": "*"
     },
     "suggest": {
-        "flarum/tags": "Allows you to generate powerful sitemap.xml files",
+        "flarum/tags": "The Flarum Tags extension",
         "v17development/flarum-seo": "Adds Flarum SEO and Social media tags"
     },
     "extra": {
         "flarum-extension": {
             "title": "Blog",
+            "category": "feature",
             "icon": {
                 "name": "fas fa-blog",
                 "backgroundColor": "#2dc0e6",

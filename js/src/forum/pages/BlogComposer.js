@@ -1,26 +1,22 @@
 import Page from 'flarum/components/Page';
 import Button from 'flarum/components/Button';
-import CommentPost from 'flarum/components/CommentPost';
-import ReplyComposer from 'flarum/components/ReplyComposer';
-import PostStream from 'flarum/components/PostStream';
-import BlogPostController from '../components/BlogPostController';
-import BlogItemSidebar from '../components/BlogItemSidebar/BlogItemSidebar';
+import Link from 'flarum/components/Link';
 import BlogAuthor from '../components/BlogItemSidebar/BlogAuthor';
 import RenameArticleModal from '../components/Modals/RenameArticleModal';
 import TagDiscussionModal from 'flarum/tags/components/TagDiscussionModal';
 import BlogPostSettingsModal from '../components/Modals/BlogPostSettingsModal';
-import Composer from '../components/Composer';
+import Composer from '../components/Composer/Composer';
 import LanguageDropdown from '../components/LanguageDropdown/LanguageDropdown';
 
 export default class BlogComposer extends Page {
-  init() {
-    super.init();
+  oninit(vnode) {
+    super.oninit(vnode);
 
     app.setTitle(app.translator.trans('v17development-flarum-blog.forum.blog'));
 
     // User cannot write blogs
     if(!app.forum.attribute('canWriteBlogPosts')) {
-      m.route(app.route("blog"));
+      m.route.set(app.route("blog"));
       return;
     }
 
@@ -37,7 +33,6 @@ export default class BlogComposer extends Page {
     this.articleLanguage = m.route.param('lang') ? m.route.param('lang') : app.translator.locale;
     this.article = app.store.createRecord('discussions');
     this.blogMeta = null;
-    this.content = m.prop("");
 
     this.tags = [];
 
@@ -57,15 +52,6 @@ export default class BlogComposer extends Page {
     }
 
     this.isSaving = false;
-
-    // Composer
-    this.composer = new Composer({
-      originalContent: '',
-      placeholder: app.translator.trans('v17development-flarum-blog.forum.composer.enter_message_here'),
-      confirmExit: app.translator.trans('core.forum.composer_edit.discard_confirmation'),
-      submitLabel: app.translator.trans('v17development-flarum-blog.forum.composer.post_article'),
-      onsubmit: () => this.create()
-    });
   }
 
   openTagsModal(e = null) {
@@ -75,14 +61,12 @@ export default class BlogComposer extends Page {
 
     if(this.isSaving) return;
 
-    app.modal.show(
-      new TagDiscussionModal({
-        selectedTags: this.tags,
-        onsubmit: tags => {
-          this.tags = tags;
-        }
-      })
-    );
+    app.modal.show(TagDiscussionModal, {
+      selectedTags: this.tags,
+      onsubmit: tags => {
+        this.tags = tags;
+      }
+    });
   }
 
   openNameArticleModal(e = null) {
@@ -92,7 +76,7 @@ export default class BlogComposer extends Page {
 
     if(this.isSaving) return;
 
-    app.modal.show(new RenameArticleModal({ 
+    app.modal.show(RenameArticleModal, { 
       article: this.article,
       onChange: (title) => {
         this.article.pushData({
@@ -101,7 +85,7 @@ export default class BlogComposer extends Page {
           }
         })
       }
-    }));
+    });
   }
 
   openBlogSettings(e) {
@@ -109,12 +93,10 @@ export default class BlogComposer extends Page {
 
     if(this.isSaving) return;
 
-    app.modal.show(
-      new BlogPostSettingsModal({ 
-        meta: this.blogMeta, 
-        onsubmit: (meta) => this.blogMeta = meta
-      })
-    );
+    app.modal.show(BlogPostSettingsModal, { 
+      meta: this.blogMeta, 
+      onsubmit: (meta) => this.blogMeta = meta
+    });
   }
 
   view() {
@@ -124,20 +106,17 @@ export default class BlogComposer extends Page {
       <div className={"FlarumBlogItem"}>
         <div className={"container"}>
           <div className={"FlarumBlog-ToolButtons"}>
-            <Button 
+            <Link
+              href={app.route("blog")} 
               className={"Button"}
               loading={this.isSaving}
-              onclick={() => {
-                if(app.previous && app.previous.props.routeName === "blog") {
-                  app.history.back();
-                }else{
-                  m.route(app.route("blog"));
-                }
-              }}
               icon={"fas fa-angle-left"}
               >
-              {app.translator.trans('v17development-flarum-blog.forum.return_to_overview')}
-            </Button>
+              <i class="icon fas fa-angle-left Button-icon"></i>
+              <span class="Button-label">
+                {app.translator.trans('v17development-flarum-blog.forum.return_to_overview')}
+              </span>
+            </Link>
           </div>
           <div className={"FlarumBlog-Article"}>
             <div className={"FlarumBlog-Article-Container"}>
@@ -187,7 +166,14 @@ export default class BlogComposer extends Page {
                   </h3>
                   
                   <div className="Post-body">
-                    {this.composer.render()}
+                    <Composer
+                      composer={app.composer} 
+                      originalContent={""}
+                      submitLabel={app.translator.trans('v17development-flarum-blog.forum.composer.post_article')}
+                      placeholder={app.translator.trans('v17development-flarum-blog.forum.composer.enter_message_here')}
+                      onsubmit={() => this.create()}
+                      disabled={this.isSaving}
+                      />
                   </div>
                 </div>
               </div>
@@ -232,21 +218,27 @@ export default class BlogComposer extends Page {
     
     // No knowledge base tags selected
     if(findblogTags.length === 0) {
-      alert("None of the tags you have selected is a blog tag. Please select at least one.");
+      alert(app.translator.trans('v17development-flarum-blog.forum.composer.no_blog_tags_selected'));
       return;
     }
 
-    if((this.blogMeta === null || !this.blogMeta.featuredImage() || !this.blogMeta.summary()) && !confirm("Are you sure you want to post this blog post? You did not yet enter a blog summary or image.")) {
+    if((this.blogMeta === null || !this.blogMeta.featuredImage() || !this.blogMeta.summary()) && !confirm(app.translator.trans('v17development-flarum-blog.forum.composer.post_without_blog_info'))) {
       return;
+    }
+
+    let relationships = {
+      tags: this.tags,
+    };
+
+    // Add languages if possible
+    if(this.languages.length > 0) {
+      relationships.language = app.store.getBy('discussion-languages', 'code', this.articleLanguage);
     }
 
     const data = {
       title: this.article.title(),
-      content: this.composer.content(),
-      relationships: {
-        tags: this.tags,
-        language: this.languages.length > 0 ? app.store.getBy('discussion-languages', 'code', this.articleLanguage) : undefined
-      },
+      content: app.composer.fields.content(),
+      relationships,
       blogMeta: this.blogMeta !== null ? {
         featuredImage: this.blogMeta.featuredImage(),
         summary: this.blogMeta.summary(),
@@ -255,23 +247,16 @@ export default class BlogComposer extends Page {
     };
 
     this.isSaving = true;
-    this.composer.loading = true;
 
     this.article
       .save(data)
       .then((article) => {
-        // Remove composer element
-        this.composer = null;
-        
-        console.log(article);
-
         setTimeout(() => {
           // Redirect to the article
-          m.route(app.route("blogArticle", { id: `${article.id()}-${article.slug()}` }));
+          m.route.set(app.route("blogArticle", { id: `${article.slug()}` }));
         }, 500);
       })
       .catch(() => {
-        this.composer.loading = false;
         this.isSaving = false;
         m.redraw();
       })

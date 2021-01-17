@@ -1,14 +1,15 @@
 import Page from 'flarum/components/Page';
-import Button from 'flarum/components/Button';
 import CommentPost from 'flarum/components/CommentPost';
-import ReplyComposer from 'flarum/components/ReplyComposer';
 import PostStream from 'flarum/components/PostStream';
+import PostStreamState from 'flarum/states/PostStreamState';
 import BlogPostController from '../components/BlogPostController';
 import BlogItemSidebar from '../components/BlogItemSidebar/BlogItemSidebar';
+import Link from 'flarum/components/Link';
+import BlogOverview from './BlogOverview';
 
 export default class BlogItem extends Page {
-  init() {
-    super.init();
+  oninit(vnode) {
+    super.oninit(vnode);
 
     app.setTitle(app.translator.trans('v17development-flarum-blog.forum.blog'));
 
@@ -20,7 +21,6 @@ export default class BlogItem extends Page {
     this.loading = true;
     this.found = false;
     this.article = null;
-    // this.posts = [];
 
     this.loadBlogItem();
   }
@@ -43,7 +43,7 @@ export default class BlogItem extends Page {
         });
     }
 
-    m.lazyRedraw();
+    m.redraw();
   }
 
   // Show blog post
@@ -55,6 +55,7 @@ export default class BlogItem extends Page {
     app.setTitle(`${article.title()} - ${app.translator.trans('v17development-flarum-blog.forum.blog')}`);
 
     this.loading = false;
+
 
     let includedPosts = [];
     if (article.payload && article.payload.included) {
@@ -73,10 +74,9 @@ export default class BlogItem extends Page {
         .slice(0, 20);
     }
 
-    this.stream = new PostStream({ discussion: article, includedPosts });
-    this.stream.on('positionChanged', this.positionChanged.bind(this));
+    this.stream = new PostStreamState(article, includedPosts);
 
-    m.lazyRedraw();
+    m.redraw();
   }
 
   view() {
@@ -91,19 +91,21 @@ export default class BlogItem extends Page {
       <div className={"FlarumBlogItem"}>
         <div className={"container"}>
           <div className={"FlarumBlog-ToolButtons"}>
-            <Button 
+            <Link 
+              href={app.route("blog")}
               className={"Button"}
-              onclick={() => {
-                if(app.previous && app.previous.props.routeName === "blog") {
-                  app.history.back();
-                }else{
-                  m.route(app.route("blog"));
+              onclick={(e) => {
+                if(app.previous.matches(BlogOverview)) {
+                  e.preventDefault();
+                  history.back();
                 }
               }}
-              icon={"fas fa-angle-left"}
               >
-              {app.translator.trans('v17development-flarum-blog.forum.return_to_overview')}
-            </Button>
+                <i class="icon fas fa-angle-left Button-icon"></i>
+                <span class="Button-label">
+                  {app.translator.trans('v17development-flarum-blog.forum.return_to_overview')}
+                </span>
+            </Link>
           </div>
           <div className={"FlarumBlog-Article"}>
             <div className={"FlarumBlog-Article-Container"}>
@@ -123,7 +125,7 @@ export default class BlogItem extends Page {
                 {/* Article Categories */}
                 <div className={"FlarumBlog-Article-Categories"}>
                   {!this.loading && this.article && this.article.tags() && this.article.tags().map(tag => (
-                    <a href={app.route("blogCategory", { slug: tag.slug() })} config={m.route}>{tag.name()}</a>
+                    <Link href={app.route("blogCategory", { slug: tag.slug() })}>{tag.name()}</Link>
                   ))}
 
                   {this.loading && (
@@ -166,7 +168,12 @@ export default class BlogItem extends Page {
                   </div>
                 )}
 
-                {!this.loading && this.stream && this.stream.render()}
+                {!this.loading && this.article && PostStream.component({
+                  discussion: this.article,
+                  stream: this.stream,
+                  onPositionChange: () => {}
+                })}
+
               </div>
             </div>
 

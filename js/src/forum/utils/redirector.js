@@ -14,7 +14,7 @@ export default function() {
 
       // Tag is inside list
       if(blogTags.indexOf(tag.id()) >= 0 || (tag.parent() && blogTags.indexOf(tag.parent().id()) >= 0)) {
-        m.route(app.route('blog'));
+        m.route.set(app.route('blog'));
       }
     }
   });
@@ -34,11 +34,11 @@ export default function() {
       if (foundTags.length > 0) {
         // Redirect to blog article
         const url = app.route('blogArticle', {
-          id: `${discussion.id()}-${discussion.slug()}`
+          id: discussion.slug()
         });
 
         // Setting the 3rd argument to true replaces the current state in the browser history, that way the browser back button works as expected.
-        m.route(url, null, true);
+        m.route.set(url, null, true);
         return null;
       }
     }

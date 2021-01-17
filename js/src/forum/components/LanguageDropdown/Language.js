@@ -1,7 +1,9 @@
 import Component from 'flarum/Component';
 
 export default class Language extends Component {
-    init() {
+    oninit(vnode) {
+        super.oninit(vnode);
+        
         this.languages = app.store.all('discussion-languages');
         this.options = this.languages.reduce((o, lang) => {
             o[lang.code()] = (
@@ -11,11 +13,11 @@ export default class Language extends Component {
             );
 
             return o;
-        }, this.props.extra || {});
+        }, this.attrs.extra || {});
     }
 
     view() {
-        const { language, uppercase } = this.props;
+        const { language, uppercase } = this.attrs;
         const name = language.name() || '';
 
         return (

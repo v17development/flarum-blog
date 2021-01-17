@@ -57,3 +57,5 @@ v17development-flarum-blog:
       view: "View"
       nothing_to_preview: "Nothing to preview"
       comment_section: "The comment section is not available when composing an article."
+      no_blog_tags_selected: "None of the tags you have selected is a blog tag. Please select at least one."
+      post_without_blog_info: "Are you sure you want to post this blog post? You did not yet enter a blog summary or image."

@@ -6,7 +6,6 @@ use Flarum\Foundation\ValidationException;
 use Flarum\Discussion\Discussion;
 use Flarum\Discussion\DiscussionRepository;
 use Flarum\Settings\SettingsRepositoryInterface;
-use Flarum\User\AssertPermissionTrait;
 use Symfony\Component\Translation\TranslatorInterface;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 use V17Development\FlarumBlog\BlogMeta\BlogMeta;
@@ -15,8 +14,6 @@ use Illuminate\Support\Arr;
 
 class CreateBlogMetaHandler
 {
-    use AssertPermissionTrait;
-
     /**
      * @var DiscussionRepository
      */
@@ -58,13 +55,13 @@ class CreateBlogMetaHandler
         $actor = $command->actor;
 
         // Make sure the actor can edit blog-data
-        $this->assertCan($actor, 'blog.writeArticles');
+        $actor->assertCan('blog.writeArticles');
 
         // Data
         $data = $command->data;
 
         // Validate discussion exists
-        $discussionId = array_get($data, 'relationships.discussion.data.id');
+        $discussionId = Arr::get($data, 'relationships.discussion.data.id');
         $discussion = $this->discussion->findOrFail($discussionId, $actor);
 
         // Discussion does not exist

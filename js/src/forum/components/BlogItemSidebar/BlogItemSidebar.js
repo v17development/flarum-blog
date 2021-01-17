@@ -18,9 +18,9 @@ export default class BlogItemSidebar extends Component {
   items() {
     const itemlist = new ItemList();
 
-    itemlist.add("author", BlogAuthor.component(this.props), 0);
+    itemlist.add("author", BlogAuthor.component(this.attrs), 0);
 
-    itemlist.add("categories", BlogCategories.component(this.props), 0);
+    itemlist.add("categories", BlogCategories.component(this.attrs), 0);
 
     return itemlist;
   }
