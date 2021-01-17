@@ -5,8 +5,8 @@ import saveSettings from 'flarum/utils/saveSettings';
 import Switch from 'flarum/components/Switch';
 
 export default class SelectCategoriesModal extends Modal {
-  init() {
-    super.init();
+  oninit(vnode) {
+    super.oninit(vnode);
 
     this.blogCategoriesOriginal = app.data.settings.blog_tags ? app.data.settings.blog_tags.split("|") : [];
     this.blogCategories = app.data.settings.blog_tags ? app.data.settings.blog_tags.split("|") : [];
@@ -106,18 +106,16 @@ export default class SelectCategoriesModal extends Modal {
       blog_tags: this.blogCategories.join('|')
     })
       .then(() => {
-        app.alerts.show(new Alert({
-          type: 'success', 
-          children: app.translator.trans('core.admin.basics.saved_message')
-        }));
+        app.alerts.show(Alert, {
+          type: 'success'
+        }, app.translator.trans('core.admin.basics.saved_message'));
 
         this.hide();
       })
       .catch(() => {
-        app.alerts.show(new Alert({
-          type: 'error', 
-          children: app.translator.trans('core.lib.error.generic_message')
-        }));
+        app.alerts.show(Alert, {
+          type: 'error'
+        }, app.translator.trans('core.lib.error.generic_message'));
       })
       .then(() => {
         this.isSaving = false;

@@ -1,41 +1,37 @@
-import addRoutes from './addRoutes';
 import { extend } from 'flarum/extend';
-import AdminNav from 'flarum/components/AdminNav';
-import AdminLinkButton from 'flarum/components/AdminLinkButton';
-import BasicsPage from 'flarum/components/BasicsPage';
 import PermissionGrid from 'flarum/components/PermissionGrid';
-import blogPermissions from './addPermissions';
-// import { knowledgeBasePermissions, supportTicketPermissions } from './addPermissions';
+import BlogSettings from './pages/BlogSettings';
 
 app.initializers.add('v17development-flarum-blog', () => {
-  addRoutes();
+  // Register extension settings page
+  app.extensionData.for('v17development-blog').registerPage(BlogSettings);
 
-  // Add home page option
-  extend(BasicsPage.prototype, 'homePageItems', items => {
-    items.add('v17development-flarum-blog', {
-      path: '/blog',
-      label: 'Blog',
-    });
-  });
-
-  // Add Admin navigation
-  extend(AdminNav.prototype, 'items', items => {
-    items.add(
-      'blog',
-      AdminLinkButton.component({
-        href: app.route('blog'),
-        icon: 'fas fa-blog',
-        children: 'Blog',
-        description: 'Configure your forum\'s blog.',
-      })
-    );
-  });
+  app.extensionData.for('v17development-blog')
+    .registerPermission({
+      icon: 'fas fa-pencil-alt',
+      label: "Write and edit blog articles",
+      permission: 'blog.writeArticles',
+    }, 'blog', 90)
+    .registerPermission({
+      icon: 'far fa-star',
+      label: "Auto approve articles",
+      permission: 'blog.autoApprovePosts'
+    }, 'blog', 90)
+    .registerPermission({
+      icon: 'far fa-thumbs-up',
+      label: "Can approve blog articles",
+      permission: 'blog.canApprovePosts'
+    }, 'blog', 90);
 
   // Add addPermissions
-  extend(PermissionGrid.prototype, 'permissionItems', items => {
-    items.add('v17-development-blog', {
+  extend(PermissionGrid.prototype, 'permissionItems', function(items) {
+    // Add knowledge base permissions
+    items.add('blog', {
       label: "Blog",
-      children: blogPermissions().toArray()
+      children: 
+        this.attrs.extensionId ? 
+          app.extensionData.getExtensionPermissions(this.extensionId, 'blog').toArray() : 
+          app.extensionData.getAllExtensionPermissions('blog').toArray()
     }, 80);
   });
 });
