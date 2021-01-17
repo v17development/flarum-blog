@@ -130,7 +130,7 @@ export default class BlogOverview extends Page {
                 <Button 
                   className={"Button"}
                   onclick={() => this.newArticle()}
-                  icon={"fas fa-pencil"}
+                  icon={"fas fa-pencil-alt"}
                   >
                   {app.translator.trans('v17development-flarum-blog.forum.compose.write_article')}
                 </Button>
@@ -200,7 +200,7 @@ export default class BlogOverview extends Page {
                       <div className={"data"}>
                         <span><i className={"far fa-clock"} /> {humanTime(article.createdAt())}</span>  
                         <span><i className={"far fa-user"} /> {article.user() ? article.user().displayName() : '[Deleted]'}</span>
-                        <span><i className={"far fa-comment"} /> {article.commentCount()}</span>
+                        <span><i className={"far fa-comment"} /> {article.commentCount() - 1}</span>
                       </div>
                     </div>
                   </Link>
@@ -252,7 +252,7 @@ export default class BlogOverview extends Page {
                       <div className={"data"}>
                         <span><i className={"far fa-clock"} /> {humanTime(article.createdAt())}</span>  
                         <span><i className={"far fa-user"} /> {article.user() ? article.user().displayName() : '[Deleted]'}</span>
-                        <span><i className={"far fa-comment"} /> {article.commentCount()}</span>
+                        <span><i className={"far fa-comment"} /> {article.commentCount() - 1}</span>
                       </div>
                     </div>
                   </Link>

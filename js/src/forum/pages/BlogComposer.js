@@ -140,7 +140,7 @@ export default class BlogComposer extends Page {
                     <Button 
                       className={"Button"}
                       onclick={e => this.openBlogSettings(e)}
-                      icon={"fas fa-pencil"}
+                      icon={"fas fa-pencil-alt"}
                       loading={this.isSaving}
                       >
                         Update blog settings
@@ -183,7 +183,7 @@ export default class BlogComposer extends Page {
                 {/* Locked */}
 
                 <div className={"Post-body"}>
-                  <blockquote class="uncited"><div><span className={"far fa-ban"} style={{ marginRight: '5px' }} /> {app.translator.trans('v17development-flarum-blog.forum.composer.comment_section')}</div></blockquote>
+                  <blockquote class="uncited"><div><span className={"fas fa-ban"} style={{ marginRight: '5px' }} /> {app.translator.trans('v17development-flarum-blog.forum.composer.comment_section')}</div></blockquote>
                 </div>
               </div>
             </div>
