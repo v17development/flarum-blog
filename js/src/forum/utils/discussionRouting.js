@@ -34,9 +34,8 @@ export default function () {
       }
     }
     if (shouldRedirect) {
-      const slug = discussion.slug();
       return app.route('blogArticle', {
-        id: discussion.id() + (slug.trim() ? '-' + slug : ''),
+        id: discussion.slug(),
       });
     } else {
       return original_discussion_route(discussion, near);

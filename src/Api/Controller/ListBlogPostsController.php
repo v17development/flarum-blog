@@ -5,7 +5,6 @@ namespace V17Development\FlarumBlog\Api\Controller;
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\Api\Serializer\DiscussionSerializer;
 use Flarum\Discussion\Discussion;
-use Flarum\User\AssertPermissionTrait;
 use Flarum\Http\UrlGenerator;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
@@ -14,8 +13,6 @@ use Illuminate\Support\Arr;
 
 class ListBlogPostsController extends AbstractListController
 {
-    use AssertPermissionTrait;
-
     /**
      * {@inheritdoc}
      */

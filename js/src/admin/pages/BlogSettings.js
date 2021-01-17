@@ -1,7 +1,6 @@
 import ExtensionPage from 'flarum/components/ExtensionPage';
 import saveSettings from 'flarum/utils/saveSettings';
 import Alert from 'flarum/components/Alert';
-import Header from '../Components/Header/Header';
 import Button from 'flarum/components/Button';
 import FieldSet from 'flarum/components/FieldSet';
 import Switch from 'flarum/components/Switch';

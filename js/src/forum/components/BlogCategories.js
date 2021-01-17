@@ -1,7 +1,10 @@
 import Component from 'flarum/Component';
+import Link from 'flarum/components/Link';
 
 export default class BlogCategories extends Component {
-  init() {
+  oninit(vnode) {
+    super.oninit(vnode);
+    
     this.blogCategories = app.forum.attribute('blogTags');
   }
   
@@ -38,16 +41,15 @@ export default class BlogCategories extends Component {
   // Category item
   categoryItem(tag) {
     return (
-      <a 
+      <Link 
         href={app.route("blogCategory", { slug: tag.slug() })} 
         className={`BlogCategories-item BlogCategories-item-${tag.id()} ${tag.isChild() && app.forum.attribute('blogCategoryHierarchy') == true ? 'BlogCategories-item-child' : ''}`} 
-        config={m.route}
         >
         <span className={tag.icon() === '' ? 'BlogCategories-item-colored' : ''} style={{ backgroundColor: tag.icon() === '' ? tag.color() : null }}>
           <i className={tag.icon()} />
         </span>
         {tag.name()}
-      </a>
+      </Link>
     )
   }
 }

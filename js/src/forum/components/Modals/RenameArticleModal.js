@@ -1,18 +1,17 @@
 import Modal from 'flarum/components/Modal';
 import Button from 'flarum/components/Button';
 import ItemList from 'flarum/utils/ItemList';
-import { slug } from 'flarum/utils/string';
+import Stream from 'flarum/utils/Stream';
 
 export default class RenameArticleModal extends Modal {
-  init() {
-    super.init();
+  oninit(vnode) {
+    super.oninit(vnode);
 
-    this.article = this.props.article;
+    this.article = this.attrs.article;
 
-    this.name = m.prop(this.article.title() || '');
-    this.slug = m.prop(this.article.slug() || '');
+    this.name = Stream(this.article.title() || '');
 
-    this.redirect = this.props.redirect;
+    this.redirect = this.attrs.redirect;
   }
 
   className() {
@@ -39,30 +38,17 @@ export default class RenameArticleModal extends Modal {
     items.add('name', (
       <div className="Form-group">
         <label>{app.translator.trans('v17development-flarum-blog.forum.article.title')}:</label>
-        <input className="FormControl" placeholder={app.translator.trans('v17development-flarum-blog.forum.article.title')} value={this.name()} oninput={e => {
-          this.name(e.target.value);
-          this.slug(slug(e.target.value));
-        }}/>
+        <input className="FormControl" placeholder={app.translator.trans('v17development-flarum-blog.forum.article.title')} bidi={this.name} />
       </div>
     ), 50);
-
-    if(!this.props.onChange) {
-      items.add('slug', (
-        <div className="Form-group">
-          <label>{app.translator.trans('v17development-flarum-blog.forum.article.slug')}:</label>
-          <input className="FormControl" placeholder={app.translator.trans('v17development-flarum-blog.forum.article.slug')} value={this.slug()} oninput={m.withAttr('value', this.slug)}/>
-        </div>
-      ), 40);
-    }
 
     items.add('submit', (
       <div className="Form-group">
         {Button.component({
           type: 'submit',
           className: 'Button Button--primary SupportModal-save',
-          loading: this.loading,
-          children: 'Update'
-        })}
+          loading: this.loading
+        }, 'Update')}
       </div>
     ), -10);
 
@@ -71,8 +57,7 @@ export default class RenameArticleModal extends Modal {
 
   submitData() {
     return {
-      title: this.name(),
-      slug: this.slug()
+      title: this.name()
     };
   }
 
@@ -82,25 +67,24 @@ export default class RenameArticleModal extends Modal {
     this.loading = true;
 
     // Do not save
-    if(this.props.onChange) {
-      this.props.onChange(this.name());
+    if(this.attrs.onChange) {
+      this.attrs.onChange(this.name());
       this.hide();
 
       return;
     }
 
     this.article.save({
-      title: this.name(),
-      slug: this.slug()
+      title: this.name()
     })
       .then(() => {
         this.hide();
 
         // Redirect
         if(this.redirect) {
-          const url =  `/knowledgebase/${this.article.id()}-${this.slug()}`;
+          const url =  `/blog/${this.article.slug()}`;
 
-          m.route(url, true);
+          m.route.set(url, true);
           window.history.replaceState(null, document.title, url);
         }
       }, response => {

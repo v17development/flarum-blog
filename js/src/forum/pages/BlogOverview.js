@@ -2,13 +2,13 @@ import Page from 'flarum/components/Page';
 import Button from 'flarum/components/Button';
 import humanTime from 'flarum/helpers/humanTime';
 import BlogCategories from '../components/BlogCategories';
-import BlogComposer from '../utils/BlogComposer';
+import Link from 'flarum/components/Link';
 import tooltip from '../utils/tooltip';
 import LanguageDropdown from '../components/LanguageDropdown/LanguageDropdown';
 
 export default class BlogOverview extends Page {
-  init() {
-    super.init();
+  oninit(vnode) {
+    super.oninit(vnode);
 
     app.setTitle(app.translator.trans('v17development-flarum-blog.forum.blog'));
 
@@ -44,7 +44,7 @@ export default class BlogOverview extends Page {
       this.reloadData();
     }
 
-    m.lazyRedraw();
+    m.redraw();
   }
 
   reloadData() {
@@ -70,7 +70,7 @@ export default class BlogOverview extends Page {
   show(articles) {
     if(articles.length === 0) {
       this.isLoading = false;
-      m.lazyRedraw();
+      m.redraw();
       
       return;
     }
@@ -83,7 +83,7 @@ export default class BlogOverview extends Page {
 
     this.isLoading = false;
 
-    m.lazyRedraw();
+    m.redraw();
   }
 
   // Load more blog posts
@@ -115,7 +115,7 @@ export default class BlogOverview extends Page {
     return (
       <h2>
         {tag && tag[0] && tag[0].name()}
-        <small> - <a href={app.route("blog")} config={m.route}>{app.translator.trans('v17development-flarum-blog.forum.return_to_overview')}</a></small>
+        <small> - <Link href={app.route("blog")}>{app.translator.trans('v17development-flarum-blog.forum.return_to_overview')}</Link></small>
       </h2>
     );
   }
@@ -142,7 +142,7 @@ export default class BlogOverview extends Page {
                   onclick={(language) => {
                     this.currentSelectedLanguage = language;
 
-                    m.route(document.location.pathname, {
+                    m.route.set(document.location.pathname, {
                       lang: language
                     })
 
@@ -174,11 +174,10 @@ export default class BlogOverview extends Page {
                 const blogTag = article.tags() ? article.tags().filter(tag => tag.isChild()) : [];
 
                 return (
-                  <a 
-                    href={app.route("blogArticle", { id: `${article.id()}-${article.slug()}` })} 
+                  <Link 
+                    href={app.route("blogArticle", { id: `${article.slug()}` })} 
                     className={"BlogFeatured-list-item FlarumBlog-default-image"} 
                     style={{ backgroundImage: blogImage }}
-                    config={m.route}
                     >
                     <div className={"BlogFeatured-list-item-top"}>
                       {blogTag[0] && (
@@ -204,7 +203,7 @@ export default class BlogOverview extends Page {
                         <span><i className={"far fa-comment"} /> {article.commentCount()}</span>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 );
               })}
             </div>
@@ -234,10 +233,9 @@ export default class BlogOverview extends Page {
                 const summary = article.blogMeta() && article.blogMeta().summary() ? article.blogMeta().summary() : "";
                 
                 return (
-                  <a
-                    href={app.route("blogArticle", { id: `${article.id()}-${article.slug()}` })} 
-                    className={`BlogList-item BlogList-item-${isSized ? 'sized' : 'default'}`}
-                    config={m.route}>
+                  <Link
+                    href={app.route("blogArticle", { id: `${article.slug()}` })} 
+                    className={`BlogList-item BlogList-item-${isSized ? 'sized' : 'default'}`}>
                     <div className={"BlogList-item-photo FlarumBlog-default-image"} style={{ backgroundImage: blogImage }}></div>
                     <div className={"BlogList-item-content"}>
                       <h4>
@@ -257,7 +255,7 @@ export default class BlogOverview extends Page {
                         <span><i className={"far fa-comment"} /> {article.commentCount()}</span>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 )
               })}
 
@@ -314,7 +312,7 @@ export default class BlogOverview extends Page {
     }
 
     // Redirect to the composer
-    m.route(
+    m.route.set(
       app.route("blogComposer", { 
         tags: tags.map((tag) => tag.id()).join(),
         lang: this.languages.length > 0 ? this.currentSelectedLanguage : undefined
