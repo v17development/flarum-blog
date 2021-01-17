@@ -19,7 +19,7 @@ export default class BlogSettings extends ExtensionPage {
     this.redirectsEnabled = app.data.settings.blog_redirects_enabled ? app.data.settings.blog_redirects_enabled : 'both';
     this.hideTagsInList = app.data.settings.blog_hide_tags ? app.data.settings.blog_hide_tags : true;
     this.allowComments = app.data.settings.blog_allow_comments ? app.data.settings.blog_allow_comments : true;
-    this.hideOnDiscussionList = app.data.settings.blog_filter_discussion_list ? app.data.settings.blog_filter_discussion_list : true;
+    this.hideOnDiscussionList = app.data.settings.blog_filter_discussion_list ? app.data.settings.blog_filter_discussion_list : false;
     this.requiresReviewOnPost = app.data.settings.blog_requires_review ? app.data.settings.blog_requires_review : false;
     this.addCategoryHierarchy = app.data.settings.blog_category_hierarchy ? app.data.settings.blog_category_hierarchy : true;
   }
