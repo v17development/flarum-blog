@@ -1,5 +1,5 @@
 .App.BlogOverviewPage {
-  background: #fafafa;
+  background: @code-bg;
 }
 
 .FlarumBlog-default-image {
@@ -37,12 +37,12 @@
         align-items: flex-end;
         text-decoration: none;
         height: 200px;
-        background-color: #dadada;
+        background-color: @control-bg;
         background-position: center center;
         background-repeat: no-repeat;
         background-size: cover;
         border-radius: 5px;
-        box-shadow: 0 7px 6px 4px rgba(212,212,212,0.11);
+        box-shadow: 0 7px 6px 4px fade(@muted-more-color, 11%);
         overflow: hidden;
         margin: 10px 0;
         transition: box-shadow 250ms ease;
@@ -69,8 +69,8 @@
             padding: 5px 10px;
             font-weight: 700;
             font-size: 12px;
-            background: rgba(0, 0, 0, 0.6);
-            color: #FFFFFF;
+            background: fade(@text-color, 60%);
+            color: @body-bg;
             text-transform: uppercase;
             border-radius: 4px;
             margin-left: 5px;
@@ -80,10 +80,10 @@
 
         &-details {
           padding: 80px 20px 20px 20px;
-          color: #FFFFFF;
+          color: @body-bg;
           flex-grow: 1;
           position: relative;
-          text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.28);
+          text-shadow: 0px 0px 4px fade(@text-color, 28%);
 
           h4 {
             font-size: 22px;
@@ -100,7 +100,7 @@
           }
 
           .data {
-            color: #FFFFFF;
+            color: @body-bg;
             position: relative;
             z-index: 2;
 
@@ -130,7 +130,7 @@
         
         &:hover {
           text-decoration: none;
-          box-shadow: 0 7px 6px 4px rgba(212,212,212,0.3);
+          box-shadow: 0 7px 6px 4px fade(@muted-more-color, 30%);
 
           :before {
             opacity: 1;
@@ -139,7 +139,7 @@
       }
 
       &-item-ghost {
-        background: #eeeeee;
+        background: @control-bg;
 
         .BlogFeatured-list-item-details {
           text-shadow: none;
@@ -150,8 +150,8 @@
         }
 
         h4, .data {
-          background: #dadada;
-          color: #dadada;
+          background: @control-bg;
+          color: @control-bg;
           animation: FlarumBlogGhostLoading 2s infinite;
         }
       }
@@ -179,10 +179,10 @@
         display: block;
         margin: 0 0 15px;
         border-radius: 2px;
-        box-shadow: 1px 3px 9px 0px #e8e8e8;
-        color: #333333;
+        box-shadow: 1px 3px 9px 0px @control-bg;
+        color: @control-color;
         text-decoration: none;
-        background: #FFFFFF;
+        background: @body-bg;
 
         // Default style
         &-default {
@@ -218,7 +218,7 @@
           background-position: center center;
           background-repeat: no-repeat;
           background-size: cover;
-          background-color: #dadada;
+          background-color: @control-bg;
         }
 
         &-content {
@@ -251,18 +251,18 @@
         }
 
         &:hover {
-          box-shadow: 1px 3px 15px 5px #e8e8e8;
+          box-shadow: 1px 3px 15px 5px @control-bg;
         }
       }
 
       &-item-ghost {
         .BlogList-item-photo {
-          background: #eeeeee;
+          background: @control-bg;
         }
 
         h4, p, .data {
-          background: #dadada;
-          color: #dadada;
+          background: @control-bg;
+          color: @control-bg;
           animation: FlarumBlogGhostLoading 2s infinite;
         }
         
@@ -284,5 +284,5 @@
   text-align: center;
   padding: 30px 20px;
   font-size: 16px;
-  color: #333333;
+  color: @control-color;
 }

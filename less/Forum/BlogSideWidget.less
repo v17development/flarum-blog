@@ -1,6 +1,6 @@
 .BlogSideWidget {
-  background: #FFFFFF;
-  box-shadow: 1px 3px 9px 0px #e8e8e8;
+  background: @body-bg;
+  box-shadow: 1px 3px 9px 0px @control-bg;
   border-radius: 3px;
   margin-bottom: 15px;
 
@@ -14,7 +14,7 @@
     display: block;
     padding: 10px 20px;
     text-decoration: none;
-    color: #333333;
+    color: @control-color;
 
     &.BlogSideWidget-item-child {
       padding-left: 45px;
@@ -34,7 +34,7 @@
     }
 
     &:hover {
-      background: #eeeeee;
+      background: @control-bg;
       text-decoration: none;
     }
   }
@@ -50,7 +50,7 @@
 
       &:hover,
       &.active {
-        background: #eeeeee;
+        background: @control-bg;
         text-decoration: none;
       }
     }

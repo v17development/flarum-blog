@@ -24,7 +24,7 @@
   }
 
   .Flarum-Blog-Composer-tabs {
-    border-bottom: 1px solid #EEEEEE;
+    border-bottom: 1px solid @control-bg;
     margin-bottom: 15px;
     padding-left: 35px;
 
@@ -33,7 +33,7 @@
       padding: 8px 20px;
       font-size: 14px;
       line-height: 20px;
-      color: #586069;
+      color: @muted-color;
       background-color: transparent;
       border: 1px solid transparent;
       border-bottom: 0;
@@ -41,13 +41,13 @@
       outline: none;
 
       &:hover {
-        color: #464a4e;
+        color: @text-color;
       }
 
       &.AricleComposerButtonSelected {
-        color: #464a4e;
-        background-color: #fff;
-        border-color: #d1d5da;
+        color: @text-color;
+        background-color: @body-bg;
+        border-color: @control-bg;
         border-radius: 3px 3px 0 0;
       }
     }

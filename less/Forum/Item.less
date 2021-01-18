@@ -1,5 +1,5 @@
 .BlogItemPage {
-  background: #fafafa;
+  background: @code-bg;
 
   @media screen and (min-width: 992px) {
     .App-composer {
@@ -40,8 +40,8 @@
       }
 
       .FlarumBlog-Article-Content {
-        background: #FFFFFF;
-        box-shadow: 1px 3px 9px 0px #e8e8e8;
+        background: @body-bg;
+        box-shadow: 1px 3px 9px 0px @control-bg;
       }
 
       .FlarumBlog-Article-Image {
@@ -125,8 +125,8 @@
 
       .FlarumBlog-Article-Comments {
         padding: 30px;
-        background: #ffffff;
-        box-shadow: 1px 3px 9px 0px #e8e8e8;
+        background: @body-bg;
+        box-shadow: 1px 3px 9px 0px @control-bg;
         margin-top: 30px;
 
         h4 {
@@ -167,12 +167,12 @@
       }
 
       .FlarumBlog-Article-Author {
-        background: #FFFFFF;
-        box-shadow: 1px 3px 9px 0px #e8e8e8;
+        background: @body-bg;
+        box-shadow: 1px 3px 9px 0px @control-bg;
 
         .FlarumBlog-Article-Author-background {
           height: 130px;
-          background: #dadada;
+          background: @control-bg;
         }
 
         .FlarumBlog-Article-Author-Avatar {
@@ -186,7 +186,7 @@
             line-height: 100px;
             font-size: 40px;
             border-radius: 100px;
-            border: 5px solid #FFFFFF;
+            border: 5px solid @body-bg;
           }
         }
 
@@ -215,8 +215,8 @@
 }
 
 .FlarumBlog-Article-GhostParagraph, .FlarumBlog-Article-GhostTitle, .FlarumBlog-Article-GhostCategory, .FlarumBlog-Article-GhostImage, .FlarumBlog-Author-Ghost {
-  background: #dadada;
-  color: #dadada;
+  background: @control-bg;
+  color: @control-bg;
   animation: FlarumBlogGhostLoading 2s infinite;
   -webkit-touch-callout: none;
   -webkit-user-select: none; 
