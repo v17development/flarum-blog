@@ -21,7 +21,7 @@ export default class BlogItemSidebar extends Component {
 
     itemlist.add("categories", BlogCategories.component(this.attrs), 0);
 
-    itemlist.add("categories", ForumNav.component(this.attrs), 0);
+    itemlist.add("nav", ForumNav.component(this.attrs), 0);
 
     return itemlist;
   }

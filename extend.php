@@ -66,7 +66,7 @@ return [
     (new Extend\ApiController(FlarumController\CreateDiscussionController::class))
         ->addInclude(['blogMeta', 'firstPost', 'user']),
 
-    (new Extend\ApiController(FlarumController\ListDiscussionController::class))
+    (new Extend\ApiController(FlarumController\ListDiscussionsController::class))
         ->addInclude(['blogMeta', 'firstPost', 'user']),
 
     (new Extend\ApiController(FlarumController\ShowDiscussionController::class))
