@@ -10,6 +10,7 @@ use Flarum\Api\Controller as FlarumController;
 use Flarum\Api\Serializer\BasicDiscussionSerializer;
 use Flarum\Extend;
 use Flarum\Discussion\Discussion;
+use Flarum\Discussion\Event\Saving;
 use Flarum\Discussion\Event\Searching;
 
 // Controllers
@@ -82,12 +83,13 @@ return [
     (new Extend\ApiSerializer(BasicDiscussionSerializer::class))
         ->hasOne('blogMeta', BlogMetaSerializer::class),
 
+    (new Extend\Event)
+        ->listen(Saving::class, CreateBlogMetaOnDiscussionCreate::class),
+
     new Extend\Compat(function (Dispatcher $events) {
         $events->subscribe(ForumAttributesListener::class);
-        $events->subscribe(CreateBlogMetaOnDiscussionCreate::class);
 
         $events->listen(Searching::class, FilterDiscussionsForBlogPosts::class);
-
         $events->subscribe(FilterBlogArticles::class);
     })
 ];

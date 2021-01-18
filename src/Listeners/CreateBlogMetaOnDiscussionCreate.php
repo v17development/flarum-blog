@@ -6,7 +6,6 @@ use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\Exception\PermissionDeniedException;
 use Flarum\Discussion\Event\Saving;
 use V17Development\FlarumBlog\BlogMeta\BlogMeta;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Arr;
 
 class CreateBlogMetaOnDiscussionCreate
@@ -24,17 +23,9 @@ class CreateBlogMetaOnDiscussionCreate
     }
 
     /**
-     * @param Dispatcher $events
-     */
-    public function subscribe(Dispatcher $events)
-    {
-        $events->listen(Saving::class, [$this, 'handle']);
-    }
-
-    /**
      * @param $event
      */
-    public function handle($event)
+    public function handle(Saving $event)
     {
         $discussion = $event->discussion;
 
