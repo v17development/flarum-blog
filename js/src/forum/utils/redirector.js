@@ -4,7 +4,7 @@ import { extend, override } from 'flarum/extend';
 
 export default function() {
   // Redirect tag to blog category
-  extend(IndexPage.prototype, 'config', function() {
+  extend(IndexPage.prototype, 'oncreate', function() {
     const tag = this.currentTag();
     const tagRedirectEnabled = app.forum.attribute('blogRedirectsEnabled') === 'both' || app.forum.attribute('blogRedirectsEnabled') === 'tags_only';
 
