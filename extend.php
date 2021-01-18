@@ -8,6 +8,7 @@ use Illuminate\Events\Dispatcher;
 // Flarum classes
 use Flarum\Api\Controller as FlarumController;
 use Flarum\Api\Serializer\BasicDiscussionSerializer;
+use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Extend;
 use Flarum\Discussion\Discussion;
 use Flarum\Discussion\Event\Saving;
@@ -24,12 +25,12 @@ use V17Development\FlarumBlog\Extenders\ThemeExtender;
 // Access
 use V17Development\FlarumBlog\Access\ScopeDiscussionVisibility;
 // API controllers
+use V17Development\FlarumBlog\Api\AttachForumSerializerAttributes;
 use V17Development\FlarumBlog\Api\Controller\CreateBlogMetaController;
 use V17Development\FlarumBlog\Api\Controller\UpdateBlogMetaController;
 use V17Development\FlarumBlog\Api\Serializer\BlogMetaSerializer;
 // Listeners
 use V17Development\FlarumBlog\Listeners\FilterBlogArticles;
-use V17Development\FlarumBlog\Listeners\ForumAttributesListener;
 use V17Development\FlarumBlog\Listeners\CreateBlogMetaOnDiscussionCreate;
 
 // Models
@@ -83,12 +84,13 @@ return [
     (new Extend\ApiSerializer(BasicDiscussionSerializer::class))
         ->hasOne('blogMeta', BlogMetaSerializer::class),
 
+    (new Extend\ApiSerializer(ForumSerializer::class))
+        ->mutate(AttachForumSerializerAttributes::class),
+
     (new Extend\Event)
         ->listen(Saving::class, CreateBlogMetaOnDiscussionCreate::class),
 
     new Extend\Compat(function (Dispatcher $events) {
-        $events->subscribe(ForumAttributesListener::class);
-
         $events->listen(Searching::class, FilterDiscussionsForBlogPosts::class);
         $events->subscribe(FilterBlogArticles::class);
     })
