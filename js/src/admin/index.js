@@ -1,4 +1,5 @@
 import { extend } from 'flarum/extend';
+import BasicsPage from 'flarum/components/BasicsPage';
 import PermissionGrid from 'flarum/components/PermissionGrid';
 import BlogSettings from './pages/BlogSettings';
 
@@ -33,5 +34,12 @@ app.initializers.add('v17development-flarum-blog', () => {
           app.extensionData.getExtensionPermissions(this.extensionId, 'blog').toArray() : 
           app.extensionData.getAllExtensionPermissions('blog').toArray()
     }, 80);
+  });
+
+  extend(BasicsPage.prototype, 'homePageItems', (items) => {
+    items.add('blog', {
+      path: '/blog',
+      label: 'Blog',
+    });
   });
 });
