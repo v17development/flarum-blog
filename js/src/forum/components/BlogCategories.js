@@ -10,7 +10,7 @@ export default class BlogCategories extends Component {
   
   view() {
     return (
-      <div className={"BlogCategories"}>
+      <div className="BlogCategories BlogSideWidget">
         <h3>{app.translator.trans('v17development-flarum-blog.forum.categories')}</h3>
 
         {this.blogCategories && this.blogCategories.map(tagId => {
@@ -43,9 +43,9 @@ export default class BlogCategories extends Component {
     return (
       <Link 
         href={app.route("blogCategory", { slug: tag.slug() })} 
-        className={`BlogCategories-item BlogCategories-item-${tag.id()} ${tag.isChild() && app.forum.attribute('blogCategoryHierarchy') == true ? 'BlogCategories-item-child' : ''}`} 
+        className={`BlogSideWidget-item BlogSideWidget-item-${tag.id()} ${tag.isChild() && app.forum.attribute('blogCategoryHierarchy') == true ? 'BlogSideWidget-item-child' : ''}`} 
         >
-        <span className={tag.icon() === '' ? 'BlogCategories-item-colored' : ''} style={{ backgroundColor: tag.icon() === '' ? tag.color() : null }}>
+        <span className={tag.icon() === '' ? 'BlogSideWidget-item-colored' : ''} style={{ backgroundColor: tag.icon() === '' ? tag.color() : null }}>
           <i className={tag.icon()} />
         </span>
         {tag.name()}

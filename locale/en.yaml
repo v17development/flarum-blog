@@ -38,6 +38,7 @@ v17development-flarum-blog:
     hidden: "Hidden"
     recent_posts: "Recent blog posts"
     categories: "Categories"
+    forum_nav: "Forum Nav"
     return_to_overview: "Return to blog overview "
     no_more_posts: "No more blog posts."
     category_empty: "There are no blog posts in this category."

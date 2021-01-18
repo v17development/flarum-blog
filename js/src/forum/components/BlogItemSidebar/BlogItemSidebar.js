@@ -3,6 +3,7 @@ import ItemList from 'flarum/utils/ItemList';
 import listItems from 'flarum/helpers/listItems';
 import BlogAuthor from './BlogAuthor';
 import BlogCategories from '../BlogCategories';
+import ForumNav from '../ForumNav';
 
 export default class BlogItemSidebar extends Component {
   view() {
@@ -21,6 +22,8 @@ export default class BlogItemSidebar extends Component {
     itemlist.add("author", BlogAuthor.component(this.attrs), 0);
 
     itemlist.add("categories", BlogCategories.component(this.attrs), 0);
+
+    itemlist.add("categories", ForumNav.component(this.attrs), 0);
 
     return itemlist;
   }

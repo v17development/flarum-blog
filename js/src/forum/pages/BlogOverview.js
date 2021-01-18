@@ -5,6 +5,7 @@ import BlogCategories from '../components/BlogCategories';
 import Link from 'flarum/components/Link';
 import tooltip from '../utils/tooltip';
 import LanguageDropdown from '../components/LanguageDropdown/LanguageDropdown';
+import ForumNav from '../components/ForumNav';
 
 export default class BlogOverview extends Page {
   oninit(vnode) {
@@ -283,6 +284,7 @@ export default class BlogOverview extends Page {
 
             <div className={"Sidebar"}>
               <BlogCategories />
+              <ForumNav />
             </div>
           </div>
         </div>
