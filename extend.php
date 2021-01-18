@@ -19,9 +19,6 @@ use V17Development\FlarumBlog\Controller\BlogOverviewController;
 use V17Development\FlarumBlog\Controller\BlogItemController;
 use V17Development\FlarumBlog\Controller\BlogComposerController;
 
-// Extender
-use V17Development\FlarumBlog\Extenders\ThemeExtender;
-
 // Access
 use V17Development\FlarumBlog\Access\ScopeDiscussionVisibility;
 // API controllers
@@ -59,9 +56,6 @@ return [
         ->patch('/blogMeta/{id}', 'blog.meta.edit', UpdateBlogMetaController::class),
 
     new Extend\Locales(__DIR__ . '/locale'),
-
-    // Add theme extender
-    new ThemeExtender(),
 
     (new Extend\Model(Discussion::class))
         ->hasOne('blogMeta', BlogMeta::class, 'discussion_id'),

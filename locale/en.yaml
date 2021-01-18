@@ -22,7 +22,7 @@ v17development-flarum-blog:
       add_sidebar_nav_text: "Include a link to the blog on the sidebar nav menu."
       categories_heading: "Categories"
       hide_tags_in_taglist_label: "Hide tags in taglist"
-      hide_tags_in_taglist_text: "When enabled, this extension will hide the blog tags from your homepage. After changing this setting, clear the cache of your forum."
+      hide_tags_in_taglist_text: "When enabled, this extension will hide the blog tags from your homepage."
       show_tag_hierarchy_label: "Show tag hierarchy"
       show_tag_hierarchy_text: "Add spacing to child-categories and give the category-list a hierarchy."
       redirects_heading: "Redirects"

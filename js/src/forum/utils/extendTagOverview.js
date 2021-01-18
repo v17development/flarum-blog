@@ -1,4 +1,5 @@
 import { extend } from 'flarum/extend';
+import IndexPage from 'flarum/components/IndexPage';
 import TagsPage from 'flarum/tags/components/TagsPage';
 
 export default function extendTagOverview() {
@@ -17,5 +18,17 @@ export default function extendTagOverview() {
         });
 
         return markup;
+    });
+
+    extend(IndexPage.prototype, 'navItems', function (items) {
+        if (app.forum.attribute('blogHideTags') == false) return items;
+
+        const blogTags = app.forum.attribute('blogTags') || [];
+
+        blogTags.forEach((id) => {
+            items.remove(`tag${id}`);
+        });
+
+        return items;
     });
 }
