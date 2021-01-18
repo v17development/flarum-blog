@@ -6,6 +6,8 @@ namespace V17Development\FlarumBlog;
 use Illuminate\Events\Dispatcher;
 
 // Flarum classes
+use Flarum\Api\Controller as FlarumController;
+use Flarum\Api\Serializer\BasicDiscussionSerializer;
 use Flarum\Extend;
 use Flarum\Discussion\Discussion;
 use Flarum\Discussion\Event\Searching;
@@ -23,9 +25,8 @@ use V17Development\FlarumBlog\Access\ScopeDiscussionVisibility;
 // API controllers
 use V17Development\FlarumBlog\Api\Controller\CreateBlogMetaController;
 use V17Development\FlarumBlog\Api\Controller\UpdateBlogMetaController;
-
+use V17Development\FlarumBlog\Api\Serializer\BlogMetaSerializer;
 // Listeners
-use V17Development\FlarumBlog\Listeners\AddDiscussionBlogMetaRelationship;
 use V17Development\FlarumBlog\Listeners\FilterBlogArticles;
 use V17Development\FlarumBlog\Listeners\ForumAttributesListener;
 use V17Development\FlarumBlog\Listeners\CreateBlogMetaOnDiscussionCreate;
@@ -66,8 +67,22 @@ return [
     (new Extend\ModelVisibility(Discussion::class))
         ->scope(ScopeDiscussionVisibility::class),
 
+    (new Extend\ApiController(FlarumController\CreateDiscussionController::class))
+        ->addInclude(['blogMeta', 'firstPost', 'user']),
+
+    (new Extend\ApiController(FlarumController\ListDiscussionController::class))
+        ->addInclude(['blogMeta', 'firstPost', 'user']),
+
+    (new Extend\ApiController(FlarumController\ShowDiscussionController::class))
+        ->addInclude(['blogMeta', 'firstPost', 'user']),
+
+    (new Extend\ApiController(FlarumController\UpdateDiscussionController::class))
+        ->addInclude(['blogMeta', 'firstPost', 'user']),
+
+    (new Extend\ApiSerializer(BasicDiscussionSerializer::class))
+        ->hasOne('blogMeta', BlogMetaSerializer::class),
+
     new Extend\Compat(function (Dispatcher $events) {
-        $events->subscribe(AddDiscussionBlogMetaRelationship::class);
         $events->subscribe(ForumAttributesListener::class);
         $events->subscribe(CreateBlogMetaOnDiscussionCreate::class);
 
