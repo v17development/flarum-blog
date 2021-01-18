@@ -7,8 +7,6 @@ use Illuminate\Events\Dispatcher;
 
 // Flarum classes
 use Flarum\Extend;
-use Extend\Locales;
-use Extend\Routes;
 use Flarum\Discussion\Discussion;
 use Flarum\Discussion\Event\Searching;
 
@@ -21,8 +19,7 @@ use V17Development\FlarumBlog\Controller\BlogComposerController;
 use V17Development\FlarumBlog\Extenders\ThemeExtender;
 
 // Access
-use V17Development\FlarumBlog\Access\DiscussionPolicy;
-
+use V17Development\FlarumBlog\Access\ScopeDiscussionVisibility;
 // API controllers
 use V17Development\FlarumBlog\Api\Controller\CreateBlogMetaController;
 use V17Development\FlarumBlog\Api\Controller\UpdateBlogMetaController;
@@ -66,12 +63,13 @@ return [
     (new Extend\Model(Discussion::class))
         ->hasOne('blogMeta', BlogMeta::class, 'discussion_id'),
 
+    (new Extend\ModelVisibility(Discussion::class))
+        ->scope(ScopeDiscussionVisibility::class),
+
     new Extend\Compat(function (Dispatcher $events) {
         $events->subscribe(AddDiscussionBlogMetaRelationship::class);
         $events->subscribe(ForumAttributesListener::class);
         $events->subscribe(CreateBlogMetaOnDiscussionCreate::class);
-
-        $events->subscribe(DiscussionPolicy::class);
 
         $events->listen(Searching::class, FilterDiscussionsForBlogPosts::class);
 
