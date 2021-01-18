@@ -28,6 +28,7 @@ class AttachForumSerializerAttributes
         $attributes['blogCommentsEnabled'] = $this->settings->get('blog_allow_comments', true);
         $attributes['blogHideTags'] = $this->settings->get('blog_hide_tags', true);
         $attributes['blogCategoryHierarchy'] = $this->settings->get('blog_category_hierarchy', true);
+        $attributes['blogAddSidebarNav'] = $this->settings->get('blog_add_sidebar_nav', true);
         $attributes['canApproveBlogPosts'] = $serializer->getActor()->can('blog.canApprovePosts');
         $attributes['canWriteBlogPosts'] = $serializer->getActor()->can('blog.writeArticles');
 

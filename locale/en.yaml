@@ -18,6 +18,8 @@ v17development-flarum-blog:
       require_review_text: "When posting an article, it will not be visible directly and needs to be reviewed by a moderator."
       hide_on_discussion_list_label: "Don't show on discussion list"
       hide_on_discussion_list_text: "Hide blog posts from the discussions list."
+      add_sidebar_nav_label: "Add to sidebar navigation"
+      add_sidebar_nav_text: "Include a link to the blog on the sidebar nav menu."
       categories_heading: "Categories"
       hide_tags_in_taglist_label: "Hide tags in taglist"
       hide_tags_in_taglist_text: "When enabled, this extension will hide the blog tags from your homepage. After changing this setting, clear the cache of your forum."

@@ -8,6 +8,7 @@ import extendTagOverview from "./utils/extendTagOverview";
 import discussionRouting from "./utils/discussionRouting";
 import BlogComposer from "./pages/BlogComposer";
 import compat from "./compat";
+import addSidebarNav from "./utils/addSidebarNav";
 
 // Register Flarum Blog
 app.initializers.add('v17development-flarum-blog', app => {
@@ -32,6 +33,9 @@ app.initializers.add('v17development-flarum-blog', app => {
 
   // Make that blog articles have a blog route and not a discussion route
   discussionRouting();
+
+  // Add a link to the blog to the IndexPage sidebar, if enabled.
+  addSidebarNav();
 });
 
 compat();

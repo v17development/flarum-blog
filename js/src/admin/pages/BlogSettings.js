@@ -22,6 +22,7 @@ export default class BlogSettings extends ExtensionPage {
     this.hideOnDiscussionList = app.data.settings.blog_filter_discussion_list ? app.data.settings.blog_filter_discussion_list : false;
     this.requiresReviewOnPost = app.data.settings.blog_requires_review ? app.data.settings.blog_requires_review : false;
     this.addCategoryHierarchy = app.data.settings.blog_category_hierarchy ? app.data.settings.blog_category_hierarchy : true;
+    this.addSidebarNav = app.data.settings.blog_add_sidebar_nav ? app.data.settings.blog_add_sidebar_nav : true;
   }
 
   content() {
@@ -72,6 +73,16 @@ export default class BlogSettings extends ExtensionPage {
               }, [
                 <b>{app.translator.trans('v17development-flarum-blog.admin.settings.hide_on_discussion_list_label')}</b>,
                 <div className="helpText">{app.translator.trans('v17development-flarum-blog.admin.settings.hide_on_discussion_list_text')}</div>,
+              ]),
+              Switch.component({
+                state: this.addSidebarNav == true,
+                onchange: (val) => {
+                  this.addSidebarNav = val;
+                  this.hasChanges = true;
+                }
+              }, [
+                <b>{app.translator.trans('v17development-flarum-blog.admin.settings.add_sidebar_nav_label')}</b>,
+                <div className="helpText">{app.translator.trans('v17development-flarum-blog.admin.settings.add_sidebar_nav_text')}</div>,
               ])
             ]
           )}
@@ -173,6 +184,7 @@ export default class BlogSettings extends ExtensionPage {
     this.isSaving = true;
 
     saveSettings({
+      blog_add_sidebar_nav: this.addSidebarNav,
       blog_redirects_enabled: this.redirectsEnabled,
       blog_hide_tags: this.hideTagsInList,
       blog_requires_review: this.requiresReviewOnPost,
