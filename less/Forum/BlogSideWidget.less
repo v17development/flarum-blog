@@ -1,0 +1,58 @@
+.BlogSideWidget {
+  background: @body-bg;
+  box-shadow: 1px 3px 9px 0px @control-bg;
+  border-radius: 3px;
+  margin-bottom: 15px;
+
+  h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    padding: 20px 20px 0;
+  }
+
+  &-item {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: @control-color;
+
+    &.BlogSideWidget-item-child {
+      padding-left: 45px;
+    }
+
+    span {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      margin-right: 10px;
+
+      &.BlogSideWidget-item-colored {
+        margin-top: 2px;
+        float: left;
+        border-radius: 4px;
+      }
+    }
+
+    &:hover {
+      background: @control-bg;
+      text-decoration: none;
+    }
+  }
+}
+
+@media @tablet-up {
+  .BlogSideWidget .sideNav {
+    width: auto;
+    margin-right: auto;
+
+    li {
+      padding: 1px 15px 1px 15px;
+
+      &:hover,
+      &.active {
+        background: @control-bg;
+        text-decoration: none;
+      }
+    }
+  }
+}

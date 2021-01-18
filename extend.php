@@ -6,10 +6,12 @@ namespace V17Development\FlarumBlog;
 use Illuminate\Events\Dispatcher;
 
 // Flarum classes
+use Flarum\Api\Controller as FlarumController;
+use Flarum\Api\Serializer\BasicDiscussionSerializer;
+use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Extend;
-use Extend\Locales;
-use Extend\Routes;
 use Flarum\Discussion\Discussion;
+use Flarum\Discussion\Event\Saving;
 use Flarum\Discussion\Event\Searching;
 
 // Controllers
@@ -17,20 +19,15 @@ use V17Development\FlarumBlog\Controller\BlogOverviewController;
 use V17Development\FlarumBlog\Controller\BlogItemController;
 use V17Development\FlarumBlog\Controller\BlogComposerController;
 
-// Extender
-use V17Development\FlarumBlog\Extenders\ThemeExtender;
-
 // Access
-use V17Development\FlarumBlog\Access\DiscussionPolicy;
-
+use V17Development\FlarumBlog\Access\ScopeDiscussionVisibility;
 // API controllers
+use V17Development\FlarumBlog\Api\AttachForumSerializerAttributes;
 use V17Development\FlarumBlog\Api\Controller\CreateBlogMetaController;
 use V17Development\FlarumBlog\Api\Controller\UpdateBlogMetaController;
-
+use V17Development\FlarumBlog\Api\Serializer\BlogMetaSerializer;
 // Listeners
-use V17Development\FlarumBlog\Listeners\AddDiscussionBlogMetaRelationship;
 use V17Development\FlarumBlog\Listeners\FilterBlogArticles;
-use V17Development\FlarumBlog\Listeners\ForumAttributesListener;
 use V17Development\FlarumBlog\Listeners\CreateBlogMetaOnDiscussionCreate;
 
 // Models
@@ -60,21 +57,35 @@ return [
 
     new Extend\Locales(__DIR__ . '/locale'),
 
-    // Add theme extender
-    new ThemeExtender(),
-
     (new Extend\Model(Discussion::class))
         ->hasOne('blogMeta', BlogMeta::class, 'discussion_id'),
 
+    (new Extend\ModelVisibility(Discussion::class))
+        ->scope(ScopeDiscussionVisibility::class),
+
+    (new Extend\ApiController(FlarumController\CreateDiscussionController::class))
+        ->addInclude(['blogMeta', 'firstPost', 'user']),
+
+    (new Extend\ApiController(FlarumController\ListDiscussionsController::class))
+        ->addInclude(['blogMeta', 'firstPost', 'user']),
+
+    (new Extend\ApiController(FlarumController\ShowDiscussionController::class))
+        ->addInclude(['blogMeta', 'firstPost', 'user']),
+
+    (new Extend\ApiController(FlarumController\UpdateDiscussionController::class))
+        ->addInclude(['blogMeta', 'firstPost', 'user']),
+
+    (new Extend\ApiSerializer(BasicDiscussionSerializer::class))
+        ->hasOne('blogMeta', BlogMetaSerializer::class),
+
+    (new Extend\ApiSerializer(ForumSerializer::class))
+        ->mutate(AttachForumSerializerAttributes::class),
+
+    (new Extend\Event)
+        ->listen(Saving::class, CreateBlogMetaOnDiscussionCreate::class),
+
     new Extend\Compat(function (Dispatcher $events) {
-        $events->subscribe(AddDiscussionBlogMetaRelationship::class);
-        $events->subscribe(ForumAttributesListener::class);
-        $events->subscribe(CreateBlogMetaOnDiscussionCreate::class);
-
-        $events->subscribe(DiscussionPolicy::class);
-
         $events->listen(Searching::class, FilterDiscussionsForBlogPosts::class);
-
         $events->subscribe(FilterBlogArticles::class);
     })
 ];
