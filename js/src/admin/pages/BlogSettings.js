@@ -29,18 +29,19 @@ export default class BlogSettings extends ExtensionPage {
       <div className="BasicsPage FlarumBlog">
         <div className="container">
           <div className={"FlarumBlog-SelectCategories"}>
-            {this.blogCategories.length >= 1 ? `You have ${this.blogCategories.length} categories selected` : 'No categories selected'}
+            {this.blogCategories.length === 0 ? app.translator.transChoice('v17development-flarum-blog.admin.settings.no_categories_selected')
+              : app.translator.transChoice('v17development-flarum-blog.admin.settings.selected_category_count', this.blogCategories.length, { count: this.blogCategories.length })}
 
             <Button 
               className="Button"
               onclick={() => app.modal.show(SelectCategoriesModal)}
-              >
-              Select blog categories
+            >
+              {app.translator.trans('v17development-flarum-blog.admin.settings.select_categories_button')}
             </Button>
           </div>
 
           {FieldSet.component({
-            label: "Blog",
+            label: app.translator.trans('v17development-flarum-blog.admin.settings.blog_heading'),
             }, [
               Switch.component({
                 state: this.allowComments == true,
@@ -49,8 +50,8 @@ export default class BlogSettings extends ExtensionPage {
                   this.hasChanges = true;
                 }
               }, [
-                <b>Allow comments</b>, 
-                <div className="helpText">By default, allow comments on blog posts. When disabled, it can be enabled individually per blog post. <b>Note:</b> Changing this setting will not affect pre-existing blog posts.</div>,
+                  <b>{app.translator.trans('v17development-flarum-blog.admin.settings.allow_comments_label')}</b>, 
+                  <div className="helpText">{app.translator.trans('v17development-flarum-blog.admin.settings.allow_comments_text')}</div>,
               ]),
               Switch.component({
                 state: this.requiresReviewOnPost == true,
@@ -59,8 +60,8 @@ export default class BlogSettings extends ExtensionPage {
                   this.hasChanges = true;
                 }, 
               }, [
-                <b>Blog posts requires review</b>, 
-                <div className="helpText">When posting an article, it will not be visible directly and needs to be reviewed by a moderator.</div>,
+                  <b>{app.translator.trans('v17development-flarum-blog.admin.settings.require_review_label')}</b>, 
+                  <div className="helpText">{app.translator.trans('v17development-flarum-blog.admin.settings.require_review_text')}</div>,
               ]),
               Switch.component({
                 state: this.hideOnDiscussionList == true,
@@ -69,14 +70,14 @@ export default class BlogSettings extends ExtensionPage {
                   this.hasChanges = true;
                 }
               }, [
-                <b>Don't show on discussion list</b>, 
-                <div className="helpText">Hide blog posts from the discussions list.</div>,
+                <b>{app.translator.trans('v17development-flarum-blog.admin.settings.hide_on_discussion_list_label')}</b>,
+                <div className="helpText">{app.translator.trans('v17development-flarum-blog.admin.settings.hide_on_discussion_list_text')}</div>,
               ])
             ]
           )}
             
           {FieldSet.component({
-            label: "Categories"
+            label: app.translator.trans('v17development-flarum-blog.admin.settings.categories_heading')
           }, [
             Switch.component({
               state: this.hideTagsInList == true,
@@ -85,8 +86,8 @@ export default class BlogSettings extends ExtensionPage {
                 this.hasChanges = true;
               }
             }, [
-              <b>Hide tags in taglist</b>, 
-              <div className="helpText">When enabled, this extension will hide the blog tags from your homepage. After changing this setting, clear the cache of your forum.</div>,
+              <b>{app.translator.trans('v17development-flarum-blog.admin.settings.hide_tags_in_taglist_label')}</b>,
+              <div className="helpText">{app.translator.trans('v17development-flarum-blog.admin.settings.hide_tags_in_taglist_text')}</div>,
             ]),
             Switch.component({
               state: this.addCategoryHierarchy == true,
@@ -95,13 +96,13 @@ export default class BlogSettings extends ExtensionPage {
                 this.hasChanges = true;
               }
             }, [
-              <b>Show tag hierarchy</b>, 
-              <div className="helpText">Add spacing to child-categories and give the category-list a hierarchy.</div>,
+              <b>{app.translator.trans('v17development-flarum-blog.admin.settings.show_tag_hierarchy_label')}</b>,
+              <div className="helpText">{app.translator.trans('v17development-flarum-blog.admin.settings.show_tag_hierarchy_text')}</div>,
             ]),
           ])}
 
           {FieldSet.component({
-            label: "Redirects"
+            label: app.translator.trans('v17development-flarum-blog.admin.settings.redirects_heading')
           }, [
             Switch.component({
               state: this.redirectsEnabled === 'both' || this.redirectsEnabled === 'discussions_only',
@@ -124,8 +125,8 @@ export default class BlogSettings extends ExtensionPage {
                 this.hasChanges = true;
               }
             }, [
-              <b>Redirect blog articles</b>, 
-              <div className="helpText">When enabled, this extension will redirect original discussion URLs to their blog URL.</div>
+              <b>{app.translator.trans('v17development-flarum-blog.admin.settings.redirect_articles_label')}</b>,
+              <div className="helpText">{app.translator.trans('v17development-flarum-blog.admin.settings.redirect_articles_text')}</div>,
             ]),
             Switch.component({
               state: this.redirectsEnabled === 'both' || this.redirectsEnabled === 'tags_only',
@@ -148,8 +149,8 @@ export default class BlogSettings extends ExtensionPage {
                 this.hasChanges = true;
               }
             }, [
-              <b>Redirect blog tags</b>, 
-              <div className="helpText">When enabled, this extension redirects blog tag URLs to the blog category URL.</div>
+              <b>{app.translator.trans('v17development-flarum-blog.admin.settings.redirect_tags_label')}</b>,
+              <div className="helpText">{app.translator.trans('v17development-flarum-blog.admin.settings.redirect_tags_text')}</div>,
             ])
           ])}
 

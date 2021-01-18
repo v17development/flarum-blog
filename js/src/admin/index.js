@@ -10,17 +10,17 @@ app.initializers.add('v17development-flarum-blog', () => {
   app.extensionData.for('v17development-blog')
     .registerPermission({
       icon: 'fas fa-pencil-alt',
-      label: "Write and edit blog articles",
+      label: app.translator.trans('v17development-flarum-blog.admin.permissions.write_articles'),
       permission: 'blog.writeArticles',
     }, 'blog', 90)
     .registerPermission({
       icon: 'far fa-star',
-      label: "Auto approve articles",
+      label: app.translator.trans('v17development-flarum-blog.admin.permissions.auto_approve_posts'),
       permission: 'blog.autoApprovePosts'
     }, 'blog', 90)
     .registerPermission({
       icon: 'far fa-thumbs-up',
-      label: "Can approve blog articles",
+      label: app.translator.trans('v17development-flarum-blog.admin.permissions.approve_posts'),
       permission: 'blog.canApprovePosts'
     }, 'blog', 90);
 
@@ -28,8 +28,8 @@ app.initializers.add('v17development-flarum-blog', () => {
   extend(PermissionGrid.prototype, 'permissionItems', function(items) {
     // Add knowledge base permissions
     items.add('blog', {
-      label: "Blog",
-      children: 
+      label: app.translator.trans('v17development-flarum-blog.admin.blog'),
+      children:
         this.attrs.extensionId ? 
           app.extensionData.getExtensionPermissions(this.extensionId, 'blog').toArray() : 
           app.extensionData.getAllExtensionPermissions('blog').toArray()
@@ -39,7 +39,7 @@ app.initializers.add('v17development-flarum-blog', () => {
   extend(BasicsPage.prototype, 'homePageItems', (items) => {
     items.add('blog', {
       path: '/blog',
-      label: 'Blog',
+      label: app.translator.trans('v17development-flarum-blog.admin.blog'),
     });
   });
 });

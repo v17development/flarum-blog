@@ -1,4 +1,35 @@
 v17development-flarum-blog:
+  admin:
+    blog: "Blog"
+
+    permissions:
+      write_articles: "Write and edit blog articles"
+      auto_approve_posts: "Post articles without approval"
+      approve_posts: "Can approve blog articles"
+
+    settings:
+      no_categories_selected: "No categories selected"
+      selected_category_count: "You have {count} category selected|You have {count} categories selected"
+      select_categories_button: "Select blog categories"
+      blog_heading: "Blog"
+      allow_comments_label: "Allow comments"
+      allow_comments_text: "By default, allow comments on blog posts. When disabled, it can be enabled individually per blog post. <b>Note:</b> Changing this setting will not affect pre-existing blog posts."
+      require_review_label: "Blog posts requires review"
+      require_review_text: "When posting an article, it will not be visible directly and needs to be reviewed by a moderator."
+      hide_on_discussion_list_label: "Don't show on discussion list"
+      hide_on_discussion_list_text: "Hide blog posts from the discussions list."
+      categories_heading: "Categories"
+      hide_tags_in_taglist_label: "Hide tags in taglist"
+      hide_tags_in_taglist_text: "When enabled, this extension will hide the blog tags from your homepage. After changing this setting, clear the cache of your forum."
+      show_tag_hierarchy_label: "Show tag hierarchy"
+      show_tag_hierarchy_text: "Add spacing to child-categories and give the category-list a hierarchy."
+      redirects_heading: "Redirects"
+      redirect_articles_label: "Redirect blog articles"
+      redirect_articles_text: "When enabled, this extension will redirect original discussion URLs to their blog URL."
+      redirect_tags_label: "Redirect blog tags"
+      redirect_tags_text: "When enabled, this extension redirects blog tag URLs to the blog category URL."
+
+
   forum:
     blog: "Blog"
     read_more: "Read more"
