@@ -3,17 +3,11 @@ This Flarum extension will add a blog system to your forum.
 
 If you have any feedback, let us know! Do you experience issues? You can report issues on the Flarum Forum or on [GitHub](https://github.com/v17development/flarum-blog).
 
-## ⚠️ Flarum beta-13 only
-This extension is currently Flarum **beta-13 only**, beta-14 support will be added later.
-
 ## 📥 Installation
 If you like to install this extension, run the following command:
-> **⚠️ Notice:** Flarum beta-13 only
 ```
 composer require v17development/flarum-blog
 ```
-
-> **⚠️ Notice:** Flarum beta-13 only
 
 ## ♻ Updating
 Run the following command on your server to update the plugin
