@@ -18,6 +18,8 @@ export default class BlogItem extends Page {
 
     this.bodyClass = "BlogItemPage";
 
+    this.near = m.route.param("near") || 0;
+
     this.loading = true;
     this.found = false;
     this.article = null;
@@ -79,6 +81,11 @@ export default class BlogItem extends Page {
     }
 
     this.stream = new PostStreamState(article, includedPosts);
+
+    // Scroll to specific post
+    if (this.near) {
+      this.stream.goToNumber(this.near, true);
+    }
 
     m.redraw();
   }
@@ -255,7 +262,7 @@ export default class BlogItem extends Page {
                   PostStream.component({
                     discussion: this.article,
                     stream: this.stream,
-                    onPositionChange: () => {},
+                    onPositionChange: this.positionChanged.bind(this),
                   })}
               </div>
             </div>

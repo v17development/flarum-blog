@@ -23,6 +23,11 @@ app.initializers.add("v17development-flarum-blog", (app) => {
 
   app.routes.blogArticle = { path: "/blog/:id", component: BlogItem };
 
+  app.routes["blogArticle.near"] = {
+    path: "/blog/:id/:near",
+    component: BlogItem,
+  };
+
   app.store.models.blogMeta = BlogMeta;
 
   Discussion.prototype.blogMeta = Model.hasOne("blogMeta");
