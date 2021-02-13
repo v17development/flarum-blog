@@ -30,7 +30,8 @@ v17development-flarum-blog:
       redirect_articles_text: "When enabled, this extension will redirect original discussion URLs to their blog URL."
       redirect_tags_label: "Redirect blog tags"
       redirect_tags_text: "When enabled, this extension redirects blog tag URLs to the blog category URL."
-
+      default_article_image_label: Default article image
+      default_article_image_text: Select a default article image to display when no image is set.
 
   forum:
     blog: "Blog"

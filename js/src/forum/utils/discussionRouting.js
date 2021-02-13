@@ -34,9 +34,14 @@ export default function () {
       }
     }
     if (shouldRedirect) {
-      return app.route("blogArticle", {
-        id: discussion.slug(),
-      });
+      return discussion.lastReadPostNumber() > 1
+        ? app.route("blogArticle.near", {
+            id: discussion.slug(),
+            near: discussion.lastReadPostNumber(),
+          })
+        : app.route("blogArticle", {
+            id: discussion.slug(),
+          });
     } else {
       return original_discussion_route(discussion, near);
     }

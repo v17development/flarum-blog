@@ -20,9 +20,9 @@ class BlogMetaSerializer extends AbstractSerializer
         return [
             'featuredImage'     => $meta->featured_image,
             'summary'           => $meta->summary,
-            'isFeatured'        => $meta->is_featured,
-            'isSized'           => $meta->is_sized,
-            'isPendingReview'   => $meta->is_pending_review
+            'isFeatured'        => (bool) $meta->is_featured,
+            'isSized'           => (bool) $meta->is_sized,
+            'isPendingReview'   => (bool) $meta->is_pending_review
         ];
     }
 

@@ -18,6 +18,8 @@ export default class BlogItem extends Page {
 
     this.bodyClass = "BlogItemPage";
 
+    this.near = m.route.param("near") || 0;
+
     this.loading = true;
     this.found = false;
     this.article = null;
@@ -80,16 +82,28 @@ export default class BlogItem extends Page {
 
     this.stream = new PostStreamState(article, includedPosts);
 
+    // Scroll to specific post
+    if (this.near) {
+      this.stream.goToNumber(this.near, true);
+    }
+
     m.redraw();
   }
 
   view() {
+    const defaultImage = app.forum.attribute("blogDefaultImage")
+      ? `url(${
+          app.forum.attribute("baseUrl") +
+          "/assets/" +
+          app.forum.attribute("blogDefaultImage")
+        })`
+      : null;
     const blogImage =
       this.article &&
       this.article.blogMeta() &&
       this.article.blogMeta().featuredImage()
         ? `url(${this.article.blogMeta().featuredImage()})`
-        : null;
+        : defaultImage;
     let articlePost = null;
 
     if (!this.loading && this.article) {
@@ -255,7 +269,7 @@ export default class BlogItem extends Page {
                   PostStream.component({
                     discussion: this.article,
                     stream: this.stream,
-                    onPositionChange: () => {},
+                    onPositionChange: this.positionChanged.bind(this),
                   })}
               </div>
             </div>

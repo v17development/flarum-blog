@@ -25,6 +25,8 @@ use V17Development\FlarumBlog\Access\ScopeDiscussionVisibility;
 use V17Development\FlarumBlog\Api\AttachForumSerializerAttributes;
 use V17Development\FlarumBlog\Api\Controller\CreateBlogMetaController;
 use V17Development\FlarumBlog\Api\Controller\UpdateBlogMetaController;
+use V17Development\FlarumBlog\Api\Controller\UploadDefaultBlogImageController;
+use V17Development\FlarumBlog\Api\Controller\DeleteDefaultBlogImageController;
 use V17Development\FlarumBlog\Api\Serializer\BlogMetaSerializer;
 // Listeners
 use V17Development\FlarumBlog\Listeners\FilterBlogArticles;
@@ -53,7 +55,9 @@ return [
 
     (new Extend\Routes('api'))
         ->post('/blogMeta', 'blog.meta', CreateBlogMetaController::class)
-        ->patch('/blogMeta/{id}', 'blog.meta.edit', UpdateBlogMetaController::class),
+        ->patch('/blogMeta/{id}', 'blog.meta.edit', UpdateBlogMetaController::class)
+        ->post('/blog_default_image', 'pages.index', UploadDefaultBlogImageController::class)
+        ->delete('/blog_default_image', 'pages.index', DeleteDefaultBlogImageController::class),
 
     new Extend\Locales(__DIR__ . '/locale'),
 

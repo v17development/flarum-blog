@@ -23,10 +23,10 @@
     },
     "require": {
         "flarum/core": "^0.1.0-beta.15",
+        "flarum/tags": "^0.1.0-beta.15",
         "ext-json": "*"
     },
     "suggest": {
-        "flarum/tags": "The Flarum Tags extension",
         "v17development/flarum-seo": "Adds Flarum SEO and Social media tags"
     },
     "extra": {
