@@ -91,7 +91,13 @@ export default class BlogItem extends Page {
   }
 
   view() {
-    const defaultImage = app.forum.attribute('blogDefaultImage') ? `url(${app.forum.attribute('baseUrl') + '/assets/' + app.forum.attribute('blogDefaultImage')})` : null;
+    const defaultImage = app.forum.attribute("blogDefaultImage")
+      ? `url(${
+          app.forum.attribute("baseUrl") +
+          "/assets/" +
+          app.forum.attribute("blogDefaultImage")
+        })`
+      : null;
     const blogImage =
       this.article &&
       this.article.blogMeta() &&

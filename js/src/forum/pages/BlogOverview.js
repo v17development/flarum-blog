@@ -149,7 +149,13 @@ export default class BlogOverview extends Page {
   }
 
   view() {
-    const defaultImage = app.forum.attribute('blogDefaultImage') ? `url(${app.forum.attribute('baseUrl') + '/assets/' + app.forum.attribute('blogDefaultImage')})` : null;
+    const defaultImage = app.forum.attribute("blogDefaultImage")
+      ? `url(${
+          app.forum.attribute("baseUrl") +
+          "/assets/" +
+          app.forum.attribute("blogDefaultImage")
+        })`
+      : null;
 
     return (
       <div className={"FlarumBlogOverview"}>
