@@ -5,6 +5,7 @@ import Button from "flarum/components/Button";
 import FieldSet from "flarum/components/FieldSet";
 import Switch from "flarum/components/Switch";
 import SelectCategoriesModal from "../components/Modals/SelectCategoriesModal";
+import UploadImageButton from 'flarum/components/UploadImageButton';
 
 export default class BlogSettings extends ExtensionPage {
   oninit(attrs) {
@@ -39,6 +40,8 @@ export default class BlogSettings extends ExtensionPage {
     this.addSidebarNav = app.data.settings.blog_add_sidebar_nav
       ? app.data.settings.blog_add_sidebar_nav
       : true;
+
+    app.forum.data.attributes.blog_default_imageUrl = app.forum.attribute('baseUrl') + '/assets/' + app.data.settings.blog_default_image_path;
   }
 
   content() {
@@ -295,6 +298,21 @@ export default class BlogSettings extends ExtensionPage {
               ),
             ]
           )}
+
+          {FieldSet.component({
+            label: app.translator.trans(
+              "v17development-flarum-blog.admin.settings.default_article_image_label"
+            )
+          }, [
+            <div className="helpText">
+              {app.translator.trans(
+              "v17development-flarum-blog.admin.settings.default_article_image_text"
+            )}
+            </div>,
+            UploadImageButton.component({
+              name: 'blog_default_image'
+            })
+          ])}
 
           <Button
             loading={this.isSaving}
