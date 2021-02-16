@@ -5,6 +5,7 @@ namespace V17Development\FlarumBlog\Filter;
 use Flarum\Discussion\Event\Searching;
 use Flarum\Settings\SettingsRepositoryInterface;
 use V17Development\FlarumBlog\Gambit\BlogGambit;
+use Flarum\Discussion\Search\Gambit\FulltextGambit;
 
 class FilterDiscussionsForBlogPosts
 {
@@ -36,6 +37,9 @@ class FilterDiscussionsForBlogPosts
 		// Loop through the active gambits
 		foreach ($activeGambits as $gambit) {
 			if(get_class($gambit) === BlogGambit::class) {
+				$hideBlogPosts = false;
+			}
+			if(get_class($gambit) === FulltextGambit::class) {
 				$hideBlogPosts = false;
 			}
 		}

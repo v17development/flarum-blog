@@ -36,6 +36,12 @@ class CreateBlogMetaOnDiscussionCreate
 
         // After the tags are synced, check if it's a blog article
         $discussion->afterSave(function ($discussion) use ($event) {
+
+            // Here it may happen that `$discussion->tags` gives an empty array because of a strange bug.
+            // This can be reproduced when using the fof/discussion-language extension (v1.2.1)
+            // For this reason we need to explictly reloag the tags relationship before using it here.
+            $discussion->load('tags');
+
             // Make sure it's a blog base discussion!
             if ($discussion->tags && $discussion->tags->whereIn('id', $this->blogTags)->count() > 0) {
                 if(!$event->actor->can('blog.writeArticles')) {
