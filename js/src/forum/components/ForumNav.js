@@ -1,4 +1,4 @@
-import Component from "flarum/Component";
+import Component from "flarum/common/Component";
 import IndexPage from "flarum/components/IndexPage";
 import SelectDropdown from "flarum/components/SelectDropdown";
 

@@ -1,21 +1,20 @@
 <?php
 
-namespace V17Development\FlarumBlog\Gambit;
+namespace V17Development\FlarumBlog\Query;
 
 use Flarum\Search\AbstractRegexGambit;
-use Flarum\Search\AbstractSearch;
+use Flarum\Search\SearchState;
 use Flarum\Settings\SettingsRepositoryInterface;
+use Illuminate\Database\Query\Builder;
 
-class BlogGambit extends AbstractRegexGambit
+class BlogArticleFilterGambit extends AbstractRegexGambit
 {
     /**
-     * @var string
+     * @var SettingsRepositoryInterface
      */
-    protected $pattern = 'is:blog';
+    protected $settings;
 
     /**
-     * BlogGambit constructor.
-     *
      * @param SettingsRepositoryInterface $settings
      */
     public function __construct(SettingsRepositoryInterface $settings)
@@ -24,18 +23,18 @@ class BlogGambit extends AbstractRegexGambit
         $this->settings = $settings;
     }
 
-    /**
-     * @param AbstractSearch $search
-     * @param array          $matches
-     * @param $negate
-     */
-    protected function conditions(AbstractSearch $search, array $matches, $negate)
+    protected function getGambitPattern()
+    {
+        return 'is:blog';
+    }
+
+    protected function conditions(SearchState $search, array $matches, $negate)
     {
         $tagsArray = explode("|", $this->settings->get('blog_tags', ''));
 
-        $search->getQuery()->where(function ($query) use ($tagsArray, $negate) {
+        $search->getQuery()->where(function (Builder $query) use ($tagsArray, $negate) {
             foreach ($tagsArray as $tagId) {
-                $query->orWhereIn('discussions.id', function ($query) use ($tagId) {
+                $query->orWhereIn('discussions.id', function (Builder $query) use ($tagId) {
                     $query->select('discussion_id')
                         ->from('discussion_tag')
                         ->where('tag_id', $tagId);

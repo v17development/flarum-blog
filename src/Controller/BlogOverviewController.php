@@ -9,16 +9,15 @@ use Flarum\User\User;
 use Flarum\Extension\ExtensionManager;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Translation\TranslatorInterface;
-use Flarum\Tags\TagRepository;
+use Flarum\Tags\Tag;
 use Illuminate\Support\Arr;
 
 class BlogOverviewController
 {
-    public function __construct(Client $api, TagRepository $tagRepository, TranslatorInterface $translator, ExtensionManager $extensionManager)
+    public function __construct(Client $api, TranslatorInterface $translator, ExtensionManager $extensionManager)
     {
         $this->api = $api;
         $this->translator = $translator;
-        $this->tagRepository = $tagRepository;
         $this->extensionManager = $extensionManager;
     }
 
@@ -26,8 +25,19 @@ class BlogOverviewController
     {
         $queryParams = $request->getQueryParams();
 
+        // Set meta tags
         if(class_exists("V17Development\FlarumSeo\Extend")) {
-            \V17Development\FlarumSeo\Extend::setTitle($this->translator->trans('v17development-flarum-blog.forum.blog'));
+            // Get category
+            if(Arr::get($queryParams, 'category')) {
+                $category = Tag::where('slug', Arr::get($queryParams, 'category'))->firstOrFail();
+
+                // Set description of the tag has a description
+                if($category->getAttribute("description")) {
+                    \V17Development\FlarumSeo\Extend::setDescription($category->getAttribute("description"));
+                }
+            }
+
+            \V17Development\FlarumSeo\Extend::setTitle((isset($category) ? $category->getAttribute("name") . " - " : "") . $this->translator->trans('v17development-flarum-blog.forum.blog'));
         }
 
         $q = "";

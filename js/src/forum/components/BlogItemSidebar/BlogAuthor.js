@@ -1,7 +1,8 @@
-import Component from "flarum/Component";
+import Component from "flarum/common/Component";
 import ItemList from "flarum/utils/ItemList";
 import listItems from "flarum/helpers/listItems";
 import avatar from "flarum/helpers/avatar";
+import Link from "flarum/components/Link";
 
 export default class BlogAuthor extends Component {
   view() {
@@ -24,7 +25,9 @@ export default class BlogAuthor extends Component {
 
         <div className={"FlarumBlog-Article-Author-Avatar"}>
           {author ? (
-            avatar(author)
+            <Link href={app.route("user", { username: author.username() })}>
+              {avatar(author)}
+            </Link>
           ) : (
             <span className={"Avatar FlarumBlog-Author-Ghost"} />
           )}
@@ -32,9 +35,12 @@ export default class BlogAuthor extends Component {
 
         {author && (
           <div className={"FlarumBlog-Article-Author-Info"}>
-            <span className={"FlarumBlog-Article-Author-Name"}>
+            <Link
+              href={app.route("user", { username: author.username() })}
+              className={"FlarumBlog-Article-Author-Name"}
+            >
               {author.displayName()}
-            </span>
+            </Link>
             <p className={"FlarumBlog-Article-Author-Bio"}>
               {author.bio && author.bio()}
             </p>

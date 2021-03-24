@@ -104,10 +104,18 @@ export default class BlogComposer extends Page {
   }
 
   view() {
+    const defaultImage = app.forum.attribute("blogDefaultImage")
+      ? `url(${
+          app.forum.attribute("baseUrl") +
+          "/assets/" +
+          app.forum.attribute("blogDefaultImage")
+        })`
+      : null;
+
     const blogImage =
       this.blogMeta && this.blogMeta.featuredImage()
         ? `url(${this.blogMeta.featuredImage()})`
-        : null;
+        : defaultImage;
 
     return (
       <div className={"FlarumBlogItem"}>
@@ -191,6 +199,7 @@ export default class BlogComposer extends Page {
                   {/* Article name */}
                   <h3
                     onclick={() => this.openNameArticleModal()}
+                    className="FlarumBlog-Article-Title"
                     style={{ cursor: "pointer" }}
                   >
                     {this.article &&
@@ -288,7 +297,8 @@ export default class BlogComposer extends Page {
 
     if (
       (this.blogMeta === null ||
-        !this.blogMeta.featuredImage() ||
+        (!this.blogMeta.featuredImage() &&
+          !app.forum.attribute("blogDefaultImage")) ||
         !this.blogMeta.summary()) &&
       !confirm(
         app.translator.trans(

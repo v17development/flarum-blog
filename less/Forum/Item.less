@@ -98,14 +98,34 @@
         padding: 0 30px 30px;
         position: relative;
 
-        h3 {
+        .FlarumBlog-Article-Title {
           font-size: 22px;
           text-align: center;
           text-transform: uppercase;
           margin-top: 0;
+          margin-bottom: 10px;
 
           i {
             margin-left: 15px;
+          }
+        }
+
+        .FlarumBlog-Article-PublishDate {
+          text-align: center;
+          display: block;
+          font-size: 14px;
+          text-transform: uppercase;
+          margin-bottom: 15px;
+          color: darken(@muted-more-color, 10%);
+
+          & when (@config-dark-mode = true) {
+            color: @muted-more-color;
+          }
+
+          &.FlarumBlog-Article-GhostPublishDate {
+            max-width: 300px;
+            width: 100%;
+            margin: 0px auto 15px;
           }
         }
 
@@ -129,11 +149,14 @@
         box-shadow: 1px 3px 9px 0px @control-bg;
         margin-top: 30px;
 
+        .BlogArticleSubscription {
+          float: right
+        }
+
         h4 {
           margin-top: 0;
           font-size: 20px;
         }
-
 
         .PostStream {
           // Hide first post?
@@ -199,7 +222,9 @@
           font-size: 18px;
           font-weight: 500;
           text-transform: uppercase;
+          text-decoration: none;
           display: block;
+          color: @text-color;
         }
 
         .FlarumBlog-Article-Author-Bio {
@@ -214,7 +239,7 @@
   }
 }
 
-.FlarumBlog-Article-GhostParagraph, .FlarumBlog-Article-GhostTitle, .FlarumBlog-Article-GhostCategory, .FlarumBlog-Article-GhostImage, .FlarumBlog-Author-Ghost {
+.FlarumBlog-Article-GhostParagraph, .FlarumBlog-Article-GhostTitle, .FlarumBlog-Article-GhostCategory, .FlarumBlog-Article-GhostImage, .FlarumBlog-Author-Ghost, .FlarumBlog-Article-GhostPublishDate {
   background: @control-bg;
   color: @control-bg;
   animation: FlarumBlogGhostLoading 2s infinite;

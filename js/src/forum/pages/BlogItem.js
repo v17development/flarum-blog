@@ -6,6 +6,8 @@ import BlogPostController from "../components/BlogPostController";
 import BlogItemSidebar from "../components/BlogItemSidebar/BlogItemSidebar";
 import Link from "flarum/components/Link";
 import BlogOverview from "./BlogOverview";
+import fullTime from "flarum/helpers/fullTime";
+import ArticleSubscription from "../components/ArticleSubscription";
 
 export default class BlogItem extends Page {
   oninit(vnode) {
@@ -183,9 +185,9 @@ export default class BlogItem extends Page {
                 <div className={"FlarumBlog-Article-Post"}>
                   {/* Article name */}
                   <h3
-                    className={
-                      this.loading ? "FlarumBlog-Article-GhostTitle" : null
-                    }
+                    className={`FlarumBlog-Article-Title ${
+                      this.loading ? "FlarumBlog-Article-GhostTitle" : ""
+                    }`}
                   >
                     {this.article ? this.article.title() : "Ghost title"}
                     {this.article &&
@@ -194,6 +196,18 @@ export default class BlogItem extends Page {
                         "v17development-flarum-blog.forum.hidden"
                       )})`}
                   </h3>
+
+                  <div
+                    className={`FlarumBlog-Article-PublishDate ${
+                      this.loading ? "FlarumBlog-Article-GhostPublishDate" : ""
+                    }`}
+                  >
+                    {this.article ? (
+                      fullTime(this.article.createdAt())
+                    ) : (
+                      <span>&nbsp;</span>
+                    )}
+                  </div>
 
                   {this.loading &&
                     [0, 1, 2].map(() => (
@@ -239,12 +253,21 @@ export default class BlogItem extends Page {
               </div>
 
               <div className={"FlarumBlog-Article-Comments"}>
+                {/* Show subscription state */}
+                {!this.loading &&
+                  this.article.subscription &&
+                  (!this.article.isLocked ||
+                    (this.article.isLocked && !this.article.isLocked())) && (
+                    <ArticleSubscription discussion={this.article} />
+                  )}
+
                 <h4>
                   {app.translator.trans(
                     "v17development-flarum-blog.forum.comment_section.comments"
                   )}{" "}
                   ({this.article ? this.article.commentCount() - 1 : 0})
                 </h4>
+
                 {/* Locked */}
                 {!this.loading &&
                   this.article.isLocked &&

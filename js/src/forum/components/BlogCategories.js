@@ -1,4 +1,4 @@
-import Component from "flarum/Component";
+import Component from "flarum/common/Component";
 import Link from "flarum/components/Link";
 
 export default class BlogCategories extends Component {
@@ -22,18 +22,24 @@ export default class BlogCategories extends Component {
             if (!tag) return null;
 
             const tags = [];
-
-            // Add tag
-            tags.push(this.categoryItem(tag));
+            let showSubTags =
+              this.blogCategories.length === 1 ||
+              tag.slug() === m.route.param("slug");
 
             // Add tags
             app.store.all("tags").forEach((_tag) => {
-              if (_tag.isChild() && _tag.parent().id() === tag.id()) {
+              if (_tag.isChild() && _tag.parent() === tag) {
+                if (_tag.slug() === m.route.param("slug")) {
+                  showSubTags = true;
+                }
+
                 tags.push(this.categoryItem(_tag));
               }
             });
 
-            return tags;
+            return showSubTags
+              ? [this.categoryItem(tag), ...tags]
+              : this.categoryItem(tag);
           })}
       </div>
     );
