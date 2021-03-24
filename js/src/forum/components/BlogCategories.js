@@ -22,12 +22,14 @@ export default class BlogCategories extends Component {
             if (!tag) return null;
 
             const tags = [];
-            let showSubTags = this.blogCategories.length === 1 || tag.slug() === m.route.param("slug");
+            let showSubTags =
+              this.blogCategories.length === 1 ||
+              tag.slug() === m.route.param("slug");
 
             // Add tags
             app.store.all("tags").forEach((_tag) => {
               if (_tag.isChild() && _tag.parent() === tag) {
-                if(_tag.slug() === m.route.param("slug")) {
+                if (_tag.slug() === m.route.param("slug")) {
                   showSubTags = true;
                 }
 
@@ -35,7 +37,9 @@ export default class BlogCategories extends Component {
               }
             });
 
-            return showSubTags ? [this.categoryItem(tag), ...tags] : this.categoryItem(tag);
+            return showSubTags
+              ? [this.categoryItem(tag), ...tags]
+              : this.categoryItem(tag);
           })}
       </div>
     );
