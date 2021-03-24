@@ -1,4 +1,4 @@
-import Component from "flarum/Component";
+import Component from "flarum/common/Component";
 import Dropdown from "flarum/components/Dropdown";
 import Button from "flarum/components/Button";
 import Language from "./Language";

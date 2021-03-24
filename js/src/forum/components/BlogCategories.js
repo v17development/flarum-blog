@@ -1,4 +1,4 @@
-import Component from "flarum/Component";
+import Component from "flarum/common/Component";
 import Link from "flarum/components/Link";
 
 export default class BlogCategories extends Component {

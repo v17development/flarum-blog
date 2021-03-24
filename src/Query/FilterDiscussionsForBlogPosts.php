@@ -1,10 +1,11 @@
 <?php
 
-namespace V17Development\FlarumBlog\Filter;
+namespace V17Development\FlarumBlog\Query;
 
-use Flarum\Discussion\Event\Searching;
+use Flarum\Filter\FilterState;
+use Flarum\Query\QueryCriteria;
 use Flarum\Settings\SettingsRepositoryInterface;
-use V17Development\FlarumBlog\Gambit\BlogGambit;
+use V17Development\FlarumBlog\Query\BlogArticleFilterGambit;
 use Flarum\Discussion\Search\Gambit\FulltextGambit;
 
 class FilterDiscussionsForBlogPosts
@@ -21,17 +22,17 @@ class FilterDiscussionsForBlogPosts
 	}
 	
 	/**
-	 * @param Searching $event
+	 * @param FilterState $filter
+	 * @param QueryCriteria $queryCriteria
 	 */
-	public function handle(Searching $event)
+	public function __invoke(FilterState $filter, QueryCriteria $queryCriteria)
 	{
 		// Do we need to filter?
 		if(filter_var($this->settings->get('blog_filter_discussion_list'), FILTER_VALIDATE_BOOLEAN) === false) {
 			return;
 		}
 
-		$search = $event->search;
-		$activeGambits = $search->getActiveGambits();
+		$activeGambits = $filter->getActiveFilters();
 		$hideBlogPosts = true;
 
 		// Loop through the active gambits
@@ -48,7 +49,7 @@ class FilterDiscussionsForBlogPosts
 		if($hideBlogPosts) {
 			$tagsArray = explode("|", $this->settings->get('blog_tags', ''));
 
-			$search
+			$filter
 				->getQuery()
 				->where(function ($query) use ($tagsArray) {
 					foreach ($tagsArray as $tagId) {

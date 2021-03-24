@@ -1,4 +1,4 @@
-import Component from "flarum/Component";
+import Component from "flarum/common/Component";
 import TagDiscussionModal from "flarum/tags/components/TagDiscussionModal";
 import DiscussionControls from "flarum/utils/DiscussionControls";
 import Alert from "flarum/components/Alert";

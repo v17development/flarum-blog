@@ -1,4 +1,4 @@
-import Component from "flarum/Component";
+import Component from "flarum/common/Component";
 import ItemList from "flarum/utils/ItemList";
 import listItems from "flarum/helpers/listItems";
 import BlogAuthor from "./BlogAuthor";

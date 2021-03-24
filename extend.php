@@ -12,7 +12,8 @@ use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Extend;
 use Flarum\Discussion\Discussion;
 use Flarum\Discussion\Event\Saving;
-use Flarum\Discussion\Event\Searching;
+use Flarum\Discussion\Filter\DiscussionFilterer;
+use Flarum\Discussion\Search\DiscussionSearcher;
 
 // Controllers
 use V17Development\FlarumBlog\Controller\BlogOverviewController;
@@ -29,14 +30,14 @@ use V17Development\FlarumBlog\Api\Controller\UploadDefaultBlogImageController;
 use V17Development\FlarumBlog\Api\Controller\DeleteDefaultBlogImageController;
 use V17Development\FlarumBlog\Api\Serializer\BlogMetaSerializer;
 // Listeners
-use V17Development\FlarumBlog\Listeners\FilterBlogArticles;
 use V17Development\FlarumBlog\Listeners\CreateBlogMetaOnDiscussionCreate;
 
 // Models
 use V17Development\FlarumBlog\BlogMeta\BlogMeta;
 
 // Filters
-use V17Development\FlarumBlog\Filter\FilterDiscussionsForBlogPosts;
+use V17Development\FlarumBlog\Query\FilterDiscussionsForBlogPosts;
+use V17Development\FlarumBlog\Query\BlogArticleFilterGambit;
 
 return [
     (new Extend\Frontend('forum'))
@@ -56,8 +57,8 @@ return [
     (new Extend\Routes('api'))
         ->post('/blogMeta', 'blog.meta', CreateBlogMetaController::class)
         ->patch('/blogMeta/{id}', 'blog.meta.edit', UpdateBlogMetaController::class)
-        ->post('/blog_default_image', 'pages.index', UploadDefaultBlogImageController::class)
-        ->delete('/blog_default_image', 'pages.index', DeleteDefaultBlogImageController::class),
+        ->post('/blog_default_image', 'blog.default_image.upload', UploadDefaultBlogImageController::class)
+        ->delete('/blog_default_image', 'blog.default_image.delete', DeleteDefaultBlogImageController::class),
 
     new Extend\Locales(__DIR__ . '/locale'),
 
@@ -83,13 +84,14 @@ return [
         ->hasOne('blogMeta', BlogMetaSerializer::class),
 
     (new Extend\ApiSerializer(ForumSerializer::class))
-        ->mutate(AttachForumSerializerAttributes::class),
+        ->attributes(AttachForumSerializerAttributes::class),
 
     (new Extend\Event)
         ->listen(Saving::class, CreateBlogMetaOnDiscussionCreate::class),
 
-    new Extend\Compat(function (Dispatcher $events) {
-        $events->listen(Searching::class, FilterDiscussionsForBlogPosts::class);
-        $events->subscribe(FilterBlogArticles::class);
-    })
+    (new Extend\Filter(DiscussionFilterer::class))
+        ->addFilterMutator(FilterDiscussionsForBlogPosts::class),
+
+    (new Extend\SimpleFlarumSearch(DiscussionSearcher::class))
+        ->addGambit(BlogArticleFilterGambit::class),
 ];
