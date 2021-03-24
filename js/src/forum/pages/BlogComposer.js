@@ -111,10 +111,9 @@ export default class BlogComposer extends Page {
           app.forum.attribute("blogDefaultImage")
         })`
       : null;
-      
+
     const blogImage =
-      this.blogMeta &&
-      this.blogMeta.featuredImage()
+      this.blogMeta && this.blogMeta.featuredImage()
         ? `url(${this.blogMeta.featuredImage()})`
         : defaultImage;
 
