@@ -7,6 +7,7 @@ import BlogItemSidebar from "../components/BlogItemSidebar/BlogItemSidebar";
 import Link from "flarum/components/Link";
 import BlogOverview from "./BlogOverview";
 import fullTime from "flarum/helpers/fullTime";
+import ArticleSubscription from "../components/ArticleSubscription";
 
 export default class BlogItem extends Page {
   oninit(vnode) {
@@ -252,12 +253,18 @@ export default class BlogItem extends Page {
               </div>
 
               <div className={"FlarumBlog-Article-Comments"}>
+                {/* Show subscription state */}
+                {!this.loading && this.article.subscription && (!this.article.isLocked || (this.article.isLocked && !this.article.isLocked())) && (
+                  <ArticleSubscription discussion={this.article} />
+                )}
+
                 <h4>
                   {app.translator.trans(
                     "v17development-flarum-blog.forum.comment_section.comments"
                   )}{" "}
                   ({this.article ? this.article.commentCount() - 1 : 0})
                 </h4>
+
                 {/* Locked */}
                 {!this.loading &&
                   this.article.isLocked &&
