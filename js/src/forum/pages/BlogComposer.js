@@ -104,10 +104,19 @@ export default class BlogComposer extends Page {
   }
 
   view() {
+    const defaultImage = app.forum.attribute("blogDefaultImage")
+      ? `url(${
+          app.forum.attribute("baseUrl") +
+          "/assets/" +
+          app.forum.attribute("blogDefaultImage")
+        })`
+      : null;
+      
     const blogImage =
-      this.blogMeta && this.blogMeta.featuredImage()
+      this.blogMeta &&
+      this.blogMeta.featuredImage()
         ? `url(${this.blogMeta.featuredImage()})`
-        : null;
+        : defaultImage;
 
     return (
       <div className={"FlarumBlogItem"}>
