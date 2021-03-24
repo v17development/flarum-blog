@@ -196,8 +196,16 @@ export default class BlogItem extends Page {
                       )})`}
                   </h3>
 
-                  <div className={`FlarumBlog-Article-PublishDate ${this.loading ? 'FlarumBlog-Article-GhostPublishDate' : ''}`}>
-                    {this.article ? fullTime(this.article.createdAt()) : <span>&nbsp;</span>}
+                  <div
+                    className={`FlarumBlog-Article-PublishDate ${
+                      this.loading ? "FlarumBlog-Article-GhostPublishDate" : ""
+                    }`}
+                  >
+                    {this.article ? (
+                      fullTime(this.article.createdAt())
+                    ) : (
+                      <span>&nbsp;</span>
+                    )}
                   </div>
 
                   {this.loading &&
