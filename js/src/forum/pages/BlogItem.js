@@ -183,9 +183,9 @@ export default class BlogItem extends Page {
                 <div className={"FlarumBlog-Article-Post"}>
                   {/* Article name */}
                   <h3
-                    className={
-                      `FlarumBlog-Article-Title ${this.loading ? "FlarumBlog-Article-GhostTitle" : ''}`
-                    }
+                    className={`FlarumBlog-Article-Title ${
+                      this.loading ? "FlarumBlog-Article-GhostTitle" : ""
+                    }`}
                   >
                     {this.article ? this.article.title() : "Ghost title"}
                     {this.article &&
