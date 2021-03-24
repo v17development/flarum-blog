@@ -37,7 +37,7 @@ class BlogOverviewController
                 }
             }
 
-            \V17Development\FlarumSeo\Extend::setTitle(($category ? $category->getAttribute("name") . " - " : "") . $this->translator->trans('v17development-flarum-blog.forum.blog'));
+            \V17Development\FlarumSeo\Extend::setTitle((isset($category) ? $category->getAttribute("name") . " - " : "") . $this->translator->trans('v17development-flarum-blog.forum.blog'));
         }
 
         $q = "";
