@@ -199,6 +199,7 @@ export default class BlogComposer extends Page {
                   {/* Article name */}
                   <h3
                     onclick={() => this.openNameArticleModal()}
+                    className="FlarumBlog-Article-Title"
                     style={{ cursor: "pointer" }}
                   >
                     {this.article &&
