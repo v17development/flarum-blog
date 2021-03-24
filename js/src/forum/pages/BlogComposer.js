@@ -297,7 +297,8 @@ export default class BlogComposer extends Page {
 
     if (
       (this.blogMeta === null ||
-        (!this.blogMeta.featuredImage() && !app.forum.attribute("blogDefaultImage")) ||
+        (!this.blogMeta.featuredImage() &&
+          !app.forum.attribute("blogDefaultImage")) ||
         !this.blogMeta.summary()) &&
       !confirm(
         app.translator.trans(

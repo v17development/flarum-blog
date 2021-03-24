@@ -103,9 +103,29 @@
           text-align: center;
           text-transform: uppercase;
           margin-top: 0;
+          margin-bottom: 10px;
 
           i {
             margin-left: 15px;
+          }
+        }
+
+        .FlarumBlog-Article-PublishDate {
+          text-align: center;
+          display: block;
+          font-size: 14px;
+          text-transform: uppercase;
+          margin-bottom: 15px;
+          color: darken(@muted-more-color, 10%);
+
+          & when (@config-dark-mode = true) {
+            color: @muted-more-color;
+          }
+
+          &.FlarumBlog-Article-GhostPublishDate {
+            max-width: 300px;
+            width: 100%;
+            margin: 0px auto 15px;
           }
         }
 
@@ -214,7 +234,7 @@
   }
 }
 
-.FlarumBlog-Article-GhostParagraph, .FlarumBlog-Article-GhostTitle, .FlarumBlog-Article-GhostCategory, .FlarumBlog-Article-GhostImage, .FlarumBlog-Author-Ghost {
+.FlarumBlog-Article-GhostParagraph, .FlarumBlog-Article-GhostTitle, .FlarumBlog-Article-GhostCategory, .FlarumBlog-Article-GhostImage, .FlarumBlog-Author-Ghost, .FlarumBlog-Article-GhostPublishDate {
   background: @control-bg;
   color: @control-bg;
   animation: FlarumBlogGhostLoading 2s infinite;

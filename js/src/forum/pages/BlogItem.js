@@ -6,6 +6,7 @@ import BlogPostController from "../components/BlogPostController";
 import BlogItemSidebar from "../components/BlogItemSidebar/BlogItemSidebar";
 import Link from "flarum/components/Link";
 import BlogOverview from "./BlogOverview";
+import fullTime from "flarum/helpers/fullTime";
 
 export default class BlogItem extends Page {
   oninit(vnode) {
@@ -194,6 +195,10 @@ export default class BlogItem extends Page {
                         "v17development-flarum-blog.forum.hidden"
                       )})`}
                   </h3>
+
+                  <div className={`FlarumBlog-Article-PublishDate ${this.loading ? 'FlarumBlog-Article-GhostPublishDate' : ''}`}>
+                    {this.article ? fullTime(this.article.createdAt()) : <span>&nbsp;</span>}
+                  </div>
 
                   {this.loading &&
                     [0, 1, 2].map(() => (
