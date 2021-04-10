@@ -326,7 +326,7 @@ export default class BlogSettings extends ExtensionPage {
             onclick={() => this.save()}
             disabled={!this.hasChanges}
           >
-            {app.translator.trans("core.admin.basics.submit_button")}
+            {app.translator.trans("core.admin.settings.submit_button")}
           </Button>
         </div>
       </div>
@@ -355,7 +355,7 @@ export default class BlogSettings extends ExtensionPage {
         app.alerts.show(
           Alert,
           { type: "success" },
-          app.translator.trans("core.admin.basics.saved_message")
+          app.translator.trans("core.admin.settings.saved_message")
         );
       })
       .catch(() => {})
