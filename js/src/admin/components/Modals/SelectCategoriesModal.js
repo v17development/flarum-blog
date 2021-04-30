@@ -125,7 +125,7 @@ export default class SelectCategoriesModal extends Modal {
           {
             type: "success",
           },
-          app.translator.trans("core.admin.basics.saved_message")
+          app.translator.trans("core.admin.settings.saved_message")
         );
 
         this.hide();
