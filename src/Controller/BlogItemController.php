@@ -9,7 +9,7 @@ use Flarum\Http\UrlGenerator;
 use Flarum\User\User;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Flarum\Tags\TagRepository;
 use Illuminate\Support\Arr;
 use V17Development\FlarumBlog\BlogMeta\BlogMeta;

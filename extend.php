@@ -2,9 +2,6 @@
 
 namespace V17Development\FlarumBlog;
 
-// Laravel
-use Illuminate\Events\Dispatcher;
-
 // Flarum classes
 use Flarum\Api\Controller as FlarumController;
 use Flarum\Api\Serializer\BasicDiscussionSerializer;
