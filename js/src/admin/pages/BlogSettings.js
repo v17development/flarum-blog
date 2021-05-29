@@ -46,8 +46,8 @@ export default class BlogSettings extends ExtensionPage {
 
   content() {
     const blogCategoriesCount = app.data.settings.blog_tags
-    ? app.data.settings.blog_tags.split("|").length
-    : 0;
+      ? app.data.settings.blog_tags.split("|").length
+      : 0;
 
     return (
       <div className="BasicsPage FlarumBlog">
