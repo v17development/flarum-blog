@@ -255,6 +255,7 @@ export default class BlogItem extends Page {
               <div className={"FlarumBlog-Article-Comments"}>
                 {/* Show subscription state */}
                 {!this.loading &&
+                  app.session.user &&
                   this.article.subscription &&
                   (!this.article.isLocked ||
                     (this.article.isLocked && !this.article.isLocked())) && (

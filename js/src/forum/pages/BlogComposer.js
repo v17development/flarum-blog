@@ -24,7 +24,7 @@ export default class BlogComposer extends Page {
     app.history.push("blogComposer");
 
     // Get languages (if enabled)
-    this.languages = app.store.all("discussion-languages");
+    this.languages = app.store.all("discussion-languages") || [];
 
     // Set body class
     this.bodyClass = "BlogItemPage";
