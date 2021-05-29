@@ -1,5 +1,6 @@
 import BlogItem from "./pages/BlogItem";
 import Model from "flarum/Model";
+import Tag from "flarum/tags/models/Tag";
 import Discussion from "flarum/models/Discussion";
 import BlogOverview from "./pages/BlogOverview";
 import redirector from "./utils/redirector";
@@ -31,6 +32,7 @@ app.initializers.add("v17development-flarum-blog", (app) => {
   app.store.models.blogMeta = BlogMeta;
 
   Discussion.prototype.blogMeta = Model.hasOne("blogMeta");
+  Tag.prototype.isBlog = Model.attribute("isBlog");
 
   // Redirect discussions/tags to their blog post/overview
   redirector();
