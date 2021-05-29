@@ -22,9 +22,9 @@
         }
     },
     "require": {
-        "flarum/core": "^0.1.0-beta.16",
-        "flarum/tags": "^0.1.0-beta.16",
-        "flarum/lock": "^0.1.0-beta.16",
+        "flarum/core": "^1.0.0",
+        "flarum/tags": "^1.0.0",
+        "flarum/lock": "^1.0.0",
         "ext-json": "*"
     },
     "suggest": {
