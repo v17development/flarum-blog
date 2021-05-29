@@ -170,7 +170,9 @@ export default class BlogComposer extends Page {
                       icon={"fas fa-pencil-alt"}
                       loading={this.isSaving}
                     >
-                      Update blog settings
+                      {app.translator.trans(
+                        "v17development-flarum-blog.forum.composer.update_settings"
+                      )}
                     </Button>
                   </div>
                 </div>

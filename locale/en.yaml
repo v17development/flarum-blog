@@ -88,6 +88,7 @@ v17development-flarum-blog:
       post_article: "Post article"
       select_category: "Select a category"
       edit_categories: "Edit categories"
+      update_settings: "Update blog settings"
       write: "Write"
       view: "View"
       nothing_to_preview: "Nothing to preview"
