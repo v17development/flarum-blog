@@ -5,6 +5,7 @@ import BlogCategories from "../components/BlogCategories";
 import Link from "flarum/components/Link";
 import LanguageDropdown from "../components/LanguageDropdown/LanguageDropdown";
 import ForumNav from "../components/ForumNav";
+import Tooltip from "flarum/common/components/Tooltip";
 
 export default class BlogOverview extends Page {
   oninit(vnode) {
