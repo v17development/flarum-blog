@@ -3,6 +3,7 @@
 namespace V17Development\FlarumBlog\Api\Controller;
 
 use Flarum\Api\Controller\AbstractShowController;
+use Flarum\Http\RequestUtil;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
@@ -37,7 +38,7 @@ class UpdateBlogMetaController extends AbstractShowController
         $queryParams = $request->getQueryParams();
 
         return $this->bus->dispatch(
-            new UpdateBlogMeta($request->getAttribute('actor'), Arr::get($queryParams, 'id'), Arr::get($request->getParsedBody(), 'data', []))
+            new UpdateBlogMeta(RequestUtil::getActor($request), Arr::get($queryParams, 'id'), Arr::get($request->getParsedBody(), 'data', []))
         );
     }
 }

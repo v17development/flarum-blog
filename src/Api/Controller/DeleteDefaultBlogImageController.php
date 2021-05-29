@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\Foundation\Paths;
+use Flarum\Http\RequestUtil;
 
 class DeleteDefaultBlogImageController extends AbstractDeleteController
 {
@@ -34,7 +35,7 @@ class DeleteDefaultBlogImageController extends AbstractDeleteController
      */
     protected function delete(ServerRequestInterface $request)
     {
-        $request->getAttribute('actor')->assertAdmin();
+        RequestUtil::getActor($request)->assertAdmin();
 
         $path = $this->settings->get('blog_default_image_path');
         $this->settings->set('blog_default_image_path', null);
