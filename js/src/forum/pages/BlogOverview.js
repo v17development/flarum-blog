@@ -251,18 +251,18 @@ export default class BlogOverview extends Page {
                         )}
                         {article.blogMeta() &&
                           article.blogMeta().isPendingReview() == true && (
-                            <Tooltip 
+                            <Tooltip
                               text={app.translator.trans(
                                 "v17development-flarum-blog.forum.review_article.pending_review"
-                              )} 
+                              )}
                               position="bottom"
-                              >
-                                <span>
-                                  <i className={"far fa-clock"} />{" "}
-                                  {app.translator.trans(
-                                    "v17development-flarum-blog.forum.review_article.pending_review_title"
-                                  )}
-                                </span>
+                            >
+                              <span>
+                                <i className={"far fa-clock"} />{" "}
+                                {app.translator.trans(
+                                  "v17development-flarum-blog.forum.review_article.pending_review_title"
+                                )}
+                              </span>
                             </Tooltip>
                           )}
                       </div>
@@ -361,13 +361,12 @@ export default class BlogOverview extends Page {
                           )}
                           {article.blogMeta() &&
                             article.blogMeta().isPendingReview() == true && (
-                              <Tooltip 
+                              <Tooltip
                                 text={app.translator.trans(
                                   "v17development-flarum-blog.forum.review_article.pending_review"
-                                )}>
-                                <i
-                                  className={"far fa-clock"}
-                                />
+                                )}
+                              >
+                                <i className={"far fa-clock"} />
                               </Tooltip>
                             )}
                         </h4>
