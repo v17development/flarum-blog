@@ -228,7 +228,7 @@ export default class BlogItem extends Page {
                   {!this.loading &&
                     this.article.blogMeta() &&
                     this.article.blogMeta().isPendingReview() == true && (
-                      <div className={"Post"}>
+                      <div className={"Post-body"}>
                         <blockquote
                           class="uncited"
                           style={{ fontSize: "16px" }}
