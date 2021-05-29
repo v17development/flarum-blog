@@ -16,9 +16,6 @@ export default class BlogSettings extends ExtensionPage {
     this.isSaving = false;
 
     // Settings
-    this.blogCategories = app.data.settings.blog_tags
-      ? app.data.settings.blog_tags.split("|")
-      : [];
     this.redirectsEnabled = app.data.settings.blog_redirects_enabled
       ? app.data.settings.blog_redirects_enabled
       : "both";
@@ -48,18 +45,21 @@ export default class BlogSettings extends ExtensionPage {
   }
 
   content() {
+    const blogCategoriesCount = app.data.settings.blog_tags
+      ? app.data.settings.blog_tags.split("|").length
+      : 0;
+
     return (
       <div className="BasicsPage FlarumBlog">
         <div className="container">
           <div className={"FlarumBlog-SelectCategories"}>
-            {this.blogCategories.length === 0
-              ? app.translator.transChoice(
+            {blogCategoriesCount === 0
+              ? app.translator.trans(
                   "v17development-flarum-blog.admin.settings.no_categories_selected"
                 )
-              : app.translator.transChoice(
+              : app.translator.trans(
                   "v17development-flarum-blog.admin.settings.selected_category_count",
-                  this.blogCategories.length,
-                  { count: this.blogCategories.length }
+                  { count: blogCategoriesCount }
                 )}
 
             <Button
@@ -326,7 +326,7 @@ export default class BlogSettings extends ExtensionPage {
             onclick={() => this.save()}
             disabled={!this.hasChanges}
           >
-            {app.translator.trans("core.admin.basics.submit_button")}
+            {app.translator.trans("core.admin.settings.submit_button")}
           </Button>
         </div>
       </div>
@@ -355,7 +355,7 @@ export default class BlogSettings extends ExtensionPage {
         app.alerts.show(
           Alert,
           { type: "success" },
-          app.translator.trans("core.admin.basics.saved_message")
+          app.translator.trans("core.admin.settings.saved_message")
         );
       })
       .catch(() => {})

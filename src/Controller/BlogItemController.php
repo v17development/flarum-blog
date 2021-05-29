@@ -3,13 +3,12 @@
 namespace V17Development\FlarumBlog\Controller;
 
 use Flarum\Frontend\Document;
-use Flarum\Api\Controller\ShowDiscussionController;
 use Flarum\Api\Client;
 use Flarum\Http\UrlGenerator;
-use Flarum\User\User;
+use Flarum\Http\Exception\RouteNotFoundException;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Flarum\Tags\TagRepository;
 use Illuminate\Support\Arr;
 use V17Development\FlarumBlog\BlogMeta\BlogMeta;
@@ -29,12 +28,8 @@ class BlogItemController
     {
         $queryParams = $request->getQueryParams();
 
-        $params = [
-            'id' => (int) Arr::get($queryParams, 'id')
-        ];
-
         // Find blog item
-        $apiDocument = $this->getApiDocument($request->getAttribute('actor'), $params);
+        $apiDocument = $this->getApiDocument($request, (int) Arr::get($queryParams, 'id'));
 
         // Article not found
         if($apiDocument === null) {
@@ -102,18 +97,17 @@ class BlogItemController
     /**
      * Preload blog posts
      *
-     * @param User  $actor
-     * @param array $params
+     * @param ServerRequestInterface $request
+     * @param int $id
      *
      * @return object
      */
-    private function getApiDocument(User $actor, array $params)
+    private function getApiDocument(ServerRequestInterface $request, $id)
     {
-        $response = $this->api->send(ShowDiscussionController::class, $actor, $params);
+        $response = $this->api->withParentRequest($request)->get("/discussions/{$id}");
 
-        // Unfortunately there were no records found
         if ($response->getStatusCode() === 404) {
-            return null;
+            throw new RouteNotFoundException();
         }
 
         return json_decode($response->getBody());

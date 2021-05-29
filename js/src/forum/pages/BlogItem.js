@@ -228,7 +228,7 @@ export default class BlogItem extends Page {
                   {!this.loading &&
                     this.article.blogMeta() &&
                     this.article.blogMeta().isPendingReview() == true && (
-                      <div className={"Post"}>
+                      <div className={"Post-body"}>
                         <blockquote
                           class="uncited"
                           style={{ fontSize: "16px" }}
@@ -255,6 +255,7 @@ export default class BlogItem extends Page {
               <div className={"FlarumBlog-Article-Comments"}>
                 {/* Show subscription state */}
                 {!this.loading &&
+                  app.session.user &&
                   this.article.subscription &&
                   (!this.article.isLocked ||
                     (this.article.isLocked && !this.article.isLocked())) && (

@@ -5,7 +5,6 @@ namespace V17Development\FlarumBlog\Query;
 use Flarum\Filter\FilterState;
 use Flarum\Query\QueryCriteria;
 use Flarum\Settings\SettingsRepositoryInterface;
-use V17Development\FlarumBlog\Query\BlogArticleFilterGambit;
 use Flarum\Discussion\Search\Gambit\FulltextGambit;
 
 class FilterDiscussionsForBlogPosts

@@ -8,7 +8,7 @@ use Flarum\Api\Client;
 use Flarum\User\User;
 use Flarum\Extension\ExtensionManager;
 use Psr\Http\Message\ServerRequestInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Flarum\Tags\Tag;
 use Illuminate\Support\Arr;
 
@@ -50,7 +50,7 @@ class BlogOverviewController
         $q .= "is:blog" . (Arr::get($queryParams, 'category') ? " tag:" . Arr::get($queryParams, 'category') : "");
 
         // Preload blog posts
-        $apiDocument = $this->getApiDocument($request->getAttribute('actor'), [
+        $apiDocument = $this->getApiDocument($request, [
             "filter" => [
                 "q" => $q
             ],
@@ -66,20 +66,13 @@ class BlogOverviewController
     /**
      * Preload blog posts
      *
-     * @param User  $actor
+     * @param ServerRequestInterface $request
      * @param array $params
      *
      * @return object
      */
-    private function getApiDocument(User $actor, array $params)
+    private function getApiDocument(ServerRequestInterface $request, array $params)
     {
-        $response = $this->api->send(ListDiscussionsController::class, $actor, $params);
-
-        // Unfortunately there were no records found
-        if ($response->getStatusCode() === 404) {
-            return null;
-        }
-
-        return json_decode($response->getBody());
+        return json_decode($this->api->withParentRequest($request)->withQueryParams($params)->get('/discussions')->getBody());
     }
 }

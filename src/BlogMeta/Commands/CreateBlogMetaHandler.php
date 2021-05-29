@@ -6,7 +6,7 @@ use Flarum\Foundation\ValidationException;
 use Flarum\Discussion\Discussion;
 use Flarum\Discussion\DiscussionRepository;
 use Flarum\Settings\SettingsRepositoryInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 use V17Development\FlarumBlog\BlogMeta\BlogMeta;
 use V17Development\FlarumBlog\BlogMeta\BlogMetaValidator;

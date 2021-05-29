@@ -9,6 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 use V17Development\FlarumBlog\Api\Serializer\BlogMetaSerializer;
 use V17Development\FlarumBlog\BlogMeta\Commands\CreateBlogMeta;
+use Flarum\Http\RequestUtil;
 
 class CreateBlogMetaController extends AbstractCreateController
 {
@@ -35,7 +36,7 @@ class CreateBlogMetaController extends AbstractCreateController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         return $this->bus->dispatch(
-            new CreateBlogMeta($request->getAttribute('actor'), Arr::get($request->getParsedBody(), 'data', []))
+            new CreateBlogMeta(RequestUtil::getActor($request), Arr::get($request->getParsedBody(), 'data', []))
         );
     }
 }

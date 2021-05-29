@@ -8,8 +8,8 @@ use Flarum\Discussion\Discussion;
 use Flarum\Http\UrlGenerator;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
+use Flarum\Http\RequestUtil;
 use Illuminate\Support\Arr;
-
 
 class ListBlogPostsController extends AbstractListController
 {
@@ -40,7 +40,7 @@ class ListBlogPostsController extends AbstractListController
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
 
         // $this->assertCan($actor, 'blog.viewBlogs');
 

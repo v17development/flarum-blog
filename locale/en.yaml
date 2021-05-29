@@ -9,7 +9,7 @@ v17development-flarum-blog:
 
     settings:
       no_categories_selected: "No categories selected"
-      selected_category_count: "You have {count} category selected|You have {count} categories selected"
+      selected_category_count: "{count, plural, one {You have # category selected} other {You have # categories selected}}"
       select_categories_button: "Select blog categories"
       blog_heading: "Blog"
       allow_comments_label: "Allow comments"
@@ -88,6 +88,7 @@ v17development-flarum-blog:
       post_article: "Post article"
       select_category: "Select a category"
       edit_categories: "Edit categories"
+      update_settings: "Update blog settings"
       write: "Write"
       view: "View"
       nothing_to_preview: "Nothing to preview"

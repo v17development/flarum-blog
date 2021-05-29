@@ -2,9 +2,6 @@
 
 namespace V17Development\FlarumBlog;
 
-// Laravel
-use Illuminate\Events\Dispatcher;
-
 // Flarum classes
 use Flarum\Api\Controller as FlarumController;
 use Flarum\Api\Serializer\BasicDiscussionSerializer;
@@ -14,6 +11,7 @@ use Flarum\Discussion\Discussion;
 use Flarum\Discussion\Event\Saving;
 use Flarum\Discussion\Filter\DiscussionFilterer;
 use Flarum\Discussion\Search\DiscussionSearcher;
+use Flarum\Tags\Api\Serializer\TagSerializer;
 
 // Controllers
 use V17Development\FlarumBlog\Controller\BlogOverviewController;
@@ -24,6 +22,7 @@ use V17Development\FlarumBlog\Controller\BlogComposerController;
 use V17Development\FlarumBlog\Access\ScopeDiscussionVisibility;
 // API controllers
 use V17Development\FlarumBlog\Api\AttachForumSerializerAttributes;
+use V17Development\FlarumBlog\Api\AttatchTagSerializerAttributes;
 use V17Development\FlarumBlog\Api\Controller\CreateBlogMetaController;
 use V17Development\FlarumBlog\Api\Controller\UpdateBlogMetaController;
 use V17Development\FlarumBlog\Api\Controller\UploadDefaultBlogImageController;
@@ -86,6 +85,9 @@ return [
     (new Extend\ApiSerializer(ForumSerializer::class))
         ->attributes(AttachForumSerializerAttributes::class),
 
+    (new Extend\ApiSerializer(TagSerializer::class))
+        ->attributes(AttatchTagSerializerAttributes::class),
+    
     (new Extend\Event)
         ->listen(Saving::class, CreateBlogMetaOnDiscussionCreate::class),
 

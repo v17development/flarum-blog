@@ -4,7 +4,6 @@ namespace V17Development\FlarumBlog\Api\Controller;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
-use Intervention\Image\ImageManager;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use League\Flysystem\MountManager;
@@ -12,6 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 use Flarum\Api\Controller\ShowForumController;
 use Flarum\Foundation\Paths;
+use Flarum\Http\RequestUtil;
 
 class UploadDefaultBlogImageController extends ShowForumController
 {
@@ -38,7 +38,7 @@ class UploadDefaultBlogImageController extends ShowForumController
      */
     public function data(ServerRequestInterface $request, Document $document)
     {
-        $request->getAttribute('actor')->assertAdmin();
+        RequestUtil::getActor($request)->assertAdmin();
 
         $file = Arr::get($request->getUploadedFiles(), 'blog_default_image');
         $tmpFile = tempnam($this->paths->storage.'/tmp', 'blog-default');

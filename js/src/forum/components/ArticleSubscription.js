@@ -1,6 +1,7 @@
 import Component from "flarum/common/Component";
 import Button from "flarum/components/Button";
 import extractText from "flarum/utils/extractText";
+import Tooltip from "flarum/common/components/Tooltip";
 
 export default class ArticleSubscription extends Component {
   view() {
@@ -30,30 +31,25 @@ export default class ArticleSubscription extends Component {
     }
 
     return (
-      <Button
-        className={`Button BlogArticleSubscription SubscriptionMenu-button--${currentSubscriptionState}`}
-        icon={icon}
-        title={notifyTooltip}
-        onclick={this.saveSubscription.bind(
-          this,
-          this.attrs.discussion,
-          ["follow", "ignore"].indexOf(currentSubscriptionState) !== -1
-            ? null
-            : "follow"
-        )}
-      >
-        {title}
-      </Button>
+      <Tooltip text={notifyTooltip} position="bottom">
+        <Button
+          className={`Button BlogArticleSubscription SubscriptionMenu-button--${currentSubscriptionState}`}
+          icon={icon}
+          onclick={this.saveSubscription.bind(
+            this,
+            this.attrs.discussion,
+            ["follow", "ignore"].indexOf(currentSubscriptionState) !== -1
+              ? null
+              : "follow"
+          )}
+        >
+          {title}
+        </Button>
+      </Tooltip>
     );
   }
 
   saveSubscription(discussion, subscription) {
     discussion.save({ subscription });
-  }
-
-  oncreate(vnode) {
-    $(vnode.dom).tooltip({
-      placement: "bottom",
-    });
   }
 }
