@@ -3,7 +3,6 @@ import Button from "flarum/components/Button";
 import humanTime from "flarum/helpers/humanTime";
 import BlogCategories from "../components/BlogCategories";
 import Link from "flarum/components/Link";
-import tooltip from "../utils/tooltip";
 import LanguageDropdown from "../components/LanguageDropdown/LanguageDropdown";
 import ForumNav from "../components/ForumNav";
 
@@ -252,18 +251,19 @@ export default class BlogOverview extends Page {
                         )}
                         {article.blogMeta() &&
                           article.blogMeta().isPendingReview() == true && (
-                            <span
-                              title={app.translator.trans(
+                            <Tooltip 
+                              text={app.translator.trans(
                                 "v17development-flarum-blog.forum.review_article.pending_review"
-                              )}
-                              config={tooltip.bind(this)}
-                              data-placement={"bottom"}
-                            >
-                              <i className={"far fa-clock"} />{" "}
-                              {app.translator.trans(
-                                "v17development-flarum-blog.forum.review_article.pending_review_title"
-                              )}
-                            </span>
+                              )} 
+                              position="bottom"
+                              >
+                                <span>
+                                  <i className={"far fa-clock"} />{" "}
+                                  {app.translator.trans(
+                                    "v17development-flarum-blog.forum.review_article.pending_review_title"
+                                  )}
+                                </span>
+                            </Tooltip>
                           )}
                       </div>
 
@@ -361,13 +361,14 @@ export default class BlogOverview extends Page {
                           )}
                           {article.blogMeta() &&
                             article.blogMeta().isPendingReview() == true && (
-                              <i
-                                className={"far fa-clock"}
-                                title={app.translator.trans(
+                              <Tooltip 
+                                text={app.translator.trans(
                                   "v17development-flarum-blog.forum.review_article.pending_review"
-                                )}
-                                config={tooltip.bind(this)}
-                              />
+                                )}>
+                                <i
+                                  className={"far fa-clock"}
+                                />
+                              </Tooltip>
                             )}
                         </h4>
                         <p>{summary}</p>
