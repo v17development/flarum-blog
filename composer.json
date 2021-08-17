@@ -38,7 +38,10 @@
                 "name": "fas fa-blog",
                 "backgroundColor": "#2dc0e6",
                 "color": "#ffffff"
-            }
+            },
+            "optional-dependencies": [
+              "fof/discussion-language"
+            ]
         }
     }
 }
