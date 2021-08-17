@@ -1,3 +1,4 @@
+import app from 'flarum/forum/app';
 import Page from "flarum/components/Page";
 import Button from "flarum/components/Button";
 import humanTime from "flarum/helpers/humanTime";
@@ -25,7 +26,7 @@ export default class BlogOverview extends Page {
 
     this.currentSelectedLanguage = m.route.param("lang")
       ? m.route.param("lang")
-      : app.translator.locale;
+      : app.translator.formatter.locale;
 
     // Send history push
     app.history.push("blog");
