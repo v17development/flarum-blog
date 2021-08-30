@@ -1,4 +1,5 @@
 import app from "flarum/forum/app";
+
 import Page from "flarum/common/components/Page";
 import Button from "flarum/common/components/Button";
 import humanTime from "flarum/common/helpers/humanTime";

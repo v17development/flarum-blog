@@ -27,7 +27,7 @@ export default class BlogSettings extends ExtensionPage {
     this.addCategoryHierarchy =
       app.data.settings.blog_category_hierarchy ?? true;
     this.addSidebarNav = app.data.settings.blog_add_sidebar_nav ?? true;
-    this.featuredCount = app.data.settings.blog_featured_count ?? true;
+    this.featuredCount = app.data.settings.blog_featured_count ?? 3;
 
     app.forum.data.attributes.blog_default_imageUrl = `${app.forum.attribute(
       "baseUrl"
@@ -153,30 +153,6 @@ export default class BlogSettings extends ExtensionPage {
                   </div>,
                 ]
               ),
-              <div className="Form-group">
-                {
-                  <label>
-                    {app.translator.trans(
-                      "v17development-flarum-blog.admin.settings.featured_count_label"
-                    )}
-                  </label>
-                }
-                <div className="helpText">
-                  {app.translator.trans(
-                    "v17development-flarum-blog.admin.settings.featured_count_text"
-                  )}
-                </div>
-                <input
-                  class="FormControl"
-                  state={this.featuredCount}
-                  oninput={(e) => {
-                    this.featuredCount = e.target.value;
-                    this.hasChanges = true;
-                  }}
-                  placeholder="3"
-                  type="number"
-                />
-              </div>,
             ]
           )}
 
