@@ -12,6 +12,8 @@ v17development-flarum-blog:
       selected_category_count: "{count, plural, one {You have # category selected} other {You have # categories selected}}"
       select_categories_button: "Select blog categories"
       blog_heading: "Blog"
+      featured_count_label: Max Featured Posts
+      featured_count_text: How many posts should be displayed in a big grid at the top of a blog page?
       allow_comments_label: "Allow comments"
       allow_comments_text: "By default, allow comments on blog posts. When disabled, it can be enabled individually per blog post. <b>Note:</b> Changing this setting will not affect pre-existing blog posts."
       require_review_label: "Blog posts requires review"

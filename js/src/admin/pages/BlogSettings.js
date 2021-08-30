@@ -16,32 +16,23 @@ export default class BlogSettings extends ExtensionPage {
     this.isSaving = false;
 
     // Settings
-    this.redirectsEnabled = app.data.settings.blog_redirects_enabled
-      ? app.data.settings.blog_redirects_enabled
-      : "both";
-    this.hideTagsInList = app.data.settings.blog_hide_tags
-      ? app.data.settings.blog_hide_tags
-      : true;
-    this.allowComments = app.data.settings.blog_allow_comments
-      ? app.data.settings.blog_allow_comments
-      : true;
-    this.hideOnDiscussionList = app.data.settings.blog_filter_discussion_list
-      ? app.data.settings.blog_filter_discussion_list
-      : false;
-    this.requiresReviewOnPost = app.data.settings.blog_requires_review
-      ? app.data.settings.blog_requires_review
-      : false;
-    this.addCategoryHierarchy = app.data.settings.blog_category_hierarchy
-      ? app.data.settings.blog_category_hierarchy
-      : true;
-    this.addSidebarNav = app.data.settings.blog_add_sidebar_nav
-      ? app.data.settings.blog_add_sidebar_nav
-      : true;
+    this.redirectsEnabled = app.data.settings.blog_redirects_enabled ?? "both";
+    this.hideTagsInList = app.data.settings.blog_hide_tags ?? true;
+    this.allowComments = app.data.settings.blog_allow_comments ?? true;
+    this.hideOnDiscussionList =
+      app.data.settings.blog_filter_discussion_list ?? false;
+    this.requiresReviewOnPost = app.data.settings.blog_requires_review ?? false;
+    this.addCategoryHierarchy =
+      app.data.settings.blog_category_hierarchy ?? true;
+    this.addSidebarNav = app.data.settings.blog_add_sidebar_nav ?? true;
+    this.featuredCount = app.data.settings.blog_featured_count ?? true;
 
     app.forum.data.attributes.blog_default_imageUrl =
       app.forum.attribute("baseUrl") +
       "/assets/" +
       app.data.settings.blog_default_image_path;
+
+    console.log("hello");
   }
 
   content() {
@@ -163,6 +154,30 @@ export default class BlogSettings extends ExtensionPage {
                   </div>,
                 ]
               ),
+              <div className="Form-group">
+                {
+                  <label>
+                    {app.translator.trans(
+                      "v17development-flarum-blog.admin.settings.featured_count_label"
+                    )}
+                  </label>
+                }
+                <div className="helpText">
+                  {app.translator.trans(
+                    "v17development-flarum-blog.admin.settings.featured_count_text"
+                  )}
+                </div>
+                <input
+                  class="FormControl"
+                  state={this.featuredCount}
+                  oninput={(e) => {
+                    this.featuredCount = e.target.value;
+                    this.hasChanges = true;
+                  }}
+                  placeholder="3"
+                  type="number"
+                />
+              </div>,
             ]
           )}
 
@@ -347,6 +362,7 @@ export default class BlogSettings extends ExtensionPage {
       blog_allow_comments: this.allowComments,
       blog_category_hierarchy: this.addCategoryHierarchy,
       blog_filter_discussion_list: this.hideOnDiscussionList,
+      blog_featured_count: this.featuredCount,
     })
       .then(() => {
         this.hasChanges = false;
