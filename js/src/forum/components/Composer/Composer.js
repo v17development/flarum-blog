@@ -2,6 +2,7 @@ import ComposerBody from "flarum/forum/components/ComposerBody";
 import Button from "flarum/common/components/Button";
 import TextEditor from "flarum/common/components/TextEditor";
 import ComposerPreview from "./ComposerPreview";
+import app from "flarum/forum/app";
 
 export default class Composer extends ComposerBody {
   oninit(vnode) {
