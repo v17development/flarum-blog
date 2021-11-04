@@ -8,6 +8,7 @@ import Link from "flarum/common/components/Link";
 import BlogOverview from "./BlogOverview";
 import fullTime from "flarum/common/helpers/fullTime";
 import ArticleSubscription from "../components/ArticleSubscription";
+import app from "flarum/forum/app";
 
 export default class BlogItem extends Page {
   oninit(vnode) {
@@ -252,27 +253,27 @@ export default class BlogItem extends Page {
                 </div>
               </div>
 
-              <div className={"FlarumBlog-Article-Comments"}>
-                {/* Show subscription state */}
-                {!this.loading &&
-                  app.session.user &&
-                  this.article.subscription &&
-                  (!this.article.isLocked ||
-                    (this.article.isLocked && !this.article.isLocked())) && (
-                    <ArticleSubscription discussion={this.article} />
-                  )}
+              {this?.article?.isLocked?.() &&
+              this.article.commentCount() === 1 ? null : (
+                <div className={"FlarumBlog-Article-Comments"}>
+                  {/* Show subscription state */}
+                  {!this.loading &&
+                    app.session.user &&
+                    this.article.subscription &&
+                    (!this.article.isLocked ||
+                      (this.article.isLocked && !this.article.isLocked())) && (
+                      <ArticleSubscription discussion={this.article} />
+                    )}
 
-                <h4>
-                  {app.translator.trans(
-                    "v17development-flarum-blog.forum.comment_section.comments"
-                  )}{" "}
-                  ({this.article ? this.article.commentCount() - 1 : 0})
-                </h4>
+                  <h4>
+                    {app.translator.trans(
+                      "v17development-flarum-blog.forum.comment_section.comments"
+                    )}{" "}
+                    ({this.article ? this.article.commentCount() - 1 : 0})
+                  </h4>
 
-                {/* Locked */}
-                {!this.loading &&
-                  this.article.isLocked &&
-                  this.article.isLocked() && (
+                  {/* Locked */}
+                  {!this.loading && this.article?.isLocked?.() && (
                     <div className={"Post-body"}>
                       <blockquote class="uncited">
                         <div>
@@ -288,14 +289,15 @@ export default class BlogItem extends Page {
                     </div>
                   )}
 
-                {!this.loading &&
-                  this.article &&
-                  PostStream.component({
-                    discussion: this.article,
-                    stream: this.stream,
-                    onPositionChange: this.positionChanged.bind(this),
-                  })}
-              </div>
+                  {!this.loading &&
+                    this.article &&
+                    PostStream.component({
+                      discussion: this.article,
+                      stream: this.stream,
+                      onPositionChange: this.positionChanged.bind(this),
+                    })}
+                </div>
+              )}
             </div>
 
             <BlogItemSidebar article={this.article} loading={this.loading} />
