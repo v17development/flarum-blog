@@ -228,12 +228,18 @@ export default class BlogComposer extends Page {
         {/* Article Categories */}
         <div className={"FlarumBlog-Article-Categories"}>
           {this.tags.map((tag) => (
-            <a href={"#"} onclick={(e) => this.openTagsModal(e)}>
+            <button
+              class="Button Button--text"
+              onclick={(e) => this.openTagsModal(e)}
+            >
               {tag.name()}
-            </a>
+            </button>
           ))}
 
-          <a href={"#"} onclick={(e) => this.openTagsModal(e)}>
+          <button
+            class="Button Button--text"
+            onclick={(e) => this.openTagsModal(e)}
+          >
             {this.tags.length === 0
               ? app.translator.trans(
                   "v17development-flarum-blog.forum.composer.select_category"
@@ -242,7 +248,7 @@ export default class BlogComposer extends Page {
                   "v17development-flarum-blog.forum.composer.edit_categories"
                 )}{" "}
             <i className={"fas fa-edit"} />
-          </a>
+          </button>
         </div>
 
         <div className={"FlarumBlog-Article-Post"}>
@@ -258,9 +264,12 @@ export default class BlogComposer extends Page {
                   "v17development-flarum-blog.forum.composer.no_title"
                 )}
 
-            <a href={"#"} onclick={(e) => e.preventDefault()}>
+            <button
+              class="Button Button--text"
+              onclick={(e) => e.preventDefault()}
+            >
               <i className={"fas fa-edit"} />
-            </a>
+            </button>
           </h3>
 
           <div className="Post-body">
