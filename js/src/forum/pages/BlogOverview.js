@@ -447,22 +447,7 @@ export default class BlogOverview extends Page {
   }
 
   newArticle() {
-    let foundMainTag = false;
     let tags = [];
-
-    const blogTags = app.forum.attribute("blogTags");
-
-    // Pre-select selected tags
-    app.store.all("tags").forEach((_tag) => {
-      // Find main blog tag
-      if (
-        !foundMainTag &&
-        !_tag.isChild() &&
-        blogTags.indexOf(_tag.id()) >= 0
-      ) {
-        tags.push(_tag);
-      }
-    });
 
     // Get current category
     const currentCategory = app.store.getBy(
