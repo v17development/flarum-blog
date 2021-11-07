@@ -35,6 +35,9 @@ export default class BlogOverview extends Page {
     this.loadBlogOverview();
 
     this.featuredCount = app.forum.attribute("blogFeaturedCount");
+
+    this.showCategories = true;
+    this.showForumNav = true;
   }
 
   // Load blog overview
@@ -438,8 +441,8 @@ export default class BlogOverview extends Page {
             </div>
 
             <div className={"Sidebar"}>
-              <BlogCategories />
-              <ForumNav />
+              {this.showCategories && <BlogCategories />}
+              {this.showForumNav && <ForumNav />}
             </div>
           </div>
         </div>
