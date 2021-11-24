@@ -7,6 +7,7 @@ import Dropdown from "flarum/common/components/Dropdown";
 import BlogPostSettingsModal from "./Modals/BlogPostSettingsModal";
 import EditPostComposer from "flarum/forum/components/EditPostComposer";
 import extractText from "flarum/common/utils/extractText";
+import ItemList from "flarum/common/utils/ItemList";
 import RenameArticleModal from "./Modals/RenameArticleModal";
 
 export default class BlogPostController extends Component {
@@ -14,9 +15,9 @@ export default class BlogPostController extends Component {
     this.loadedPost = false;
   }
 
-  view() {
+  manageArticleButtons() {
     const article = this.attrs.article;
-    let buttons = [];
+    const items = new ItemList();
 
     // Working for GlowingBlue version
     const LanguageDiscussionModal =
@@ -29,7 +30,8 @@ export default class BlogPostController extends Component {
 
     // Rename article
     if (article.canRename()) {
-      buttons.push(
+      items.add(
+        "rename",
         Button.component(
           {
             className: "Button",
@@ -48,7 +50,8 @@ export default class BlogPostController extends Component {
       : app.store.getById("posts", article.firstPostId());
 
     // Edit article
-    buttons.push(
+    items.add(
+      "edit",
       Button.component(
         {
           className: "Button",
@@ -66,7 +69,8 @@ export default class BlogPostController extends Component {
     );
 
     // Article settings
-    buttons.push(
+    items.add(
+      "articleSettings",
       Button.component(
         {
           className: "Button",
@@ -81,7 +85,8 @@ export default class BlogPostController extends Component {
 
     // Update categories
     if (article.canTag()) {
-      buttons.push(
+      items.add(
+        "tag",
         Button.component(
           {
             className: "Button",
@@ -98,9 +103,10 @@ export default class BlogPostController extends Component {
 
     // Approve article
     if (article.blogMeta() && article.blogMeta().isPendingReview()) {
-      buttons.push(<li className="Dropdown-separator" />);
+      items.add("separator1", <li className="Dropdown-separator" />);
 
-      buttons.push(
+      items.add(
+        "approve",
         Button.component(
           {
             className: "Button",
@@ -142,7 +148,8 @@ export default class BlogPostController extends Component {
       article.canChangeLanguage() &&
       LanguageDiscussionModal
     ) {
-      buttons.push(
+      items.add(
+        "lang",
         Button.component(
           {
             icon: "fas fa-globe",
@@ -156,11 +163,12 @@ export default class BlogPostController extends Component {
       );
     }
 
-    buttons.push(<li className="Dropdown-separator" />);
+    items.add("separator2", <li className="Dropdown-separator" />);
 
     // Lock article
     if (article.canLock()) {
-      buttons.push(
+      items.add(
+        "lock",
         Button.component(
           {
             className: "Button",
@@ -185,7 +193,8 @@ export default class BlogPostController extends Component {
       // Article is hidden
       if (article.isHidden()) {
         // Recover article
-        buttons.push(
+        items.add(
+          "recover",
           Button.component(
             {
               className: "Button",
@@ -200,7 +209,8 @@ export default class BlogPostController extends Component {
 
         // Delete article
         if (article.canDelete()) {
-          buttons.push(
+          buttons.add(
+            "delete",
             Button.component(
               {
                 className: "Button",
@@ -239,7 +249,8 @@ export default class BlogPostController extends Component {
         }
       } else {
         // Hide article
-        buttons.push(
+        items.add(
+          "hide",
           Button.component(
             {
               className: "Button",
@@ -253,6 +264,16 @@ export default class BlogPostController extends Component {
         );
       }
     }
+
+    return items;
+  }
+
+  view() {
+    const article = this.attrs.article;
+
+    const articlePost = article.firstPost()
+      ? article.firstPost()
+      : app.store.getById("posts", article.firstPostId());
 
     return (
       <div className={"FlarumBlog-Article-Content-Edit-Button"}>
@@ -280,7 +301,7 @@ export default class BlogPostController extends Component {
                 }
               },
             },
-            buttons
+            this.manageArticleButtons().toArray()
           )}
         </div>
       </div>
