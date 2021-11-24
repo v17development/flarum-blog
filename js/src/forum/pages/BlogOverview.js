@@ -232,9 +232,7 @@ export default class BlogOverview extends Page {
                     article.blogMeta() && article.blogMeta().featuredImage()
                       ? `url(${article.blogMeta().featuredImage()})`
                       : defaultImage;
-                  const blogTag = article.tags()
-                    ? article.tags().filter((tag) => tag.isChild())
-                    : [];
+                  const allTags = article.tags();
 
                   return (
                     <Link
@@ -247,7 +245,9 @@ export default class BlogOverview extends Page {
                       style={{ backgroundImage: blogImage }}
                     >
                       <div className={"BlogFeatured-list-item-top"}>
-                        {blogTag[0] && <span>{blogTag[0].name()}</span>}
+                        {/* {blogTag[0] && <span>{blogTag[0].name()}</span>} */}
+                        {allTags &&
+                          allTags.map((tag) => <span>{tag.name()}</span>)}
                         {article.isSticky() && (
                           <span>
                             <i className={"fas fa-thumbtack"} />
