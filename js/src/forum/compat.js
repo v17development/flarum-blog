@@ -11,7 +11,7 @@ export default () => {
     "v17development/blog/components/BlogItemSidebar": BlogItemSidebar,
     "v17development/blog/components/BlogAuthor": BlogAuthor,
     "v17development/blog/components/ForumNav": ForumNav,
-    "v17development/blog/components/BlogOverview": BlogPostController,
+    "v17development/blog/components/BlogPostController": BlogPostController,
     "v17development/blog/pages/BlogItem": BlogItem,
     "v17development/blog/pages/BlogOverview": BlogOverview,
   });
