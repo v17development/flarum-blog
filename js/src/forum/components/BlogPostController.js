@@ -41,7 +41,8 @@ export default class BlogPostController extends Component {
           app.translator.trans(
             "v17development-flarum-blog.forum.tools.rename_article"
           )
-        )
+        ),
+        100
       );
     }
 
@@ -65,7 +66,8 @@ export default class BlogPostController extends Component {
         app.translator.trans(
           "v17development-flarum-blog.forum.tools.edit_article"
         )
-      )
+      ),
+      90
     );
 
     // Article settings
@@ -80,7 +82,8 @@ export default class BlogPostController extends Component {
         app.translator.trans(
           "v17development-flarum-blog.forum.tools.article_settings"
         )
-      )
+      ),
+      80
     );
 
     // Update categories
@@ -97,13 +100,14 @@ export default class BlogPostController extends Component {
           app.translator.trans(
             "v17development-flarum-blog.forum.tools.update_category"
           )
-        )
+        ),
+        70
       );
     }
 
     // Approve article
     if (article.blogMeta() && article.blogMeta().isPendingReview()) {
-      items.add("separator1", <li className="Dropdown-separator" />);
+      items.add("separator1", <li className="Dropdown-separator" />, 65);
 
       items.add(
         "approve",
@@ -138,7 +142,8 @@ export default class BlogPostController extends Component {
           app.translator.trans(
             "v17development-flarum-blog.forum.review_article.approve_article"
           )
-        )
+        ),
+        60
       );
     }
 
@@ -159,11 +164,12 @@ export default class BlogPostController extends Component {
           app.translator.trans(
             "fof-discussion-language.forum.discussion_controls.change_language_button"
           )
-        )
+        ),
+        50
       );
     }
 
-    items.add("separator2", <li className="Dropdown-separator" />);
+    items.add("separator2", <li className="Dropdown-separator" />, 40);
 
     // Lock article
     if (article.canLock()) {
@@ -184,7 +190,8 @@ export default class BlogPostController extends Component {
             : app.translator.trans(
                 "v17development-flarum-blog.forum.tools.disable_comments"
               )
-        )
+        ),
+        30
       );
     }
 
@@ -204,7 +211,8 @@ export default class BlogPostController extends Component {
             app.translator.trans(
               "v17development-flarum-blog.forum.tools.recover_article"
             )
-          )
+          ),
+          20
         );
 
         // Delete article
@@ -244,7 +252,8 @@ export default class BlogPostController extends Component {
               app.translator.trans(
                 "v17development-flarum-blog.forum.tools.delete_forever"
               )
-            )
+            ),
+            10
           );
         }
       } else {
@@ -260,7 +269,8 @@ export default class BlogPostController extends Component {
             app.translator.trans(
               "v17development-flarum-blog.forum.tools.hide_article"
             )
-          )
+          ),
+          0
         );
       }
     }
