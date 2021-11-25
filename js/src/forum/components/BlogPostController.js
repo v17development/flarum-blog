@@ -1,12 +1,12 @@
 import Component from "flarum/common/Component";
 import TagDiscussionModal from "flarum/tags/components/TagDiscussionModal";
-import DiscussionControls from "flarum/utils/DiscussionControls";
-import Alert from "flarum/components/Alert";
-import Button from "flarum/components/Button";
-import Dropdown from "flarum/components/Dropdown";
+import DiscussionControls from "flarum/forum/utils/DiscussionControls";
+import Alert from "flarum/common/components/Alert";
+import Button from "flarum/common/components/Button";
+import Dropdown from "flarum/common/components/Dropdown";
 import BlogPostSettingsModal from "./Modals/BlogPostSettingsModal";
-import EditPostComposer from "flarum/components/EditPostComposer";
-import extractText from "flarum/utils/extractText";
+import EditPostComposer from "flarum/forum/components/EditPostComposer";
+import extractText from "flarum/common/utils/extractText";
 import RenameArticleModal from "./Modals/RenameArticleModal";
 
 export default class BlogPostController extends Component {

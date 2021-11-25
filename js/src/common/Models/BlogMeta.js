@@ -1,5 +1,5 @@
-import Model from "flarum/Model";
-import mixin from "flarum/utils/mixin";
+import Model from "flarum/common/Model";
+import mixin from "flarum/common/utils/mixin";
 
 export default class BlogMeta extends mixin(Model, {
   discussion: Model.hasOne("discussion"),

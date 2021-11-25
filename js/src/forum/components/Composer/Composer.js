@@ -1,6 +1,6 @@
-import ComposerBody from "flarum/components/ComposerBody";
-import Button from "flarum/components/Button";
-import TextEditor from "flarum/components/TextEditor";
+import ComposerBody from "flarum/forum/components/ComposerBody";
+import Button from "flarum/common/components/Button";
+import TextEditor from "flarum/common/components/TextEditor";
 import ComposerPreview from "./ComposerPreview";
 
 export default class Composer extends ComposerBody {

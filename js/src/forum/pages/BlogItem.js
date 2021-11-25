@@ -1,12 +1,12 @@
-import Page from "flarum/components/Page";
-import CommentPost from "flarum/components/CommentPost";
-import PostStream from "flarum/components/PostStream";
-import PostStreamState from "flarum/states/PostStreamState";
+import Page from "flarum/common/components/Page";
+import CommentPost from "flarum/forum/components/CommentPost";
+import PostStream from "flarum/forum/components/PostStream";
+import PostStreamState from "flarum/forum/states/PostStreamState";
 import BlogPostController from "../components/BlogPostController";
 import BlogItemSidebar from "../components/BlogItemSidebar/BlogItemSidebar";
-import Link from "flarum/components/Link";
+import Link from "flarum/common/components/Link";
 import BlogOverview from "./BlogOverview";
-import fullTime from "flarum/helpers/fullTime";
+import fullTime from "flarum/common/helpers/fullTime";
 import ArticleSubscription from "../components/ArticleSubscription";
 
 export default class BlogItem extends Page {

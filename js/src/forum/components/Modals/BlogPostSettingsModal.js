@@ -1,8 +1,8 @@
-import Modal from "flarum/components/Modal";
-import Button from "flarum/components/Button";
-import ItemList from "flarum/utils/ItemList";
-import Stream from "flarum/utils/Stream";
-import Switch from "flarum/components/Switch";
+import Modal from "flarum/common/components/Modal";
+import Button from "flarum/common/components/Button";
+import ItemList from "flarum/common/utils/ItemList";
+import Stream from "flarum/common/utils/Stream";
+import Switch from "flarum/common/components/Switch";
 
 export default class BlogPostSettingsModal extends Modal {
   oninit(vnode) {

@@ -1,6 +1,6 @@
 import Component from "flarum/common/Component";
-import Button from "flarum/components/Button";
-import extractText from "flarum/utils/extractText";
+import Button from "flarum/common/components/Button";
+import extractText from "flarum/common/utils/extractText";
 import Tooltip from "flarum/common/components/Tooltip";
 
 export default class ArticleSubscription extends Component {
