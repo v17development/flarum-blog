@@ -29,7 +29,7 @@ export default class BlogComposer extends Page {
     this.languages = app.store.all("discussion-languages") || [];
 
     // Set body class
-    this.bodyClass = "BlogItemPage";
+    this.bodyClass = "BlogItemPage BlogItemPage--composer";
 
     // Article data
     this.articleLanguage = m.route.param("lang")
