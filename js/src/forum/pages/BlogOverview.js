@@ -1,4 +1,4 @@
-import app from 'flarum/forum/app';
+import app from "flarum/forum/app";
 import Page from "flarum/components/Page";
 import Button from "flarum/components/Button";
 import humanTime from "flarum/helpers/humanTime";
@@ -32,6 +32,8 @@ export default class BlogOverview extends Page {
     app.history.push("blog");
 
     this.loadBlogOverview();
+
+    this.featuredCount = app.forum.attribute("blogFeaturedCount");
   }
 
   // Load blog overview
@@ -88,8 +90,11 @@ export default class BlogOverview extends Page {
         ? articles.payload.links.next
         : null;
 
-    this.featuredPosts = articles.slice(0, 3);
-    this.posts = articles.length >= 4 ? articles.slice(3, articles.length) : [];
+    this.featuredPosts = articles.slice(0, this.featuredCount);
+    this.posts =
+      articles.length > this.featuredCount
+        ? articles.slice(this.featuredCount, articles.length)
+        : [];
 
     this.isLoading = false;
 

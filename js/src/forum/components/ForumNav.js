@@ -19,13 +19,6 @@ export default class ForumNav extends Component {
   }
 
   navItems() {
-    const items = IndexPage.prototype.navItems();
-
-    // We want the active screen to show up in the top dropdown when on mobile.
-    if (app.screen() !== "phone") {
-      items.remove("blog");
-    }
-
-    return items;
+    return IndexPage.prototype.navItems();
   }
 }
