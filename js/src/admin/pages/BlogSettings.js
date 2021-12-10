@@ -153,6 +153,30 @@ export default class BlogSettings extends ExtensionPage {
                   </div>,
                 ]
               ),
+              <div className="Form-group">
+                {
+                  <label>
+                    {app.translator.trans(
+                      "v17development-flarum-blog.admin.settings.featured_count_label"
+                    )}
+                  </label>
+                }
+                <div className="helpText">
+                  {app.translator.trans(
+                    "v17development-flarum-blog.admin.settings.featured_count_text"
+                  )}
+                </div>
+                <input
+                  class="FormControl"
+                  state={this.featuredCount}
+                  oninput={(e) => {
+                    this.featuredCount = e.target.value;
+                    this.hasChanges = true;
+                  }}
+                  placeholder="3"
+                  type="number"
+                />
+              </div>,
             ]
           )}
 
