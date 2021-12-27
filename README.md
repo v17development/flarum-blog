@@ -29,10 +29,10 @@ composer update v17development/flarum-blog
 - Set 'blog overview' as home page
 - Works with already existing discussions/articles
 - Including ghost loading
+- Upload thumbnail images with `fof-upload`
 
 ## 📝 To-do:
 - Add RSS (possible)
-- Upload images (using `fof-upload`)
 
 ## 🙋 Questions, feedback?
 If you have any questions related to this extension, don't hesistate and send us an email, or ask your question on our [V17 Development Slack workspace](https://join.slack.com/t/v17dev/shared_invite/zt-g6ky1fd3-RreB9UB~636jL~QjDGfZHg).

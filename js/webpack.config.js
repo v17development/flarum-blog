@@ -1,3 +1,5 @@
-const config = require('flarum-webpack-config');
+const config = require("flarum-webpack-config");
 
-module.exports = config();
+module.exports = config({
+  useExtensions: ["fof-upload"],
+});
