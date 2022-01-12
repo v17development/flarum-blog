@@ -78,10 +78,23 @@
     box-shadow: unset;
     height: unset;
     border-radius: 4px;
-  
+
     @media screen and (max-width: 767px) {
       position: relative !important;
       top: unset;
+    }
+  }
+}
+
+.V17Blog {
+  &-ArticleImage {
+    [data-upload-enabled] {
+      display: flex;
+
+      input {
+        flex-grow: 1;
+        margin-right: 4px;
+      }
     }
   }
 }

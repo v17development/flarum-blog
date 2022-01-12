@@ -1,8 +1,8 @@
 import Component from "flarum/common/Component";
-import ItemList from "flarum/utils/ItemList";
-import listItems from "flarum/helpers/listItems";
-import avatar from "flarum/helpers/avatar";
-import Link from "flarum/components/Link";
+import ItemList from "flarum/common/utils/ItemList";
+import listItems from "flarum/common/helpers/listItems";
+import avatar from "flarum/common/helpers/avatar";
+import Link from "flarum/common/components/Link";
 
 export default class BlogAuthor extends Component {
   view() {

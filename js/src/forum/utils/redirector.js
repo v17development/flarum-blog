@@ -1,6 +1,7 @@
-import IndexPage from "flarum/components/IndexPage";
-import DiscussionPage from "flarum/components/DiscussionPage";
-import { extend, override } from "flarum/extend";
+import IndexPage from "flarum/forum/components/IndexPage";
+import DiscussionPage from "flarum/forum/components/DiscussionPage";
+import { extend, override } from "flarum/common/extend";
+import app from "flarum/forum/app";
 
 export default function () {
   // Redirect tag to blog category
@@ -52,8 +53,8 @@ export default function () {
           id: discussion.slug(),
         });
 
-        // Setting the 3rd argument to true replaces the current state in the browser history, that way the browser back button works as expected.
-        m.route.set(url, null, true);
+        m.route.set(url, null, { replace: true });
+
         return null;
       }
     }

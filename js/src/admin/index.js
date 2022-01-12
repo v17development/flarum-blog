@@ -1,6 +1,6 @@
-import { extend } from "flarum/extend";
-import BasicsPage from "flarum/components/BasicsPage";
-import PermissionGrid from "flarum/components/PermissionGrid";
+import { extend } from "flarum/common/extend";
+import BasicsPage from "flarum/admin/components/BasicsPage";
+import PermissionGrid from "flarum/admin/components/PermissionGrid";
 import BlogSettings from "./pages/BlogSettings";
 
 app.initializers.add("v17development-flarum-blog", () => {

@@ -1,6 +1,6 @@
 import Component from "flarum/common/Component";
-import IndexPage from "flarum/components/IndexPage";
-import SelectDropdown from "flarum/components/SelectDropdown";
+import IndexPage from "flarum/forum/components/IndexPage";
+import SelectDropdown from "flarum/common/components/SelectDropdown";
 
 export default class ForumNav extends Component {
   view() {

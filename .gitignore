@@ -4,3 +4,4 @@ composer.phar
 .DS_Store
 Thumbs.db
 node_modules
+composer.lock

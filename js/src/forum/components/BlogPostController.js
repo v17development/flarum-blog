@@ -1,12 +1,13 @@
 import Component from "flarum/common/Component";
 import TagDiscussionModal from "flarum/tags/components/TagDiscussionModal";
-import DiscussionControls from "flarum/utils/DiscussionControls";
-import Alert from "flarum/components/Alert";
-import Button from "flarum/components/Button";
-import Dropdown from "flarum/components/Dropdown";
+import DiscussionControls from "flarum/forum/utils/DiscussionControls";
+import Alert from "flarum/common/components/Alert";
+import Button from "flarum/common/components/Button";
+import Dropdown from "flarum/common/components/Dropdown";
 import BlogPostSettingsModal from "./Modals/BlogPostSettingsModal";
-import EditPostComposer from "flarum/components/EditPostComposer";
-import extractText from "flarum/utils/extractText";
+import EditPostComposer from "flarum/forum/components/EditPostComposer";
+import extractText from "flarum/common/utils/extractText";
+import ItemList from "flarum/common/utils/ItemList";
 import RenameArticleModal from "./Modals/RenameArticleModal";
 
 export default class BlogPostController extends Component {
@@ -14,9 +15,9 @@ export default class BlogPostController extends Component {
     this.loadedPost = false;
   }
 
-  view() {
+  manageArticleButtons() {
     const article = this.attrs.article;
-    let buttons = [];
+    const items = new ItemList();
 
     // Working for GlowingBlue version
     const LanguageDiscussionModal =
@@ -29,7 +30,8 @@ export default class BlogPostController extends Component {
 
     // Rename article
     if (article.canRename()) {
-      buttons.push(
+      items.add(
+        "rename",
         Button.component(
           {
             className: "Button",
@@ -39,7 +41,8 @@ export default class BlogPostController extends Component {
           app.translator.trans(
             "v17development-flarum-blog.forum.tools.rename_article"
           )
-        )
+        ),
+        100
       );
     }
 
@@ -48,7 +51,8 @@ export default class BlogPostController extends Component {
       : app.store.getById("posts", article.firstPostId());
 
     // Edit article
-    buttons.push(
+    items.add(
+      "edit",
       Button.component(
         {
           className: "Button",
@@ -62,11 +66,13 @@ export default class BlogPostController extends Component {
         app.translator.trans(
           "v17development-flarum-blog.forum.tools.edit_article"
         )
-      )
+      ),
+      90
     );
 
     // Article settings
-    buttons.push(
+    items.add(
+      "articleSettings",
       Button.component(
         {
           className: "Button",
@@ -76,12 +82,14 @@ export default class BlogPostController extends Component {
         app.translator.trans(
           "v17development-flarum-blog.forum.tools.article_settings"
         )
-      )
+      ),
+      80
     );
 
     // Update categories
     if (article.canTag()) {
-      buttons.push(
+      items.add(
+        "tag",
         Button.component(
           {
             className: "Button",
@@ -92,15 +100,17 @@ export default class BlogPostController extends Component {
           app.translator.trans(
             "v17development-flarum-blog.forum.tools.update_category"
           )
-        )
+        ),
+        70
       );
     }
 
     // Approve article
     if (article.blogMeta() && article.blogMeta().isPendingReview()) {
-      buttons.push(<li className="Dropdown-separator" />);
+      items.add("separator1", <li className="Dropdown-separator" />, 65);
 
-      buttons.push(
+      items.add(
+        "approve",
         Button.component(
           {
             className: "Button",
@@ -132,7 +142,8 @@ export default class BlogPostController extends Component {
           app.translator.trans(
             "v17development-flarum-blog.forum.review_article.approve_article"
           )
-        )
+        ),
+        60
       );
     }
 
@@ -142,7 +153,8 @@ export default class BlogPostController extends Component {
       article.canChangeLanguage() &&
       LanguageDiscussionModal
     ) {
-      buttons.push(
+      items.add(
+        "lang",
         Button.component(
           {
             icon: "fas fa-globe",
@@ -152,15 +164,17 @@ export default class BlogPostController extends Component {
           app.translator.trans(
             "fof-discussion-language.forum.discussion_controls.change_language_button"
           )
-        )
+        ),
+        50
       );
     }
 
-    buttons.push(<li className="Dropdown-separator" />);
+    items.add("separator2", <li className="Dropdown-separator" />, 40);
 
     // Lock article
     if (article.canLock()) {
-      buttons.push(
+      items.add(
+        "lock",
         Button.component(
           {
             className: "Button",
@@ -176,7 +190,8 @@ export default class BlogPostController extends Component {
             : app.translator.trans(
                 "v17development-flarum-blog.forum.tools.disable_comments"
               )
-        )
+        ),
+        30
       );
     }
 
@@ -185,7 +200,8 @@ export default class BlogPostController extends Component {
       // Article is hidden
       if (article.isHidden()) {
         // Recover article
-        buttons.push(
+        items.add(
+          "recover",
           Button.component(
             {
               className: "Button",
@@ -195,12 +211,14 @@ export default class BlogPostController extends Component {
             app.translator.trans(
               "v17development-flarum-blog.forum.tools.recover_article"
             )
-          )
+          ),
+          20
         );
 
         // Delete article
         if (article.canDelete()) {
-          buttons.push(
+          buttons.add(
+            "delete",
             Button.component(
               {
                 className: "Button",
@@ -234,12 +252,14 @@ export default class BlogPostController extends Component {
               app.translator.trans(
                 "v17development-flarum-blog.forum.tools.delete_forever"
               )
-            )
+            ),
+            10
           );
         }
       } else {
         // Hide article
-        buttons.push(
+        items.add(
+          "hide",
           Button.component(
             {
               className: "Button",
@@ -249,10 +269,21 @@ export default class BlogPostController extends Component {
             app.translator.trans(
               "v17development-flarum-blog.forum.tools.hide_article"
             )
-          )
+          ),
+          0
         );
       }
     }
+
+    return items;
+  }
+
+  view() {
+    const article = this.attrs.article;
+
+    const articlePost = article.firstPost()
+      ? article.firstPost()
+      : app.store.getById("posts", article.firstPostId());
 
     return (
       <div className={"FlarumBlog-Article-Content-Edit-Button"}>
@@ -280,7 +311,7 @@ export default class BlogPostController extends Component {
                 }
               },
             },
-            buttons
+            this.manageArticleButtons().toArray()
           )}
         </div>
       </div>

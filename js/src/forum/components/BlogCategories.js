@@ -1,5 +1,5 @@
 import Component from "flarum/common/Component";
-import Link from "flarum/components/Link";
+import Link from "flarum/common/components/Link";
 
 export default class BlogCategories extends Component {
   oninit(vnode) {

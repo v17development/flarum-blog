@@ -19,13 +19,12 @@
 
 .FlarumBlogItem {
   padding: 30px 0 50px;
-  
+
   .FlarumBlog-ToolButtons {
     margin-bottom: 15px;
   }
 
   .FlarumBlog-Article {
-
     @media screen and (min-width: 840px) {
       display: flex;
       flex-direction: row;
@@ -57,12 +56,12 @@
       }
 
       .FlarumBlog-Article-Content-Edit-Button {
-        position: relative;
+        display: flex;
+        padding-left: 16px;
+        padding-right: 16px;
 
         .FlarumBlog-Article-Content-Edit-Dropdown {
-          position: absolute;
-          top: 0px;
-          right: 20px;
+          margin-left: auto;
         }
 
         .FlarumBlog-Article-Content-EditButtons {
@@ -79,7 +78,9 @@
         text-align: center;
         padding: 10px 0;
 
-        a, span {
+        a,
+        button,
+        span {
           display: inline-block;
           text-decoration: none;
           padding: 5px 5px;
@@ -87,6 +88,7 @@
           font-weight: 500;
           font-size: 15px;
           margin: 0 5px;
+          color: @primary-color !important;
 
           &:hover {
             text-decoration: underline;
@@ -129,16 +131,18 @@
           }
         }
 
-        p {
-          margin-bottom: 15px;
-        }
-
         .Post {
           padding: 0;
           margin: 0;
 
           .Post-header {
             display: none;
+          }
+
+          .Post-body {
+            p {
+              margin-bottom: 15px;
+            }
           }
         }
       }
@@ -150,7 +154,7 @@
         margin-top: 30px;
 
         .BlogArticleSubscription {
-          float: right
+          float: right;
         }
 
         h4 {
@@ -179,7 +183,8 @@
         width: 320px;
       }
 
-      > ul, ul.FlarumBlog-Article-Author-Extended {
+      > ul,
+      ul.FlarumBlog-Article-Author-Extended {
         margin: 0;
         padding: 0;
         list-style: none;
@@ -239,12 +244,17 @@
   }
 }
 
-.FlarumBlog-Article-GhostParagraph, .FlarumBlog-Article-GhostTitle, .FlarumBlog-Article-GhostCategory, .FlarumBlog-Article-GhostImage, .FlarumBlog-Author-Ghost, .FlarumBlog-Article-GhostPublishDate {
+.FlarumBlog-Article-GhostParagraph,
+.FlarumBlog-Article-GhostTitle,
+.FlarumBlog-Article-GhostCategory,
+.FlarumBlog-Article-GhostImage,
+.FlarumBlog-Author-Ghost,
+.FlarumBlog-Article-GhostPublishDate {
   background: @control-bg;
   color: @control-bg;
   animation: FlarumBlogGhostLoading 2s infinite;
   -webkit-touch-callout: none;
-  -webkit-user-select: none; 
+  -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;

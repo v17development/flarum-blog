@@ -1,5 +1,5 @@
-import { extend } from "flarum/extend";
-import IndexPage from "flarum/components/IndexPage";
+import { extend } from "flarum/common/extend";
+import IndexPage from "flarum/forum/components/IndexPage";
 import TagsPage from "flarum/tags/components/TagsPage";
 
 export default function extendTagOverview() {

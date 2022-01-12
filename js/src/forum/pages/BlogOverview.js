@@ -1,9 +1,10 @@
 import app from "flarum/forum/app";
-import Page from "flarum/components/Page";
-import Button from "flarum/components/Button";
-import humanTime from "flarum/helpers/humanTime";
+
+import Page from "flarum/common/components/Page";
+import Button from "flarum/common/components/Button";
+import humanTime from "flarum/common/helpers/humanTime";
 import BlogCategories from "../components/BlogCategories";
-import Link from "flarum/components/Link";
+import Link from "flarum/common/components/Link";
 import LanguageDropdown from "../components/LanguageDropdown/LanguageDropdown";
 import ForumNav from "../components/ForumNav";
 import Tooltip from "flarum/common/components/Tooltip";
@@ -34,6 +35,9 @@ export default class BlogOverview extends Page {
     this.loadBlogOverview();
 
     this.featuredCount = app.forum.attribute("blogFeaturedCount");
+
+    this.showCategories = true;
+    this.showForumNav = true;
   }
 
   // Load blog overview
@@ -228,9 +232,7 @@ export default class BlogOverview extends Page {
                     article.blogMeta() && article.blogMeta().featuredImage()
                       ? `url(${article.blogMeta().featuredImage()})`
                       : defaultImage;
-                  const blogTag = article.tags()
-                    ? article.tags().filter((tag) => tag.isChild())
-                    : [];
+                  const allTags = article.tags();
 
                   return (
                     <Link
@@ -243,7 +245,9 @@ export default class BlogOverview extends Page {
                       style={{ backgroundImage: blogImage }}
                     >
                       <div className={"BlogFeatured-list-item-top"}>
-                        {blogTag[0] && <span>{blogTag[0].name()}</span>}
+                        {/* {blogTag[0] && <span>{blogTag[0].name()}</span>} */}
+                        {allTags &&
+                          allTags.map((tag) => <span>{tag.name()}</span>)}
                         {article.isSticky() && (
                           <span>
                             <i className={"fas fa-thumbtack"} />
@@ -437,8 +441,8 @@ export default class BlogOverview extends Page {
             </div>
 
             <div className={"Sidebar"}>
-              <BlogCategories />
-              <ForumNav />
+              {this.showCategories && <BlogCategories />}
+              {this.showForumNav && <ForumNav />}
             </div>
           </div>
         </div>
@@ -447,22 +451,7 @@ export default class BlogOverview extends Page {
   }
 
   newArticle() {
-    let foundMainTag = false;
     let tags = [];
-
-    const blogTags = app.forum.attribute("blogTags");
-
-    // Pre-select selected tags
-    app.store.all("tags").forEach((_tag) => {
-      // Find main blog tag
-      if (
-        !foundMainTag &&
-        !_tag.isChild() &&
-        blogTags.indexOf(_tag.id()) >= 0
-      ) {
-        tags.push(_tag);
-      }
-    });
 
     // Get current category
     const currentCategory = app.store.getBy(

@@ -1,8 +1,10 @@
-import Modal from "flarum/components/Modal";
-import Button from "flarum/components/Button";
-import ItemList from "flarum/utils/ItemList";
-import Stream from "flarum/utils/Stream";
-import Switch from "flarum/components/Switch";
+import app from "flarum/forum/app";
+import Modal from "flarum/common/components/Modal";
+import Button from "flarum/common/components/Button";
+import ItemList from "flarum/common/utils/ItemList";
+import Stream from "flarum/common/utils/Stream";
+import Switch from "flarum/common/components/Switch";
+import selectFiles from "../../utils/selectFiles";
 
 export default class BlogPostSettingsModal extends Modal {
   oninit(vnode) {
@@ -73,26 +75,75 @@ export default class BlogPostSettingsModal extends Modal {
       30
     );
 
+    let fofUploadButton = null;
+
+    if (
+      "fof-upload" in flarum.extensions &&
+      app.forum.attribute("fof-upload.canUpload")
+    ) {
+      const {
+        components: { Uploader },
+      } = require("@fof-upload");
+
+      fofUploadButton = (
+        <Button
+          class="Button Button--icon"
+          onclick={async () => {
+            const file = await selectFiles("image/*", false);
+
+            if (!file) return;
+
+            const uploadingAlertId = app.alerts.show(
+              { type: "info" },
+              "Uploading image..."
+            );
+
+            const fileModel = await new Promise((resolve) => {
+              /**
+               * @param {{file: File}}
+               */
+              function fileUploadSuccessCallback({ file }) {
+                resolve(file);
+              }
+
+              const uploader = new Uploader();
+              uploader.callbacks.success = [fileUploadSuccessCallback];
+
+              uploader.upload([file]).catch(() => {});
+            });
+
+            app.alerts.dismiss(uploadingAlertId);
+
+            this.featuredImage(fileModel.url());
+          }}
+          icon="fas fa-cloud-upload-alt"
+        />
+      );
+    }
+
     items.add(
       "image",
-      <div className="Form-group">
+      <div className="Form-group V17Blog-ArticleImage">
         <label>Article image URL:</label>
-        <input
-          type="text"
-          className="FormControl"
-          bidi={this.featuredImage}
-          placeholder={"https://"}
-        />
+        <div data-upload-enabled={!!fofUploadButton}>
+          <input
+            readonly={!!fofUploadButton}
+            type="text"
+            className="FormControl"
+            bidi={this.featuredImage}
+            placeholder="https://"
+          />
+          {fofUploadButton}
+        </div>
 
         <small>Best image resolution for social media: 1200x630</small>
 
-        {this.featuredImage() != "" && (
+        {this.featuredImage() !== "" && (
           <img
             src={this.featuredImage()}
-            alt={"Article image"}
-            title={"Blog post image"}
-            width={"100%"}
-            style={{ marginTop: "15px" }}
+            alt="Article image"
+            title="Blog post image"
+            style={{ width: "100%", marginTop: "15px" }}
           />
         )}
       </div>,
