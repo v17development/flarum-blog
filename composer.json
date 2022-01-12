@@ -28,7 +28,8 @@
     "ext-json": "*"
   },
   "suggest": {
-    "v17development/flarum-seo": "Adds Flarum SEO and Social media tags"
+    "v17development/flarum-seo": "Adds Flarum SEO and Social media tags",
+    "fof/upload": "Upload images for blog posts"
   },
   "extra": {
     "flarum-extension": {
