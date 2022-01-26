@@ -60,7 +60,7 @@
           right: 10px;
           text-align: right;
 
-          span {
+          .dataItem {
             display: inline-block;
             padding: 5px 10px;
             font-weight: 700;
@@ -76,7 +76,7 @@
 
         &-details {
           padding: 80px 20px 20px 20px;
-          color: #FFFFFF;
+          color: #ffffff;
           flex-grow: 1;
           position: relative;
           text-shadow: 0px 0px 4px fade(black, 28%);
@@ -96,7 +96,7 @@
           }
 
           .data {
-            color: #FFFFFF;
+            color: #ffffff;
             position: relative;
             z-index: 2;
 
@@ -111,19 +111,23 @@
           }
 
           &:before {
-            content: ' ';
+            content: " ";
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
             z-index: 1;
-            background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 95%);
+            background: linear-gradient(
+              0deg,
+              rgba(0, 0, 0, 0.6) 0%,
+              rgba(0, 0, 0, 0) 95%
+            );
             transition: opacity 250ms ease;
             opacity: 0.8;
           }
         }
-        
+
         &:hover {
           text-decoration: none;
           box-shadow: 0 7px 6px 4px fade(@muted-more-color, 30%);
@@ -145,7 +149,8 @@
           }
         }
 
-        h4, .data {
+        h4,
+        .data {
           background: @control-bg;
           color: @control-bg;
           animation: FlarumBlogGhostLoading 2s infinite;
@@ -256,12 +261,13 @@
           background: @control-bg;
         }
 
-        h4, p, .data {
+        h4,
+        p,
+        .data {
           background: @control-bg;
           color: @control-bg;
           animation: FlarumBlogGhostLoading 2s infinite;
         }
-        
       }
     }
 
@@ -276,7 +282,8 @@
   }
 }
 
-.FlarumBlog-reached-end, .FlarumBlog-reached-load-more {
+.FlarumBlog-reached-end,
+.FlarumBlog-reached-load-more {
   text-align: center;
   padding: 30px 20px;
   font-size: 16px;

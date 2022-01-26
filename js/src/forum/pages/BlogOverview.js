@@ -8,6 +8,7 @@ import Link from "flarum/common/components/Link";
 import LanguageDropdown from "../components/LanguageDropdown/LanguageDropdown";
 import ForumNav from "../components/ForumNav";
 import Tooltip from "flarum/common/components/Tooltip";
+import FeaturedBlogItem from "../components/FeaturedBlogItem";
 
 export default class BlogOverview extends Page {
   oninit(vnode) {
@@ -204,21 +205,17 @@ export default class BlogOverview extends Page {
 
             <div style={{ clear: "both" }} />
 
-            <div className={"BlogFeatured-list"}>
+            <div class="BlogFeatured-list">
               {/* Ghost data */}
               {this.isLoading &&
-                [0, 1, 2].map(() => (
-                  <div
-                    className={
-                      "BlogFeatured-list-item BlogFeatured-list-item-ghost"
-                    }
-                  >
-                    <div className={"BlogFeatured-list-item-details"}>
+                [...Array(this.featuredCount)].map(() => (
+                  <div class="BlogFeatured-list-item BlogFeatured-list-item-ghost">
+                    <div class="BlogFeatured-list-item-details">
                       <h4>&nbsp;</h4>
 
-                      <div className={"data"}>
+                      <div class="data">
                         <span>
-                          <i className={"far fa-wave"} />
+                          <i class="far fa-wave" />
                         </span>
                       </div>
                     </div>
@@ -227,80 +224,12 @@ export default class BlogOverview extends Page {
 
               {!this.isLoading &&
                 this.featuredPosts.length >= 0 &&
-                this.featuredPosts.map((article) => {
-                  const blogImage =
-                    article.blogMeta() && article.blogMeta().featuredImage()
-                      ? `url(${article.blogMeta().featuredImage()})`
-                      : defaultImage;
-                  const allTags = article.tags();
-
-                  return (
-                    <Link
-                      href={app.route("blogArticle", {
-                        id: `${article.slug()}`,
-                      })}
-                      className={
-                        "BlogFeatured-list-item FlarumBlog-default-image"
-                      }
-                      style={{ backgroundImage: blogImage }}
-                    >
-                      <div className={"BlogFeatured-list-item-top"}>
-                        {/* {blogTag[0] && <span>{blogTag[0].name()}</span>} */}
-                        {allTags &&
-                          allTags.map((tag) => <span>{tag.name()}</span>)}
-                        {article.isSticky() && (
-                          <span>
-                            <i className={"fas fa-thumbtack"} />
-                          </span>
-                        )}
-                        {((article.blogMeta() &&
-                          article.blogMeta().isPendingReview() == true) ||
-                          article.isHidden()) && (
-                          <span>
-                            <i className={"fas fa-eye-slash"} />
-                          </span>
-                        )}
-                        {article.blogMeta() &&
-                          article.blogMeta().isPendingReview() == true && (
-                            <Tooltip
-                              text={app.translator.trans(
-                                "v17development-flarum-blog.forum.review_article.pending_review"
-                              )}
-                              position="bottom"
-                            >
-                              <span>
-                                <i className={"far fa-clock"} />{" "}
-                                {app.translator.trans(
-                                  "v17development-flarum-blog.forum.review_article.pending_review_title"
-                                )}
-                              </span>
-                            </Tooltip>
-                          )}
-                      </div>
-
-                      <div className={"BlogFeatured-list-item-details"}>
-                        <h4>{article.title()}</h4>
-
-                        <div className={"data"}>
-                          <span>
-                            <i className={"far fa-clock"} />{" "}
-                            {humanTime(article.createdAt())}
-                          </span>
-                          <span>
-                            <i className={"far fa-user"} />{" "}
-                            {article.user()
-                              ? article.user().displayName()
-                              : "[Deleted]"}
-                          </span>
-                          <span>
-                            <i className={"far fa-comment"} />{" "}
-                            {article.commentCount() - 1}
-                          </span>
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })}
+                this.featuredPosts.map((article) => (
+                  <FeaturedBlogItem
+                    article={article}
+                    defaultImage={defaultImage}
+                  />
+                ))}
             </div>
           </div>
 
