@@ -9,6 +9,7 @@ import EditPostComposer from "flarum/forum/components/EditPostComposer";
 import extractText from "flarum/common/utils/extractText";
 import ItemList from "flarum/common/utils/ItemList";
 import RenameArticleModal from "./Modals/RenameArticleModal";
+import app from "flarum/forum/app";
 
 export default class BlogPostController extends Component {
   init() {
@@ -46,9 +47,7 @@ export default class BlogPostController extends Component {
       );
     }
 
-    const articlePost = article.firstPost()
-      ? article.firstPost()
-      : app.store.getById("posts", article.firstPostId());
+    const articlePost = article.firstPost();
 
     // Edit article
     items.add(
@@ -281,9 +280,7 @@ export default class BlogPostController extends Component {
   view() {
     const article = this.attrs.article;
 
-    const articlePost = article.firstPost()
-      ? article.firstPost()
-      : app.store.getById("posts", article.firstPostId());
+    const articlePost = article.firstPost();
 
     return (
       <div className={"FlarumBlog-Article-Content-Edit-Button"}>
@@ -298,16 +295,7 @@ export default class BlogPostController extends Component {
                 // Get post data to make sure they can edit the post
                 if (articlePost && !articlePost.canEdit() && !this.loadedPost) {
                   this.loadedPost = true;
-                  app.store
-                    .find(
-                      "posts",
-                      article.firstPost()
-                        ? article.firstPost().id()
-                        : article.firstPostId()
-                    )
-                    .then(() => {})
-                    .catch(() => {})
-                    .then(() => m.redraw());
+                  m.redraw();
                 }
               },
             },
