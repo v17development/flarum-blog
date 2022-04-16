@@ -168,7 +168,7 @@ export default class BlogSettings extends ExtensionPage {
                 </div>
                 <input
                   class="FormControl"
-                  state={this.featuredCount}
+                  value={this.featuredCount}
                   oninput={(e) => {
                     this.featuredCount = e.target.value;
                     this.hasChanges = true;

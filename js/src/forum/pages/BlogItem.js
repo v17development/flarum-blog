@@ -100,9 +100,7 @@ export default class BlogItem extends Page {
     let articlePost = null;
 
     if (!this.loading && this.article) {
-      articlePost = this.article?.firstPost?.()
-        ? this.article.firstPost()
-        : app.store.getById("posts", this.article.firstPostId());
+      articlePost = this.article?.firstPost?.();
     }
 
     const items = new ItemList();
