@@ -2,12 +2,11 @@ import app from "flarum/forum/app";
 
 import Page from "flarum/common/components/Page";
 import Button from "flarum/common/components/Button";
-import humanTime from "flarum/common/helpers/humanTime";
 import BlogCategories from "../components/BlogCategories";
 import Link from "flarum/common/components/Link";
 import LanguageDropdown from "../components/LanguageDropdown/LanguageDropdown";
 import ForumNav from "../components/ForumNav";
-import Tooltip from "flarum/common/components/Tooltip";
+import BlogOverviewItem from "../components/BlogOverviewItem";
 import FeaturedBlogItem from "../components/FeaturedBlogItem";
 
 export default class BlogOverview extends Page {
@@ -264,74 +263,12 @@ export default class BlogOverview extends Page {
 
               {!this.isLoading &&
                 this.posts.length >= 1 &&
-                this.posts.map((article) => {
-                  const blogImage =
-                    article.blogMeta() && article.blogMeta().featuredImage()
-                      ? `url(${article.blogMeta().featuredImage()})`
-                      : defaultImage;
-                  const isSized =
-                    article.blogMeta() && article.blogMeta().isSized();
-                  const summary =
-                    article.blogMeta() && article.blogMeta().summary()
-                      ? article.blogMeta().summary()
-                      : "";
-
-                  return (
-                    <Link
-                      href={app.route("blogArticle", {
-                        id: `${article.slug()}`,
-                      })}
-                      className={`BlogList-item BlogList-item-${
-                        isSized ? "sized" : "default"
-                      }`}
-                    >
-                      <div
-                        className={
-                          "BlogList-item-photo FlarumBlog-default-image"
-                        }
-                        style={{ backgroundImage: blogImage }}
-                      ></div>
-                      <div className={"BlogList-item-content"}>
-                        <h4>
-                          {article.title()}
-                          {((article.blogMeta() &&
-                            article.blogMeta().isPendingReview() == true) ||
-                            article.isHidden()) && (
-                            <i className={"fas fa-eye-slash"} />
-                          )}
-                          {article.blogMeta() &&
-                            article.blogMeta().isPendingReview() == true && (
-                              <Tooltip
-                                text={app.translator.trans(
-                                  "v17development-flarum-blog.forum.review_article.pending_review"
-                                )}
-                              >
-                                <i className={"far fa-clock"} />
-                              </Tooltip>
-                            )}
-                        </h4>
-                        <p>{summary}</p>
-
-                        <div className={"data"}>
-                          <span>
-                            <i className={"far fa-clock"} />{" "}
-                            {humanTime(article.createdAt())}
-                          </span>
-                          <span>
-                            <i className={"far fa-user"} />{" "}
-                            {article.user()
-                              ? article.user().displayName()
-                              : "[Deleted]"}
-                          </span>
-                          <span>
-                            <i className={"far fa-comment"} />{" "}
-                            {article.commentCount() - 1}
-                          </span>
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })}
+                this.posts.map((article) => (
+                  <BlogOverviewItem
+                    article={article}
+                    defaultImage={defaultImage}
+                  />
+                ))}
 
               {!this.isLoading &&
                 this.featuredPosts.length > 0 &&
