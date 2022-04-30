@@ -82,39 +82,27 @@ export default class BlogPostSettingsModal extends Modal {
       app.forum.attribute("fof-upload.canUpload")
     ) {
       const {
-        components: { Uploader },
+        components: { Uploader, FileManagerModal },
       } = require("@fof-upload");
+
+      const uploader = new Uploader();
 
       fofUploadButton = (
         <Button
           class="Button Button--icon"
           onclick={async () => {
-            const file = await selectFiles("image/*", false);
+            app.modal.show(
+              FileManagerModal,
+              {
+                uploader: uploader,
+                onSelect: (files) => {
+                  const file = app.store.getById("files", files[0]);
 
-            if (!file) return;
-
-            const uploadingAlertId = app.alerts.show(
-              { type: "info" },
-              "Uploading image..."
+                  this.featuredImage(file.url());
+                },
+              },
+              true
             );
-
-            const fileModel = await new Promise((resolve) => {
-              /**
-               * @param {{file: File}}
-               */
-              function fileUploadSuccessCallback({ file }) {
-                resolve(file);
-              }
-
-              const uploader = new Uploader();
-              uploader.callbacks.success = [fileUploadSuccessCallback];
-
-              uploader.upload([file]).catch(() => {});
-            });
-
-            app.alerts.dismiss(uploadingAlertId);
-
-            this.featuredImage(fileModel.url());
           }}
           icon="fas fa-cloud-upload-alt"
         />
@@ -127,7 +115,6 @@ export default class BlogPostSettingsModal extends Modal {
         <label>Article image URL:</label>
         <div data-upload-enabled={!!fofUploadButton}>
           <input
-            readonly={!!fofUploadButton}
             type="text"
             className="FormControl"
             bidi={this.featuredImage}
