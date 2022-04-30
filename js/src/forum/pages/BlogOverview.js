@@ -35,7 +35,7 @@ export default class BlogOverview extends Page {
 
     this.loadBlogOverview();
 
-    this.featuredCount = app.forum.attribute("blogFeaturedCount");
+    this.featuredCount = parseInt(app.forum.attribute("blogFeaturedCount"));
 
     this.showCategories = true;
     this.showForumNav = true;
@@ -209,7 +209,7 @@ export default class BlogOverview extends Page {
             <div class="BlogFeatured-list">
               {/* Ghost data */}
               {this.isLoading &&
-                [...Array(this.featuredCount)].map(() => (
+                [...new Array(this.featuredCount).fill(undefined)].map(() => (
                   <div class="BlogFeatured-list-item BlogFeatured-list-item-ghost">
                     <div class="BlogFeatured-list-item-details">
                       <h4>&nbsp;</h4>

@@ -119,7 +119,8 @@ export default class BlogOverviewItem extends Component<Attrs> {
         className={classList("BlogList-item", {
           "BlogList-item-sized": isSized,
           "BlogList-item-default": !isSized,
-        })}
+        },
+        article.tags().map((tag) => `BlogList-category-${tag.id()}`))}
       >
         <div
           class={classList("BlogList-item-photo", {
