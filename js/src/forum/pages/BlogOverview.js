@@ -1,5 +1,6 @@
 import app from "flarum/forum/app";
 
+import IndexPage from "flarum/components/IndexPage";
 import Page from "flarum/common/components/Page";
 import Button from "flarum/common/components/Button";
 import BlogCategories from "../components/BlogCategories";
@@ -167,7 +168,8 @@ export default class BlogOverview extends Page {
         })`
       : null;
 
-    return (
+    return [
+      app.forum.attribute("blogAddHero") == true && IndexPage.prototype.hero(),
       <div className={"FlarumBlogOverview"}>
         <div className={"container"}>
           <div className={"BlogFeatured"}>
@@ -312,8 +314,8 @@ export default class BlogOverview extends Page {
             </div>
           </div>
         </div>
-      </div>
-    );
+      </div>,
+    ];
   }
 
   newArticle() {

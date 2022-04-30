@@ -1,4 +1,5 @@
 import Page from "flarum/common/components/Page";
+import IndexPage from "flarum/components/IndexPage";
 import CommentPost from "flarum/forum/components/CommentPost";
 import PostStream from "flarum/forum/components/PostStream";
 import PostStreamState from "flarum/forum/states/PostStreamState";
@@ -317,7 +318,8 @@ export default class BlogItem extends Page {
   }
 
   view() {
-    return (
+    return [
+      app.forum.attribute("blogAddHero") == true && IndexPage.prototype.hero(),
       <div className={"FlarumBlogItem"}>
         <div className={"container"}>
           <div className={"FlarumBlog-ToolButtons"}>
@@ -347,8 +349,8 @@ export default class BlogItem extends Page {
             <BlogItemSidebar article={this.article} loading={this.loading} />
           </div>
         </div>
-      </div>
-    );
+      </div>,
+    ];
   }
 
   positionChanged(startNumber, endNumber) {

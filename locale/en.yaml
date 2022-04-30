@@ -34,6 +34,8 @@ v17development-flarum-blog:
       redirect_tags_text: "When enabled, this extension redirects blog tag URLs to the blog category URL."
       default_article_image_label: Default article image
       default_article_image_text: Select a default article image to display when no image is set.
+      add_hero_label: Show welcome banner
+      add_hero_text: Show welcome banner on blog pages if it wasn't closed yet.
 
   forum:
     blog: "Blog"
@@ -45,7 +47,7 @@ v17development-flarum-blog:
     return_to_overview: "Return to blog overview "
     no_more_posts: "No more blog posts."
     category_empty: "There are no blog posts in this category."
-    
+
     compose:
       write_article: "Write article"
 

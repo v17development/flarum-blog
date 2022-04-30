@@ -28,6 +28,7 @@ export default class BlogSettings extends ExtensionPage {
       app.data.settings.blog_category_hierarchy ?? true;
     this.addSidebarNav = app.data.settings.blog_add_sidebar_nav ?? true;
     this.featuredCount = app.data.settings.blog_featured_count ?? 3;
+    this.blogAddHero = app.data.settings.blog_add_hero ?? true;
 
     app.forum.data.attributes.blog_default_imageUrl = `${app.forum.attribute(
       "baseUrl"
@@ -153,6 +154,28 @@ export default class BlogSettings extends ExtensionPage {
                   </div>,
                 ]
               ),
+              Switch.component(
+                {
+                  state: this.blogAddHero == true,
+                  onchange: (val) => {
+                    this.blogAddHero = val;
+                    this.hasChanges = true;
+                  },
+                },
+                [
+                  <b>
+                    {app.translator.trans(
+                      "v17development-flarum-blog.admin.settings.add_hero_label"
+                    )}
+                  </b>,
+                  <div className="helpText">
+                    {app.translator.trans(
+                      "v17development-flarum-blog.admin.settings.add_hero_text"
+                    )}
+                  </div>,
+                ]
+              ),
+
               <div className="Form-group">
                 {
                   <label>
@@ -362,6 +385,7 @@ export default class BlogSettings extends ExtensionPage {
       blog_category_hierarchy: this.addCategoryHierarchy,
       blog_filter_discussion_list: this.hideOnDiscussionList,
       blog_featured_count: this.featuredCount,
+      blog_add_hero: this.blogAddHero,
     })
       .then(() => {
         this.hasChanges = false;
