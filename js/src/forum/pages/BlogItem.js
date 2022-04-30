@@ -97,6 +97,11 @@ export default class BlogItem extends Page {
       });
     }
 
+    // Read post on load
+    if (!article.lastReadPostNumber()) {
+      article.save({ lastReadPostNumber: 1 });
+    }
+
     m.redraw();
   }
 
