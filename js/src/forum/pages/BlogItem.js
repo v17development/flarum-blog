@@ -91,7 +91,10 @@ export default class BlogItem extends Page {
 
     // Scroll to specific post
     if (this.near) {
-      this.stream.goToNumber(this.near, true);
+      this.stream.goToNumber(this.near || 0, true).then(() => {
+        app.current.set("discussion", article);
+        app.current.set("stream", this.stream);
+      });
     }
 
     m.redraw();
@@ -264,7 +267,7 @@ export default class BlogItem extends Page {
     );
 
     if (
-      !(this?.article?.isLocked?.() || this?.article?.commentCount?.() === 1)
+      !(this?.article?.isLocked?.() && this?.article?.commentCount?.() === 1)
     ) {
       items.add(
         "comments",
