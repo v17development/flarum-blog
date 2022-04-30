@@ -12,6 +12,10 @@ import compat from "./compat";
 import addSidebarNav from "./utils/addSidebarNav";
 import app from "flarum/forum/app";
 
+// Create our own modal manager
+import OverrideModalState from "./states/OverrideModalState";
+import overrideModalManager from "./utils/overrideModalManager";
+
 // Register Flarum Blog
 app.initializers.add(
   "v17development-flarum-blog",
@@ -52,6 +56,13 @@ app.initializers.add(
 
     // Add a link to the blog to the IndexPage sidebar, if enabled.
     addSidebarNav();
+
+    overrideModalManager();
+
+    /**
+     * Create our own dialogs
+     */
+    app.modal = new OverrideModalState();
   },
   -100000
 );
