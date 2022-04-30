@@ -116,11 +116,14 @@ export default class BlogOverviewItem extends Component<Attrs> {
         href={app.route("blogArticle", {
           id: `${article.slug()}`,
         })}
-        className={classList("BlogList-item", {
-          "BlogList-item-sized": isSized,
-          "BlogList-item-default": !isSized,
-        },
-        article.tags().map((tag) => `BlogList-category-${tag.id()}`))}
+        className={classList(
+          "BlogList-item",
+          {
+            "BlogList-item-sized": isSized,
+            "BlogList-item-default": !isSized,
+          },
+          article.tags().map((tag) => `BlogList-item-category-${tag.id()}`)
+        )}
       >
         <div
           class={classList("BlogList-item-photo", {

@@ -121,8 +121,10 @@ export default class FeaturedBlogItem extends Component<Attrs> {
         })}
         className={classList(
           "BlogFeatured-list-item",
-          article.tags().map((tag) => `BlogFeatured-list-item-category-${tag.id()}`),
-          "FlarumBlog-default-image",
+          article
+            .tags()
+            .map((tag) => `BlogFeatured-list-item-category-${tag.id()}`),
+          "FlarumBlog-default-image"
         )}
         style={{ backgroundImage: blogImage }}
       >
