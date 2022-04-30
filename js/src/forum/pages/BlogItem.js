@@ -1,4 +1,5 @@
 import Page from "flarum/common/components/Page";
+import IndexPage from "flarum/components/IndexPage";
 import CommentPost from "flarum/forum/components/CommentPost";
 import PostStream from "flarum/forum/components/PostStream";
 import PostStreamState from "flarum/forum/states/PostStreamState";
@@ -90,7 +91,15 @@ export default class BlogItem extends Page {
 
     // Scroll to specific post
     if (this.near) {
-      this.stream.goToNumber(this.near, true);
+      this.stream.goToNumber(this.near || 0, true).then(() => {
+        app.current.set("discussion", article);
+        app.current.set("stream", this.stream);
+      });
+    }
+
+    // Read post on load
+    if (!article.lastReadPostNumber()) {
+      article.save({ lastReadPostNumber: 1 });
     }
 
     m.redraw();
@@ -263,7 +272,7 @@ export default class BlogItem extends Page {
     );
 
     if (
-      !(this?.article?.isLocked?.() || this?.article?.commentCount?.() === 1)
+      !(this?.article?.isLocked?.() && this?.article?.commentCount?.() === 1)
     ) {
       items.add(
         "comments",
@@ -317,7 +326,8 @@ export default class BlogItem extends Page {
   }
 
   view() {
-    return (
+    return [
+      app.forum.attribute("blogAddHero") == true && IndexPage.prototype.hero(),
       <div className={"FlarumBlogItem"}>
         <div className={"container"}>
           <div className={"FlarumBlog-ToolButtons"}>
@@ -347,8 +357,8 @@ export default class BlogItem extends Page {
             <BlogItemSidebar article={this.article} loading={this.loading} />
           </div>
         </div>
-      </div>
-    );
+      </div>,
+    ];
   }
 
   positionChanged(startNumber, endNumber) {

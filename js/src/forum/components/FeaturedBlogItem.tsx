@@ -5,6 +5,7 @@ import humanTime from "flarum/common/helpers/humanTime";
 import icon from "flarum/common/helpers/icon";
 import Discussion from "flarum/common/models/Discussion";
 import ItemList from "flarum/common/utils/ItemList";
+import classList from "flarum/common/utils/classList";
 import app from "flarum/forum/app";
 import type Mithril from "mithril";
 
@@ -118,7 +119,13 @@ export default class FeaturedBlogItem extends Component<Attrs> {
         href={app.route("blogArticle", {
           id: `${article.slug()}`,
         })}
-        className="BlogFeatured-list-item FlarumBlog-default-image"
+        className={classList(
+          "BlogFeatured-list-item",
+          article
+            .tags()
+            .map((tag) => `BlogFeatured-list-item-category-${tag.id()}`),
+          "FlarumBlog-default-image"
+        )}
         style={{ backgroundImage: blogImage }}
       >
         <div class="BlogFeatured-list-item-top">

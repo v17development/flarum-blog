@@ -35,7 +35,6 @@
       @media screen and (min-width: 840px) {
         flex-grow: 1;
         margin-right: 25px;
-        overflow: hidden;
       }
 
       .FlarumBlog-Article-Content {
@@ -134,6 +133,12 @@
         .Post {
           padding: 0;
           margin: 0;
+
+          &.Post--flagged {
+            .Post-flagged {
+              margin: 0 !important;
+            }
+          }
 
           .Post-header {
             display: none;
