@@ -2,6 +2,12 @@ import type Component from "flarum/common/components/Component";
 import Modal from "flarum/common/components/Modal";
 
 /**
+ * Notice from V17: Temporary override due to lack of multi-dialogs!
+ *
+ * We'll open a PR to support multi-dialog to the Flarum main repo
+ */
+
+/**
  * Ideally, `show` would take a higher-kinded generic, ala:
  *  `show<Attrs, C>(componentClass: C<Attrs>, attrs: Attrs): void`
  * Unfortunately, TypeScript does not support this:
@@ -87,13 +93,23 @@ export default class OverrideModalState {
     // There are more modals currently opened
     // Close current and open last in list
     if (this.modalList.length >= 2) {
-      const currentModalPosition = this.modalList.indexOf(this.modal);
+      $(`.modal[modal-key=${this.modal?.key}]`)
+        .one("hide.bs.modal", () => {
+          const currentModalPosition = this.modalList.indexOf(this.modal);
 
-      // Remove last modal from list
-      this.modalList.splice(currentModalPosition, 1);
+          // Remove last modal from list
+          this.modalList.splice(currentModalPosition, 1);
 
-      // Open last modal from list
-      this.modal = this.modalList[this.modalList.length - 1];
+          // Open last modal from list
+          this.modal = this.modalList[this.modalList.length - 1];
+
+          setTimeout(() => {
+            $(document.body).addClass("modal-open");
+          }, 1000);
+
+          m.redraw();
+        })
+        .modal("hide");
 
       m.redraw();
       return;
@@ -106,8 +122,13 @@ export default class OverrideModalState {
     // ahead.
 
     this.closeTimeout = setTimeout(() => {
-      this.modal = null;
-      m.redraw();
+      $(`.modal[modal-key=${this.modal?.key}]`)
+        .modal("hide")
+        .one("hide.bs.modal", () => {
+          this.modal = null;
+
+          m.redraw();
+        });
     });
   }
 

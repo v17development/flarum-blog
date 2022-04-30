@@ -4,6 +4,7 @@
 @import "./Forum/BlogSideWidget.less";
 @import "./Forum/Composer.less";
 
-.Modal:not(:last-child) {
-  display: none;
+#modal .ModalManager:not(:last-child),
+.modal-backdrop.in:not(:last-child) {
+  opacity: 0;
 }
