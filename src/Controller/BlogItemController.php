@@ -47,15 +47,15 @@ class BlogItemController
 
             // Set social media title
             \V17Development\FlarumSeo\Extend::setTitle($apiDocument->data->attributes->title, false);
-            
+
             // Article URL
-            $fullArticleUrl = $this->url->to('forum')->route('blog.post', ['id' => $apiDocument->data->id . '-' . $apiDocument->data->attributes->slug]);
+            $fullArticleUrl = $this->url->to('forum')->route('blog.post', ['id' => $apiDocument->data->attributes->slug]);
 
             \V17Development\FlarumSeo\Extend::setUrl($fullArticleUrl, false);
             \V17Development\FlarumSeo\Extend::setCanonicalUrl($fullArticleUrl);
 
             \V17Development\FlarumSeo\Extend::setSchemaJson('@type', 'BlogPosting');
-            
+
             // Article image
             $articleHasImage = false;
 
@@ -72,7 +72,7 @@ class BlogItemController
                     \V17Development\FlarumSeo\Extend::setImage($blogMeta->featured_image);
                 }
             }
-            
+
             // Set featured image
             if(!$articleHasImage && $this->settings->get('blog_default_image_path', null) !== null) {
                 \V17Development\FlarumSeo\Extend::setImage($this->url->to('forum')->base() . "/assets/" . $this->settings->get('blog_default_image_path', null));
@@ -80,7 +80,7 @@ class BlogItemController
 
             // Add article changed
             \V17Development\FlarumSeo\Extend::setPublishedOn($apiDocument->data->attributes->createdAt);
-            
+
             // Add article update time
             if (isset($apiDocument->data->attributes->metaLastEditedTime)) {
                 \V17Development\FlarumSeo\Extend::setUpdatedOn($apiDocument->data->attributes->metaLastEditedTime);

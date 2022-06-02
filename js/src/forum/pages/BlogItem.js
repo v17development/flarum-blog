@@ -98,7 +98,7 @@ export default class BlogItem extends Page {
     }
 
     // Read post on load
-    if (!article.lastReadPostNumber()) {
+    if (app.session.user && !article.lastReadPostNumber()) {
       article.save({ lastReadPostNumber: 1 });
     }
 
