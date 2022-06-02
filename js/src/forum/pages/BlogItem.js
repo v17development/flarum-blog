@@ -1,31 +1,31 @@
-import Page from "flarum/common/components/Page";
-import IndexPage from "flarum/components/IndexPage";
-import CommentPost from "flarum/forum/components/CommentPost";
-import PostStream from "flarum/forum/components/PostStream";
-import PostStreamState from "flarum/forum/states/PostStreamState";
-import BlogPostController from "../components/BlogPostController";
-import BlogItemSidebar from "../components/BlogItemSidebar/BlogItemSidebar";
-import Link from "flarum/common/components/Link";
-import BlogOverview from "./BlogOverview";
-import fullTime from "flarum/common/helpers/fullTime";
-import ArticleSubscription from "../components/ArticleSubscription";
-import classList from "flarum/common/utils/classList";
-import ItemList from "flarum/common/utils/ItemList";
-import icon from "flarum/common/helpers/icon";
-import app from "flarum/forum/app";
+import Page from 'flarum/common/components/Page';
+import IndexPage from 'flarum/components/IndexPage';
+import CommentPost from 'flarum/forum/components/CommentPost';
+import PostStream from 'flarum/forum/components/PostStream';
+import PostStreamState from 'flarum/forum/states/PostStreamState';
+import BlogPostController from '../components/BlogPostController';
+import BlogItemSidebar from '../components/BlogItemSidebar/BlogItemSidebar';
+import Link from 'flarum/common/components/Link';
+import BlogOverview from './BlogOverview';
+import fullTime from 'flarum/common/helpers/fullTime';
+import ArticleSubscription from '../components/ArticleSubscription';
+import classList from 'flarum/common/utils/classList';
+import ItemList from 'flarum/common/utils/ItemList';
+import icon from 'flarum/common/helpers/icon';
+import app from 'flarum/forum/app';
 
 export default class BlogItem extends Page {
   oninit(vnode) {
     super.oninit(vnode);
 
-    app.setTitle(app.translator.trans("v17development-flarum-blog.forum.blog"));
+    app.setTitle(app.translator.trans('v17development-flarum-blog.forum.blog'));
 
     // Send history push
-    app.history.push("blogArticle");
+    app.history.push('blogArticle');
 
-    this.bodyClass = "BlogItemPage";
+    this.bodyClass = 'BlogItemPage';
 
-    this.near = m.route.param("near") || 0;
+    this.near = m.route.param('near') || 0;
 
     this.loading = true;
     this.found = false;
@@ -46,7 +46,7 @@ export default class BlogItem extends Page {
       setTimeout(this.show.bind(this, preloadBlogOverview), 0);
     } else {
       app.store
-        .find("discussions", m.route.param("id").split("-")[0])
+        .find('discussions', m.route.param('id').split('-')[0])
         .then(this.show.bind(this))
         .catch(() => {
           m.redraw();
@@ -62,11 +62,7 @@ export default class BlogItem extends Page {
     this.article = article;
 
     // Update title
-    app.setTitle(
-      `${article.title()} - ${app.translator.trans(
-        "v17development-flarum-blog.forum.blog"
-      )}`
-    );
+    app.setTitle(`${article.title()} - ${app.translator.trans('v17development-flarum-blog.forum.blog')}`);
 
     this.loading = false;
 
@@ -77,12 +73,12 @@ export default class BlogItem extends Page {
       includedPosts = article.payload.included
         .filter(
           (record) =>
-            record.type === "posts" &&
+            record.type === 'posts' &&
             record.relationships &&
             record.relationships.discussion &&
             record.relationships.discussion.data.id === articleId
         )
-        .map((record) => app.store.getById("posts", record.id))
+        .map((record) => app.store.getById('posts', record.id))
         .sort((a, b) => a.id() - b.id())
         .slice(0, 20);
     }
@@ -92,8 +88,8 @@ export default class BlogItem extends Page {
     // Scroll to specific post
     if (this.near) {
       this.stream.goToNumber(this.near || 0, true).then(() => {
-        app.current.set("discussion", article);
-        app.current.set("stream", this.stream);
+        app.current.set('discussion', article);
+        app.current.set('stream', this.stream);
       });
     }
 
@@ -115,45 +111,38 @@ export default class BlogItem extends Page {
     const items = new ItemList();
 
     items.add(
-      "title",
+      'title',
       <h3
-        className={classList("FlarumBlog-Article-Title", {
-          "FlarumBlog-Article-GhostTitle": this.loading,
+        className={classList('FlarumBlog-Article-Title', {
+          'FlarumBlog-Article-GhostTitle': this.loading,
         })}
       >
-        {this?.article?.title?.() || "Ghost title"}
-        {this.article?.isHidden?.() &&
-          `(${app.translator.trans(
-            "v17development-flarum-blog.forum.hidden"
-          )})`}
+        {this?.article?.title?.() || 'Ghost title'}
+        {this.article?.isHidden?.() && `(${app.translator.trans('v17development-flarum-blog.forum.hidden')})`}
       </h3>,
       100
     );
 
     items.add(
-      "publishDate",
+      'publishDate',
       <div
-        className={classList("FlarumBlog-Article-PublishDate", {
-          "FlarumBlog-Article-GhostPublishDate": this.loading,
+        className={classList('FlarumBlog-Article-PublishDate', {
+          'FlarumBlog-Article-GhostPublishDate': this.loading,
         })}
       >
-        {this.article ? (
-          fullTime(this.article.createdAt())
-        ) : (
-          <span>&nbsp;</span>
-        )}
+        {this.article ? fullTime(this.article.createdAt()) : <span>&nbsp;</span>}
       </div>,
       80
     );
 
     if (this.loading) {
       items.add(
-        "skeleton",
+        'skeleton',
         [0, 1, 2].map(() => (
           <div>
-            <p className={"FlarumBlog-Article-GhostParagraph"}>&nbsp;</p>
-            <p className={"FlarumBlog-Article-GhostParagraph"}>&nbsp;</p>
-            <p className={"FlarumBlog-Article-GhostParagraph"}>&nbsp;</p>
+            <p className={'FlarumBlog-Article-GhostParagraph'}>&nbsp;</p>
+            <p className={'FlarumBlog-Article-GhostParagraph'}>&nbsp;</p>
+            <p className={'FlarumBlog-Article-GhostParagraph'}>&nbsp;</p>
             <p>&nbsp;</p>
           </div>
         )),
@@ -164,14 +153,12 @@ export default class BlogItem extends Page {
     if (!this.loading) {
       if (this.article.blogMeta?.()?.isPendingReview?.()) {
         items.add(
-          "review",
-          <div className={"Post-body"}>
-            <blockquote class="uncited" style={{ fontSize: "16px" }}>
+          'review',
+          <div className={'Post-body'}>
+            <blockquote class="uncited" style={{ fontSize: '16px' }}>
               <div>
-                {icon("far fa-clock", { style: { marginRight: "5px" } })}{" "}
-                {app.translator.trans(
-                  "v17development-flarum-blog.forum.review_article.pending_review"
-                )}
+                {icon('far fa-clock', { style: { marginRight: '5px' } })}{' '}
+                {app.translator.trans('v17development-flarum-blog.forum.review_article.pending_review')}
               </div>
             </blockquote>
           </div>,
@@ -180,7 +167,7 @@ export default class BlogItem extends Page {
       }
 
       if (articlePost) {
-        items.add("post", <CommentPost post={articlePost} />, 40);
+        items.add('post', <CommentPost post={articlePost} />, 40);
       }
     }
 
@@ -188,25 +175,18 @@ export default class BlogItem extends Page {
   }
 
   contentItems() {
-    const defaultImage = app.forum.attribute("blogDefaultImage")
-      ? `url(${app.forum.attribute("baseUrl")}/assets/${app.forum.attribute(
-          "blogDefaultImage"
-        )})`
+    const defaultImage = app.forum.attribute('blogDefaultImage')
+      ? `url(${app.forum.attribute('baseUrl')}/assets/${app.forum.attribute('blogDefaultImage')})`
       : null;
 
-    const blogImage = this.article?.blogMeta()?.featuredImage?.()
-      ? `url(${this.article.blogMeta().featuredImage()})`
-      : defaultImage;
+    const blogImage = this.article?.blogMeta()?.featuredImage?.() ? `url(${this.article.blogMeta().featuredImage()})` : defaultImage;
 
     const items = new ItemList();
 
     items.add(
-      "image",
+      'image',
       <div
-        className={classList(
-          "FlarumBlog-Article-Image FlarumBlog-default-image",
-          { "FlarumBlog-Article-GhostImage": this.loading }
-        )}
+        className={classList('FlarumBlog-Article-Image FlarumBlog-default-image', { 'FlarumBlog-Article-GhostImage': this.loading })}
         style={{
           backgroundImage: blogImage,
           opacity: this.article?.isHidden?.() ? 0.4 : null,
@@ -215,47 +195,22 @@ export default class BlogItem extends Page {
       100
     );
 
-    if (
-      this.article &&
-      (app.session.user?.canEdit?.() ||
-        this.article?.canRename?.() ||
-        this.article?.posts?.()?.[0]?.canEdit?.())
-    ) {
-      items.add(
-        "editArticle",
-        <BlogPostController article={this.article} />,
-        80
-      );
+    if (this.article && (app.session.user?.canEdit?.() || this.article?.canRename?.() || this.article?.posts?.()?.[0]?.canEdit?.())) {
+      items.add('editArticle', <BlogPostController article={this.article} />, 80);
     }
 
     // Article Categories
     items.add(
-      "categories",
+      'categories',
       <div className="FlarumBlog-Article-Categories">
-        {!this.loading &&
-          this.article
-            ?.tags?.()
-            ?.map((tag) => (
-              <Link href={app.route("blogCategory", { slug: tag.slug() })}>
-                {tag.name()}
-              </Link>
-            ))}
+        {!this.loading && this.article?.tags?.()?.map((tag) => <Link href={app.route('blogCategory', { slug: tag.slug() })}>{tag.name()}</Link>)}
 
-        {this.loading &&
-          [0, 1].map(() => (
-            <span className="FlarumBlog-Article-GhostCategory">Category</span>
-          ))}
+        {this.loading && [0, 1].map(() => <span className="FlarumBlog-Article-GhostCategory">Category</span>)}
       </div>,
       60
     );
 
-    items.add(
-      "post",
-      <div className={"FlarumBlog-Article-Post"}>
-        {this.postItems().toArray()}
-      </div>,
-      40
-    );
+    items.add('post', <div className={'FlarumBlog-Article-Post'}>{this.postItems().toArray()}</div>, 40);
 
     return items;
   }
@@ -263,48 +218,29 @@ export default class BlogItem extends Page {
   articleItems() {
     const items = new ItemList();
 
-    items.add(
-      "content",
-      <div className="FlarumBlog-Article-Content">
-        {this.contentItems().toArray()}
-      </div>,
-      100
-    );
+    items.add('content', <div className="FlarumBlog-Article-Content">{this.contentItems().toArray()}</div>, 100);
 
-    if (
-      !(this?.article?.isLocked?.() && this?.article?.commentCount?.() === 1)
-    ) {
+    if (!(this?.article?.isLocked?.() && this?.article?.commentCount?.() === 1)) {
       items.add(
-        "comments",
-        <div className={"FlarumBlog-Article-Comments"}>
+        'comments',
+        <div className={'FlarumBlog-Article-Comments'}>
           {/* Show subscription state */}
           {!this.loading &&
             app.session.user &&
             this.article.subscription &&
-            (!this.article.isLocked ||
-              (this.article.isLocked && !this.article.isLocked())) && (
-              <ArticleSubscription discussion={this.article} />
-            )}
+            (!this.article.isLocked || (this.article.isLocked && !this.article.isLocked())) && <ArticleSubscription discussion={this.article} />}
 
           <h4>
-            {app.translator.trans(
-              "v17development-flarum-blog.forum.comment_section.comments"
-            )}{" "}
-            ({this.article ? this.article.commentCount() - 1 : 0})
+            {app.translator.trans('v17development-flarum-blog.forum.comment_section.comments')} ({this.article ? this.article.commentCount() - 1 : 0})
           </h4>
 
           {/* Locked */}
           {!this.loading && this.article?.isLocked?.() && (
-            <div className={"Post-body"}>
+            <div className={'Post-body'}>
               <blockquote class="uncited">
                 <div>
-                  <span
-                    className={"far fa-lock"}
-                    style={{ marginRight: "5px" }}
-                  />{" "}
-                  {app.translator.trans(
-                    "v17development-flarum-blog.forum.comment_section.locked"
-                  )}
+                  <span className={'far fa-lock'} style={{ marginRight: '5px' }} />{' '}
+                  {app.translator.trans('v17development-flarum-blog.forum.comment_section.locked')}
                 </div>
               </blockquote>
             </div>
@@ -327,13 +263,13 @@ export default class BlogItem extends Page {
 
   view() {
     return [
-      app.forum.attribute("blogAddHero") == true && IndexPage.prototype.hero(),
-      <div className={"FlarumBlogItem"}>
-        <div className={"container"}>
-          <div className={"FlarumBlog-ToolButtons"}>
+      app.forum.attribute('blogAddHero') == true && IndexPage.prototype.hero(),
+      <div className={'FlarumBlogItem'}>
+        <div className={'container'}>
+          <div className={'FlarumBlog-ToolButtons'}>
             <Link
-              href={app.route("blog")}
-              className={"Button"}
+              href={app.route('blog')}
+              className={'Button'}
               onclick={(e) => {
                 if (app.previous.matches(BlogOverview)) {
                   e.preventDefault();
@@ -342,17 +278,11 @@ export default class BlogItem extends Page {
               }}
             >
               <i class="icon fas fa-angle-left Button-icon"></i>
-              <span class="Button-label">
-                {app.translator.trans(
-                  "v17development-flarum-blog.forum.return_to_overview"
-                )}
-              </span>
+              <span class="Button-label">{app.translator.trans('v17development-flarum-blog.forum.return_to_overview')}</span>
             </Link>
           </div>
-          <div className={"FlarumBlog-Article"}>
-            <div className={"FlarumBlog-Article-Container"}>
-              {this.articleItems().toArray()}
-            </div>
+          <div className={'FlarumBlog-Article'}>
+            <div className={'FlarumBlog-Article-Container'}>{this.articleItems().toArray()}</div>
 
             <BlogItemSidebar article={this.article} loading={this.loading} />
           </div>

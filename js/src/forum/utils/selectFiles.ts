@@ -8,13 +8,10 @@
 function selectFiles(contentType: string, multiple: false): Promise<File>;
 function selectFiles(contentType: string, multiple: true): Promise<File[]>;
 
-function selectFiles(
-  contentType: string,
-  multiple: boolean
-): Promise<File | File[]> {
+function selectFiles(contentType: string, multiple: boolean): Promise<File | File[]> {
   return new Promise((resolve) => {
-    let input = document.createElement("input");
-    input.type = "file";
+    let input = document.createElement('input');
+    input.type = 'file';
     input.multiple = multiple;
     input.accept = contentType;
 

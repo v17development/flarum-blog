@@ -1,15 +1,15 @@
-import Component from "flarum/common/Component";
-import TagDiscussionModal from "flarum/tags/components/TagDiscussionModal";
-import DiscussionControls from "flarum/forum/utils/DiscussionControls";
-import Alert from "flarum/common/components/Alert";
-import Button from "flarum/common/components/Button";
-import Dropdown from "flarum/common/components/Dropdown";
-import BlogPostSettingsModal from "./Modals/BlogPostSettingsModal";
-import EditPostComposer from "flarum/forum/components/EditPostComposer";
-import extractText from "flarum/common/utils/extractText";
-import ItemList from "flarum/common/utils/ItemList";
-import RenameArticleModal from "./Modals/RenameArticleModal";
-import app from "flarum/forum/app";
+import Component from 'flarum/common/Component';
+import TagDiscussionModal from 'flarum/tags/components/TagDiscussionModal';
+import DiscussionControls from 'flarum/forum/utils/DiscussionControls';
+import Alert from 'flarum/common/components/Alert';
+import Button from 'flarum/common/components/Button';
+import Dropdown from 'flarum/common/components/Dropdown';
+import BlogPostSettingsModal from './Modals/BlogPostSettingsModal';
+import EditPostComposer from 'flarum/forum/components/EditPostComposer';
+import extractText from 'flarum/common/utils/extractText';
+import ItemList from 'flarum/common/utils/ItemList';
+import RenameArticleModal from './Modals/RenameArticleModal';
+import app from 'flarum/forum/app';
 
 export default class BlogPostController extends Component {
   init() {
@@ -22,26 +22,21 @@ export default class BlogPostController extends Component {
 
     // Working for GlowingBlue version
     const LanguageDiscussionModal =
-      flarum.extensions["fof-discussion-language"] &&
-      typeof flarum.extensions["fof-discussion-language"].components !==
-        "undefined"
-        ? flarum.extensions["fof-discussion-language"].components
-            .LanguageDiscussionModal
+      flarum.extensions['fof-discussion-language'] && typeof flarum.extensions['fof-discussion-language'].components !== 'undefined'
+        ? flarum.extensions['fof-discussion-language'].components.LanguageDiscussionModal
         : null;
 
     // Rename article
     if (article.canRename()) {
       items.add(
-        "rename",
+        'rename',
         Button.component(
           {
-            className: "Button",
+            className: 'Button',
             onclick: () => app.modal.show(RenameArticleModal, { article }),
-            icon: "fas fa-pencil-alt",
+            icon: 'fas fa-pencil-alt',
           },
-          app.translator.trans(
-            "v17development-flarum-blog.forum.tools.rename_article"
-          )
+          app.translator.trans('v17development-flarum-blog.forum.tools.rename_article')
         ),
         100
       );
@@ -51,36 +46,32 @@ export default class BlogPostController extends Component {
 
     // Edit article
     items.add(
-      "edit",
+      'edit',
       Button.component(
         {
-          className: "Button",
+          className: 'Button',
           disabled: !articlePost || !articlePost.canEdit(),
           onclick: () => {
             app.composer.load(EditPostComposer, { post: articlePost });
             app.composer.show();
           },
-          icon: "fas fa-edit",
+          icon: 'fas fa-edit',
         },
-        app.translator.trans(
-          "v17development-flarum-blog.forum.tools.edit_article"
-        )
+        app.translator.trans('v17development-flarum-blog.forum.tools.edit_article')
       ),
       90
     );
 
     // Article settings
     items.add(
-      "articleSettings",
+      'articleSettings',
       Button.component(
         {
-          className: "Button",
+          className: 'Button',
           onclick: () => app.modal.show(BlogPostSettingsModal, { article }),
-          icon: "fas fa-cogs",
+          icon: 'fas fa-cogs',
         },
-        app.translator.trans(
-          "v17development-flarum-blog.forum.tools.article_settings"
-        )
+        app.translator.trans('v17development-flarum-blog.forum.tools.article_settings')
       ),
       80
     );
@@ -88,17 +79,14 @@ export default class BlogPostController extends Component {
     // Update categories
     if (article.canTag()) {
       items.add(
-        "tag",
+        'tag',
         Button.component(
           {
-            className: "Button",
-            onclick: () =>
-              app.modal.show(TagDiscussionModal, { discussion: article }),
-            icon: "fas fa-tag",
+            className: 'Button',
+            onclick: () => app.modal.show(TagDiscussionModal, { discussion: article }),
+            icon: 'fas fa-tag',
           },
-          app.translator.trans(
-            "v17development-flarum-blog.forum.tools.update_category"
-          )
+          app.translator.trans('v17development-flarum-blog.forum.tools.update_category')
         ),
         70
       );
@@ -106,14 +94,14 @@ export default class BlogPostController extends Component {
 
     // Approve article
     if (article.blogMeta() && article.blogMeta().isPendingReview()) {
-      items.add("separator1", <li className="Dropdown-separator" />, 65);
+      items.add('separator1', <li className="Dropdown-separator" />, 65);
 
       items.add(
-        "approve",
+        'approve',
         Button.component(
           {
-            className: "Button",
-            disabled: !app.forum.attribute("canApproveBlogPosts"),
+            className: 'Button',
+            disabled: !app.forum.attribute('canApproveBlogPosts'),
             onclick: () => {
               article
                 .blogMeta()
@@ -124,10 +112,8 @@ export default class BlogPostController extends Component {
                   () => {
                     app.alerts.show(
                       Alert,
-                      { type: "success" },
-                      app.translator.trans(
-                        "v17development-flarum-blog.forum.review_article.approve_article_approved"
-                      )
+                      { type: 'success' },
+                      app.translator.trans('v17development-flarum-blog.forum.review_article.approve_article_approved')
                     );
                   },
                   (response) => {
@@ -136,59 +122,44 @@ export default class BlogPostController extends Component {
                   }
                 );
             },
-            icon: "fas fa-thumbs-up",
+            icon: 'fas fa-thumbs-up',
           },
-          app.translator.trans(
-            "v17development-flarum-blog.forum.review_article.approve_article"
-          )
+          app.translator.trans('v17development-flarum-blog.forum.review_article.approve_article')
         ),
         60
       );
     }
 
     // Language
-    if (
-      article.canChangeLanguage &&
-      article.canChangeLanguage() &&
-      LanguageDiscussionModal
-    ) {
+    if (article.canChangeLanguage && article.canChangeLanguage() && LanguageDiscussionModal) {
       items.add(
-        "lang",
+        'lang',
         Button.component(
           {
-            icon: "fas fa-globe",
-            onclick: () =>
-              app.modal.show(LanguageDiscussionModal, { discussion: article }),
+            icon: 'fas fa-globe',
+            onclick: () => app.modal.show(LanguageDiscussionModal, { discussion: article }),
           },
-          app.translator.trans(
-            "fof-discussion-language.forum.discussion_controls.change_language_button"
-          )
+          app.translator.trans('fof-discussion-language.forum.discussion_controls.change_language_button')
         ),
         50
       );
     }
 
-    items.add("separator2", <li className="Dropdown-separator" />, 40);
+    items.add('separator2', <li className="Dropdown-separator" />, 40);
 
     // Lock article
     if (article.canLock()) {
       items.add(
-        "lock",
+        'lock',
         Button.component(
           {
-            className: "Button",
+            className: 'Button',
             onclick: DiscussionControls.lockAction.bind(article),
-            icon: `fas ${
-              article.isLocked() ? "fa-comments" : "fa-comment-slash"
-            }`,
+            icon: `fas ${article.isLocked() ? 'fa-comments' : 'fa-comment-slash'}`,
           },
           article.isLocked()
-            ? app.translator.trans(
-                "v17development-flarum-blog.forum.tools.enable_comments"
-              )
-            : app.translator.trans(
-                "v17development-flarum-blog.forum.tools.disable_comments"
-              )
+            ? app.translator.trans('v17development-flarum-blog.forum.tools.enable_comments')
+            : app.translator.trans('v17development-flarum-blog.forum.tools.disable_comments')
         ),
         30
       );
@@ -200,16 +171,14 @@ export default class BlogPostController extends Component {
       if (article.isHidden()) {
         // Recover article
         items.add(
-          "recover",
+          'recover',
           Button.component(
             {
-              className: "Button",
+              className: 'Button',
               onclick: DiscussionControls.restoreAction.bind(article),
-              icon: "fas fa-eye",
+              icon: 'fas fa-eye',
             },
-            app.translator.trans(
-              "v17development-flarum-blog.forum.tools.recover_article"
-            )
+            app.translator.trans('v17development-flarum-blog.forum.tools.recover_article')
           ),
           20
         );
@@ -217,27 +186,19 @@ export default class BlogPostController extends Component {
         // Delete article
         if (article.canDelete()) {
           buttons.add(
-            "delete",
+            'delete',
             Button.component(
               {
-                className: "Button",
+                className: 'Button',
                 onclick: () => {
                   // Confirm deletion
-                  if (
-                    confirm(
-                      extractText(
-                        app.translator.trans(
-                          "core.forum.discussion_controls.delete_confirmation"
-                        )
-                      )
-                    )
-                  ) {
+                  if (confirm(extractText(app.translator.trans('core.forum.discussion_controls.delete_confirmation')))) {
                     // Redirect if the current page is an blog article
-                    if (app.history.getCurrent().name === "blogArticle") {
+                    if (app.history.getCurrent().name === 'blogArticle') {
                       if (app.previous) {
                         app.history.back();
                       } else {
-                        m.route.set(app.route("blog"));
+                        m.route.set(app.route('blog'));
                       }
                     }
 
@@ -246,11 +207,9 @@ export default class BlogPostController extends Component {
                     });
                   }
                 },
-                icon: "far fa-trash-alt",
+                icon: 'far fa-trash-alt',
               },
-              app.translator.trans(
-                "v17development-flarum-blog.forum.tools.delete_forever"
-              )
+              app.translator.trans('v17development-flarum-blog.forum.tools.delete_forever')
             ),
             10
           );
@@ -258,16 +217,14 @@ export default class BlogPostController extends Component {
       } else {
         // Hide article
         items.add(
-          "hide",
+          'hide',
           Button.component(
             {
-              className: "Button",
+              className: 'Button',
               onclick: DiscussionControls.hideAction.bind(article),
-              icon: "fas fa-eye-slash",
+              icon: 'fas fa-eye-slash',
             },
-            app.translator.trans(
-              "v17development-flarum-blog.forum.tools.hide_article"
-            )
+            app.translator.trans('v17development-flarum-blog.forum.tools.hide_article')
           ),
           0
         );
@@ -283,14 +240,14 @@ export default class BlogPostController extends Component {
     const articlePost = article.firstPost();
 
     return (
-      <div className={"FlarumBlog-Article-Content-Edit-Button"}>
-        <div className={"FlarumBlog-Article-Content-Edit-Dropdown"}>
+      <div className={'FlarumBlog-Article-Content-Edit-Button'}>
+        <div className={'FlarumBlog-Article-Content-Edit-Dropdown'}>
           {Dropdown.component(
             {
-              icon: "fas fa-cog",
-              label: "Manage",
-              buttonClassName: "Button",
-              menuClassName: "Dropdown-menu--right",
+              icon: 'fas fa-cog',
+              label: 'Manage',
+              buttonClassName: 'Button',
+              menuClassName: 'Dropdown-menu--right',
               onshow: () => {
                 // Get post data to make sure they can edit the post
                 if (articlePost && !articlePost.canEdit() && !this.loadedPost) {

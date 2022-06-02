@@ -1,7 +1,7 @@
-import Modal from "flarum/common/components/Modal";
-import Button from "flarum/common/components/Button";
-import ItemList from "flarum/common/utils/ItemList";
-import Stream from "flarum/common/utils/Stream";
+import Modal from 'flarum/common/components/Modal';
+import Button from 'flarum/common/components/Button';
+import ItemList from 'flarum/common/utils/ItemList';
+import Stream from 'flarum/common/utils/Stream';
 
 export default class RenameArticleModal extends Modal {
   oninit(vnode) {
@@ -9,19 +9,17 @@ export default class RenameArticleModal extends Modal {
 
     this.article = this.attrs.article;
 
-    this.name = Stream(this.article.title() || "");
+    this.name = Stream(this.article.title() || '');
 
     this.redirect = this.attrs.redirect;
   }
 
   className() {
-    return "Modal--small Support-Modal";
+    return 'Modal--small Support-Modal';
   }
 
   title() {
-    return app.translator.trans(
-      "v17development-flarum-blog.forum.tools.rename_article"
-    );
+    return app.translator.trans('v17development-flarum-blog.forum.tools.rename_article');
   }
 
   content() {
@@ -36,35 +34,24 @@ export default class RenameArticleModal extends Modal {
     const items = new ItemList();
 
     items.add(
-      "name",
+      'name',
       <div className="Form-group">
-        <label>
-          {app.translator.trans(
-            "v17development-flarum-blog.forum.article.title"
-          )}
-          :
-        </label>
-        <input
-          className="FormControl"
-          placeholder={app.translator.trans(
-            "v17development-flarum-blog.forum.article.title"
-          )}
-          bidi={this.name}
-        />
+        <label>{app.translator.trans('v17development-flarum-blog.forum.article.title')}:</label>
+        <input className="FormControl" placeholder={app.translator.trans('v17development-flarum-blog.forum.article.title')} bidi={this.name} />
       </div>,
       50
     );
 
     items.add(
-      "submit",
+      'submit',
       <div className="Form-group">
         {Button.component(
           {
-            type: "submit",
-            className: "Button Button--primary SupportModal-save",
+            type: 'submit',
+            className: 'Button Button--primary SupportModal-save',
             loading: this.loading,
           },
-          "Update"
+          'Update'
         )}
       </div>,
       -10

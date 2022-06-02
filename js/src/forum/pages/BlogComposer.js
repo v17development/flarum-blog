@@ -1,54 +1,50 @@
-import app from "flarum/forum/app";
-import Page from "flarum/common/components/Page";
-import Button from "flarum/common/components/Button";
-import Link from "flarum/common/components/Link";
-import BlogAuthor from "../components/BlogItemSidebar/BlogAuthor";
-import RenameArticleModal from "../components/Modals/RenameArticleModal";
-import TagDiscussionModal from "flarum/tags/components/TagDiscussionModal";
-import BlogPostSettingsModal from "../components/Modals/BlogPostSettingsModal";
-import Composer from "../components/Composer/Composer";
-import LanguageDropdown from "../components/LanguageDropdown/LanguageDropdown";
-import ItemList from "flarum/common/utils/ItemList";
+import app from 'flarum/forum/app';
+import Page from 'flarum/common/components/Page';
+import Button from 'flarum/common/components/Button';
+import Link from 'flarum/common/components/Link';
+import BlogAuthor from '../components/BlogItemSidebar/BlogAuthor';
+import RenameArticleModal from '../components/Modals/RenameArticleModal';
+import TagDiscussionModal from 'flarum/tags/components/TagDiscussionModal';
+import BlogPostSettingsModal from '../components/Modals/BlogPostSettingsModal';
+import Composer from '../components/Composer/Composer';
+import LanguageDropdown from '../components/LanguageDropdown/LanguageDropdown';
+import ItemList from 'flarum/common/utils/ItemList';
 
 export default class BlogComposer extends Page {
   oninit(vnode) {
     super.oninit(vnode);
 
-    app.setTitle(app.translator.trans("v17development-flarum-blog.forum.blog"));
+    app.setTitle(app.translator.trans('v17development-flarum-blog.forum.blog'));
 
     // User cannot write blogs
-    if (!app.forum.attribute("canWriteBlogPosts")) {
-      m.route.set(app.route("blog"));
+    if (!app.forum.attribute('canWriteBlogPosts')) {
+      m.route.set(app.route('blog'));
       return;
     }
 
     // Send history push
-    app.history.push("blogComposer");
+    app.history.push('blogComposer');
 
     // Get languages (if enabled)
-    this.languages = app.store.all("discussion-languages") || [];
+    this.languages = app.store.all('discussion-languages') || [];
 
     // Set body class
-    this.bodyClass = "BlogItemPage BlogItemPage--composer";
+    this.bodyClass = 'BlogItemPage BlogItemPage--composer';
 
     // Article data
-    this.articleLanguage = m.route.param("lang")
-      ? m.route.param("lang")
-      : app.translator.locale;
-    this.article = app.store.createRecord("discussions");
+    this.articleLanguage = m.route.param('lang') ? m.route.param('lang') : app.translator.locale;
+    this.article = app.store.createRecord('discussions');
     this.blogMeta = null;
 
     this.tags = [];
 
     // Pre-select tags
     if (m.route.param().tags) {
-      const tagList = Array.isArray(m.route.param().tags)
-        ? m.route.param().tags
-        : m.route.param().tags.split(",");
+      const tagList = Array.isArray(m.route.param().tags) ? m.route.param().tags : m.route.param().tags.split(',');
 
       if (m.route.param().tags.length > 0) {
         tagList.forEach((tagId) => {
-          const foundTag = app.store.getById("tags", tagId);
+          const foundTag = app.store.getById('tags', tagId);
 
           if (foundTag) {
             this.tags.push(foundTag);
@@ -107,8 +103,8 @@ export default class BlogComposer extends Page {
 
   view() {
     return (
-      <div className={"FlarumBlogItem"}>
-        <div className={"container"}>{this.pageItems().toArray()}</div>
+      <div className={'FlarumBlogItem'}>
+        <div className={'container'}>{this.pageItems().toArray()}</div>
       </div>
     );
   }
@@ -117,32 +113,17 @@ export default class BlogComposer extends Page {
     const items = new ItemList();
 
     items.add(
-      "toolButtons",
+      'toolButtons',
       <div className="FlarumBlog-ToolButtons">
-        <Link
-          href={app.route("blog")}
-          className="Button"
-          loading={this.isSaving}
-          icon="fas fa-angle-left"
-        >
+        <Link href={app.route('blog')} className="Button" loading={this.isSaving} icon="fas fa-angle-left">
           <i class="icon fas fa-angle-left Button-icon" />
-          <span class="Button-label">
-            {app.translator.trans(
-              "v17development-flarum-blog.forum.return_to_overview"
-            )}
-          </span>
+          <span class="Button-label">{app.translator.trans('v17development-flarum-blog.forum.return_to_overview')}</span>
         </Link>
       </div>,
       100
     );
 
-    items.add(
-      "article",
-      <div className={"FlarumBlog-Article"}>
-        {this.articleWrapperItems().toArray()}
-      </div>,
-      90
-    );
+    items.add('article', <div className={'FlarumBlog-Article'}>{this.articleWrapperItems().toArray()}</div>, 90);
 
     return items;
   }
@@ -150,16 +131,10 @@ export default class BlogComposer extends Page {
   articleWrapperItems() {
     const items = new ItemList();
 
-    items.add(
-      "container",
-      <div className="FlarumBlog-Article-Container">
-        {this.articleItems().toArray()}
-      </div>,
-      100
-    );
+    items.add('container', <div className="FlarumBlog-Article-Container">{this.articleItems().toArray()}</div>, 100);
 
     items.add(
-      "sidebar",
+      'sidebar',
       <div className="FlarumBlog-Article-Sidebar">
         <BlogAuthor user={app.session.user} />
       </div>,
@@ -172,116 +147,70 @@ export default class BlogComposer extends Page {
   articleItems() {
     const items = new ItemList();
 
-    const defaultImage = app.forum.attribute("blogDefaultImage")
-      ? `url(${
-          app.forum.attribute("baseUrl") +
-          "/assets/" +
-          app.forum.attribute("blogDefaultImage")
-        })`
+    const defaultImage = app.forum.attribute('blogDefaultImage')
+      ? `url(${app.forum.attribute('baseUrl') + '/assets/' + app.forum.attribute('blogDefaultImage')})`
       : null;
 
-    const blogImage =
-      this.blogMeta && this.blogMeta.featuredImage()
-        ? `url(${this.blogMeta.featuredImage()})`
-        : defaultImage;
+    const blogImage = this.blogMeta && this.blogMeta.featuredImage() ? `url(${this.blogMeta.featuredImage()})` : defaultImage;
 
     items.add(
-      "content",
+      'content',
       <div className="FlarumBlog-Article-Content">
         <div
           className={`FlarumBlog-Article-Image FlarumBlog-default-image`}
           style={{
             backgroundImage: blogImage,
-            cursor: "pointer",
+            cursor: 'pointer',
           }}
           onclick={(e) => this.openBlogSettings(e)}
         />
 
-        <div className={"FlarumBlog-Article-Content-Edit-Button"}>
-          <div
-            className={
-              this.languages.length === 0
-                ? "FlarumBlog-Article-Content-Edit-Dropdown"
-                : "FlarumBlog-Article-Content-EditButtons"
-            }
-          >
+        <div className={'FlarumBlog-Article-Content-Edit-Button'}>
+          <div className={this.languages.length === 0 ? 'FlarumBlog-Article-Content-Edit-Dropdown' : 'FlarumBlog-Article-Content-EditButtons'}>
             {this.languages !== null && this.languages.length >= 1 && (
-              <LanguageDropdown
-                selected={this.articleLanguage}
-                onclick={(language) => (this.articleLanguage = language)}
-              />
+              <LanguageDropdown selected={this.articleLanguage} onclick={(language) => (this.articleLanguage = language)} />
             )}
 
-            <Button
-              className={"Button"}
-              onclick={(e) => this.openBlogSettings(e)}
-              icon={"fas fa-pencil-alt"}
-              loading={this.isSaving}
-            >
-              {app.translator.trans(
-                "v17development-flarum-blog.forum.composer.update_settings"
-              )}
+            <Button className={'Button'} onclick={(e) => this.openBlogSettings(e)} icon={'fas fa-pencil-alt'} loading={this.isSaving}>
+              {app.translator.trans('v17development-flarum-blog.forum.composer.update_settings')}
             </Button>
           </div>
         </div>
 
         {/* Article Categories */}
-        <div className={"FlarumBlog-Article-Categories"}>
+        <div className={'FlarumBlog-Article-Categories'}>
           {this.tags.map((tag) => (
-            <button
-              class="Button Button--text"
-              onclick={(e) => this.openTagsModal(e)}
-            >
+            <button class="Button Button--text" onclick={(e) => this.openTagsModal(e)}>
               {tag.name()}
             </button>
           ))}
 
-          <button
-            class="Button Button--text"
-            onclick={(e) => this.openTagsModal(e)}
-          >
+          <button class="Button Button--text" onclick={(e) => this.openTagsModal(e)}>
             {this.tags.length === 0
-              ? app.translator.trans(
-                  "v17development-flarum-blog.forum.composer.select_category"
-                )
-              : app.translator.trans(
-                  "v17development-flarum-blog.forum.composer.edit_categories"
-                )}{" "}
-            <i className={"fas fa-edit"} />
+              ? app.translator.trans('v17development-flarum-blog.forum.composer.select_category')
+              : app.translator.trans('v17development-flarum-blog.forum.composer.edit_categories')}{' '}
+            <i className={'fas fa-edit'} />
           </button>
         </div>
 
-        <div className={"FlarumBlog-Article-Post"}>
+        <div className={'FlarumBlog-Article-Post'}>
           {/* Article name */}
-          <h3
-            onclick={() => this.openNameArticleModal()}
-            className="FlarumBlog-Article-Title"
-            style={{ cursor: "pointer" }}
-          >
-            {this.article && this.article.title() && this.article.title() !== ""
+          <h3 onclick={() => this.openNameArticleModal()} className="FlarumBlog-Article-Title" style={{ cursor: 'pointer' }}>
+            {this.article && this.article.title() && this.article.title() !== ''
               ? this.article.title()
-              : app.translator.trans(
-                  "v17development-flarum-blog.forum.composer.no_title"
-                )}
+              : app.translator.trans('v17development-flarum-blog.forum.composer.no_title')}
 
-            <button
-              class="Button Button--text"
-              onclick={(e) => e.preventDefault()}
-            >
-              <i className={"fas fa-edit"} />
+            <button class="Button Button--text" onclick={(e) => e.preventDefault()}>
+              <i className={'fas fa-edit'} />
             </button>
           </h3>
 
           <div className="Post-body">
             <Composer
               composer={app.composer}
-              originalContent={""}
-              submitLabel={app.translator.trans(
-                "v17development-flarum-blog.forum.composer.post_article"
-              )}
-              placeholder={app.translator.trans(
-                "v17development-flarum-blog.forum.composer.enter_message_here"
-              )}
+              originalContent={''}
+              submitLabel={app.translator.trans('v17development-flarum-blog.forum.composer.post_article')}
+              placeholder={app.translator.trans('v17development-flarum-blog.forum.composer.enter_message_here')}
               onsubmit={() => this.create()}
               disabled={this.isSaving}
             />
@@ -292,23 +221,16 @@ export default class BlogComposer extends Page {
     );
 
     items.add(
-      "commentsPlaceholder",
+      'commentsPlaceholder',
       <div className="FlarumBlog-Article-Comments">
-        <h4>
-          {app.translator.trans(
-            "v17development-flarum-blog.forum.comment_section.comments"
-          )}{" "}
-          (0)
-        </h4>
+        <h4>{app.translator.trans('v17development-flarum-blog.forum.comment_section.comments')} (0)</h4>
         {/* Locked */}
 
         <div className="Post-body">
           <blockquote class="uncited">
             <div>
-              <span className="fas fa-ban" style={{ marginRight: "5px" }} />{" "}
-              {app.translator.trans(
-                "v17development-flarum-blog.forum.composer.comment_section"
-              )}
+              <span className="fas fa-ban" style={{ marginRight: '5px' }} />{' '}
+              {app.translator.trans('v17development-flarum-blog.forum.composer.comment_section')}
             </div>
           </blockquote>
         </div>
@@ -320,7 +242,7 @@ export default class BlogComposer extends Page {
   }
 
   create() {
-    const blogTags = app.forum.attribute("blogTags") || [];
+    const blogTags = app.forum.attribute('blogTags') || [];
 
     // Force tags
     if (this.tags.length === 0) {
@@ -329,7 +251,7 @@ export default class BlogComposer extends Page {
     }
 
     // Force title
-    if (!this.article.title() || this.article.title() === "") {
+    if (!this.article.title() || this.article.title() === '') {
       this.openNameArticleModal();
       return;
     }
@@ -341,24 +263,13 @@ export default class BlogComposer extends Page {
 
     // No knowledge base tags selected
     if (findblogTags.length === 0) {
-      alert(
-        app.translator.trans(
-          "v17development-flarum-blog.forum.composer.no_blog_tags_selected"
-        )
-      );
+      alert(app.translator.trans('v17development-flarum-blog.forum.composer.no_blog_tags_selected'));
       return;
     }
 
     if (
-      (this.blogMeta === null ||
-        (!this.blogMeta.featuredImage() &&
-          !app.forum.attribute("blogDefaultImage")) ||
-        !this.blogMeta.summary()) &&
-      !confirm(
-        app.translator.trans(
-          "v17development-flarum-blog.forum.composer.post_without_blog_info"
-        )
-      )
+      (this.blogMeta === null || (!this.blogMeta.featuredImage() && !app.forum.attribute('blogDefaultImage')) || !this.blogMeta.summary()) &&
+      !confirm(app.translator.trans('v17development-flarum-blog.forum.composer.post_without_blog_info'))
     ) {
       return;
     }
@@ -369,11 +280,7 @@ export default class BlogComposer extends Page {
 
     // Add languages if possible
     if (this.languages.length > 0) {
-      relationships.language = app.store.getBy(
-        "discussion-languages",
-        "code",
-        this.articleLanguage
-      );
+      relationships.language = app.store.getBy('discussion-languages', 'code', this.articleLanguage);
     }
 
     const data = {
@@ -397,7 +304,7 @@ export default class BlogComposer extends Page {
       .then((article) => {
         setTimeout(() => {
           // Redirect to the article
-          m.route.set(app.route("blogArticle", { id: `${article.slug()}` }));
+          m.route.set(app.route('blogArticle', { id: `${article.slug()}` }));
         }, 500);
       })
       .catch(() => {

@@ -16,17 +16,13 @@ export default function () {
    */
   app.route.discussion = (discussion, near) => {
     const discussionRedirectEnabled =
-      app.forum.attribute("blogRedirectsEnabled") === "both" ||
-      app.forum.attribute("blogRedirectsEnabled") === "discussions_only";
+      app.forum.attribute('blogRedirectsEnabled') === 'both' || app.forum.attribute('blogRedirectsEnabled') === 'discussions_only';
     let shouldRedirect = false;
     if (discussionRedirectEnabled && discussion.tags().length > 0) {
-      const blogTags = app.forum.attribute("blogTags");
+      const blogTags = app.forum.attribute('blogTags');
 
       const foundTags = discussion.tags().filter((tag) => {
-        return (
-          blogTags.indexOf(tag.id()) >= 0 ||
-          (tag.parent() && blogTags.indexOf(tag.parent().id()) >= 0)
-        );
+        return blogTags.indexOf(tag.id()) >= 0 || (tag.parent() && blogTags.indexOf(tag.parent().id()) >= 0);
       });
 
       if (foundTags.length > 0) {
@@ -35,11 +31,11 @@ export default function () {
     }
     if (shouldRedirect) {
       return discussion.lastReadPostNumber() > 1
-        ? app.route("blogArticle.near", {
+        ? app.route('blogArticle.near', {
             id: discussion.slug(),
             near: discussion.lastReadPostNumber(),
           })
-        : app.route("blogArticle", {
+        : app.route('blogArticle', {
             id: discussion.slug(),
           });
     } else {

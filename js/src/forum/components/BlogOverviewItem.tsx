@@ -1,13 +1,13 @@
-import Component from "flarum/common/Component";
-import Link from "flarum/common/components/Link";
-import Tooltip from "flarum/common/components/Tooltip";
-import humanTime from "flarum/common/helpers/humanTime";
-import icon from "flarum/common/helpers/icon";
-import Discussion from "flarum/common/models/Discussion";
-import classList from "flarum/common/utils/classList";
-import ItemList from "flarum/common/utils/ItemList";
-import app from "flarum/forum/app";
-import type Mithril from "mithril";
+import Component from 'flarum/common/Component';
+import Link from 'flarum/common/components/Link';
+import Tooltip from 'flarum/common/components/Tooltip';
+import humanTime from 'flarum/common/helpers/humanTime';
+import icon from 'flarum/common/helpers/icon';
+import Discussion from 'flarum/common/models/Discussion';
+import classList from 'flarum/common/utils/classList';
+import ItemList from 'flarum/common/utils/ItemList';
+import app from 'flarum/forum/app';
+import type Mithril from 'mithril';
 
 interface Attrs {
   article: Discussion;
@@ -20,25 +20,17 @@ export default class BlogOverviewItem extends Component<Attrs> {
 
     const items = new ItemList<Mithril.Children>();
 
-    items.add("title", <>{article.title()}</>, 100);
+    items.add('title', <>{article.title()}</>, 100);
 
     if (article.blogMeta()?.isPendingReview?.() || article.isHidden()) {
-      items.add(
-        "hidden",
-        icon("fas fa-eye-slash", { class: "BlogList-item-hidden" }),
-        80
-      );
+      items.add('hidden', icon('fas fa-eye-slash', { class: 'BlogList-item-hidden' }), 80);
     }
 
     if (article.blogMeta()?.isPendingReview?.()) {
       items.add(
-        "pendingReview",
-        <Tooltip
-          text={app.translator.trans(
-            "v17development-flarum-blog.forum.review_article.pending_review"
-          )}
-        >
-          {icon("far fa-clock", { class: "BlogList-item-pendingReview" })}
+        'pendingReview',
+        <Tooltip text={app.translator.trans('v17development-flarum-blog.forum.review_article.pending_review')}>
+          {icon('far fa-clock', { class: 'BlogList-item-pendingReview' })}
         </Tooltip>,
         40
       );
@@ -53,27 +45,25 @@ export default class BlogOverviewItem extends Component<Attrs> {
     const items = new ItemList<Mithril.Children>();
 
     items.add(
-      "createdAt",
+      'createdAt',
       <span class="BlogList-item-details-createdAt">
-        {icon("far fa-clock")} {humanTime(article.createdAt())}
+        {icon('far fa-clock')} {humanTime(article.createdAt())}
       </span>,
       100
     );
 
     items.add(
-      "author",
+      'author',
       <span class="BlogList-item-details-author">
-        {icon("far fa-user")}{" "}
-        {article.user()?.displayName?.() ||
-          app.translator.trans("core.lib.username.deleted_text")}
+        {icon('far fa-user')} {article.user()?.displayName?.() || app.translator.trans('core.lib.username.deleted_text')}
       </span>,
       80
     );
 
     items.add(
-      "replies",
+      'replies',
       <span class="BlogList-item-details-replies">
-        {icon("far fa-comment")} {(article.commentCount() || 1) - 1}
+        {icon('far fa-comment')} {(article.commentCount() || 1) - 1}
       </span>,
       60
     );
@@ -83,15 +73,15 @@ export default class BlogOverviewItem extends Component<Attrs> {
 
   contentItems(): ItemList<Mithril.Children> {
     const { article } = this.attrs;
-    const summary = article.blogMeta()?.summary?.() || "";
+    const summary = article.blogMeta()?.summary?.() || '';
 
     const items = new ItemList<Mithril.Children>();
 
-    items.add("title", <h4>{this.titleItems().toArray()}</h4>, 100);
+    items.add('title', <h4>{this.titleItems().toArray()}</h4>, 100);
 
-    if (summary) items.add("summary", <p>{summary}</p>, 80);
+    if (summary) items.add('summary', <p>{summary}</p>, 80);
 
-    items.add("data", <div class="data">{this.dataItems().toArray()}</div>, 60);
+    items.add('data', <div class="data">{this.dataItems().toArray()}</div>, 60);
 
     return items;
   }
@@ -99,9 +89,7 @@ export default class BlogOverviewItem extends Component<Attrs> {
   getImage(): string {
     const { article, defaultImage } = this.attrs;
 
-    return article.blogMeta()?.featuredImage?.()
-      ? `url(${article.blogMeta().featuredImage()})`
-      : defaultImage;
+    return article.blogMeta()?.featuredImage?.() ? `url(${article.blogMeta().featuredImage()})` : defaultImage;
   }
 
   view(vnode: Mithril.Vnode<Attrs, this>) {
@@ -113,21 +101,21 @@ export default class BlogOverviewItem extends Component<Attrs> {
 
     return (
       <Link
-        href={app.route("blogArticle", {
+        href={app.route('blogArticle', {
           id: `${article.slug()}`,
         })}
         className={classList(
-          "BlogList-item",
+          'BlogList-item',
           {
-            "BlogList-item-sized": isSized,
-            "BlogList-item-default": !isSized,
+            'BlogList-item-sized': isSized,
+            'BlogList-item-default': !isSized,
           },
           article.tags().map((tag) => `BlogList-item-category-${tag.id()}`)
         )}
       >
         <div
-          class={classList("BlogList-item-photo", {
-            "FlarumBlog-default-image": blogImage === defaultImage,
+          class={classList('BlogList-item-photo', {
+            'FlarumBlog-default-image': blogImage === defaultImage,
           })}
           style={{ backgroundImage: blogImage }}
         />

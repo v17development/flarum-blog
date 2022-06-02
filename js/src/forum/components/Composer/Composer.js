@@ -1,8 +1,8 @@
-import ComposerBody from "flarum/forum/components/ComposerBody";
-import Button from "flarum/common/components/Button";
-import TextEditor from "flarum/common/components/TextEditor";
-import ComposerPreview from "./ComposerPreview";
-import app from "flarum/forum/app";
+import ComposerBody from 'flarum/forum/components/ComposerBody';
+import Button from 'flarum/common/components/Button';
+import TextEditor from 'flarum/common/components/TextEditor';
+import ComposerPreview from './ComposerPreview';
+import app from 'flarum/forum/app';
 
 export default class Composer extends ComposerBody {
   oninit(vnode) {
@@ -13,55 +13,31 @@ export default class Composer extends ComposerBody {
 
   // Render
   view() {
-    const hasContent =
-      this.composer.fields.content() && this.composer.fields.content() !== "";
+    const hasContent = this.composer.fields.content() && this.composer.fields.content() !== '';
     const loading = this.loading || this.attrs.disabled;
 
     return (
-      <div
-        className={`Flarum-Blog-Composer ${
-          loading ? "Flarum-Blog-Composer-Loading" : ""
-        }`}
-      >
-        <div className={"Flarum-Blog-Composer-tabs"}>
-          <Button
-            className={!this.previewContent && "AricleComposerButtonSelected"}
-            onclick={() => (this.previewContent = false)}
-          >
-            {app.translator.trans(
-              "v17development-flarum-blog.forum.composer.write"
-            )}
+      <div className={`Flarum-Blog-Composer ${loading ? 'Flarum-Blog-Composer-Loading' : ''}`}>
+        <div className={'Flarum-Blog-Composer-tabs'}>
+          <Button className={!this.previewContent && 'AricleComposerButtonSelected'} onclick={() => (this.previewContent = false)}>
+            {app.translator.trans('v17development-flarum-blog.forum.composer.write')}
           </Button>
-          <Button
-            className={this.previewContent && "AricleComposerButtonSelected"}
-            onclick={() => (this.previewContent = true)}
-          >
-            {app.translator.trans(
-              "v17development-flarum-blog.forum.composer.view"
-            )}
+          <Button className={this.previewContent && 'AricleComposerButtonSelected'} onclick={() => (this.previewContent = true)}>
+            {app.translator.trans('v17development-flarum-blog.forum.composer.view')}
           </Button>
         </div>
 
-        <div
-          className={`Composer Flarum-Blog-Composer-body ${
-            this.previewContent ? "Flarum-Blog-Composer-HideEditor" : ""
-          }`}
-        >
+        <div className={`Composer Flarum-Blog-Composer-body ${this.previewContent ? 'Flarum-Blog-Composer-HideEditor' : ''}`}>
           {this.previewContent && (
-            <div className={"Flarum-Blog-Composer-preview"}>
-              {!hasContent &&
-                app.translator.trans(
-                  "v17development-flarum-blog.forum.composer.nothing_to_preview"
-                )}
+            <div className={'Flarum-Blog-Composer-preview'}>
+              {!hasContent && app.translator.trans('v17development-flarum-blog.forum.composer.nothing_to_preview')}
 
               <ComposerPreview content={this.composer.fields.content()} />
             </div>
           )}
 
           {TextEditor.component({
-            submitLabel:
-              this.attrs.submitLabel ||
-              app.translator.trans("core.forum.composer_edit.submit_button"),
+            submitLabel: this.attrs.submitLabel || app.translator.trans('core.forum.composer_edit.submit_button'),
             placeholder: this.attrs.placeholder,
             disabled: loading,
             composer: this.composer,
