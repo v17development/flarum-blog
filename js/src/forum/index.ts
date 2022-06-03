@@ -1,6 +1,6 @@
-import BlogItem from './pages/BlogItem';
+import app from 'flarum/forum/app';
 import Model from 'flarum/common/Model';
-import Tag from 'flarum/tags/models/Tag';
+import Tag from 'flarum/tags/common/models/Tag';
 import Discussion from 'flarum/common/models/Discussion';
 import BlogOverview from './pages/BlogOverview';
 import redirector from './utils/redirector';
@@ -10,7 +10,8 @@ import discussionRouting from './utils/discussionRouting';
 import BlogComposer from './pages/BlogComposer';
 import compat from './compat';
 import addSidebarNav from './utils/addSidebarNav';
-import app from 'flarum/forum/app';
+
+import BlogItem from './pages/BlogItem';
 
 // Create our own modal manager
 import OverrideModalState from './states/OverrideModalState';
@@ -41,8 +42,8 @@ app.initializers.add(
 
     app.store.models.blogMeta = BlogMeta;
 
-    Discussion.prototype.blogMeta = Model.hasOne('blogMeta');
-    Tag.prototype.isBlog = Model.attribute('isBlog');
+    Discussion.prototype.blogMeta = Model.hasOne<BlogMeta>('blogMeta');
+    Tag.prototype.isBlog = Model.attribute<boolean>('isBlog');
 
     // Redirect discussions/tags to their blog post/overview
     redirector();

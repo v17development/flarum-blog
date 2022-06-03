@@ -1,4 +1,4 @@
-import type Component from 'flarum/common/components/Component';
+import type Component from 'flarum/common/Component';
 import Modal from 'flarum/common/components/Modal';
 
 /**
@@ -34,7 +34,7 @@ export default class OverrideModalState {
     key: number;
   } = null;
 
-  modalList: Array = [];
+  modalList: OverrideModalState['modal'][] = [];
 
   /**
    * Used to force re-initialization of modals if a modal
@@ -42,7 +42,7 @@ export default class OverrideModalState {
    */
   private key = 0;
 
-  private closeTimeout?: NodeJS.Timeout;
+  private closeTimeout?: number;
 
   /**
    * Shows a modal dialog.
@@ -105,6 +105,7 @@ export default class OverrideModalState {
 
           m.redraw();
         })
+        // @ts-expect-error no typings for bootstrap modals
         .modal('hide');
 
       m.redraw();
@@ -117,8 +118,9 @@ export default class OverrideModalState {
     // bit to give the `show` method the opportunity to prevent this from going
     // ahead.
 
-    this.closeTimeout = setTimeout(() => {
+    this.closeTimeout = window.setTimeout(() => {
       $(`.modal[modal-key=${this.modal?.key}]`)
+        // @ts-expect-error no typings for bootstrap modals
         .modal('hide')
         .one('hide.bs.modal', () => {
           this.modal = null;
