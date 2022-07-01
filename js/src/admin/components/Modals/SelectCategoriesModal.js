@@ -102,8 +102,17 @@ export default class SelectCategoriesModal extends Modal {
 
     this.isSaving = true;
 
+    // Validate tags and prevent ghost tags (deleted tags)
+    let validBlogTags = [];
+
+    this.blogCategories.map((tagId) => {
+      if (app.store.getById('tags', tagId)) {
+        validBlogTags.push(tagId);
+      }
+    });
+
     saveSettings({
-      blog_tags: this.blogCategories.join('|'),
+      blog_tags: validBlogTags.join('|'),
     })
       .then(() => {
         app.alerts.show(
