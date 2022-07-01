@@ -9,7 +9,7 @@ export default function extendTagOverview() {
       return markup;
     }
 
-    if (app.forum.attribute('blogHideTags') === false) return markup;
+    if (app.forum.attribute('blogHideTags') == false) return markup;
 
     // Get knowledge base tag ID's
     const knowledgeBaseTags = app.forum.attribute('blogTags') || [];
@@ -26,7 +26,7 @@ export default function extendTagOverview() {
   });
 
   extend(IndexPage.prototype, 'navItems', function (items) {
-    if (app.forum.attribute('blogHideTags') === false) return items;
+    if (app.forum.attribute('blogHideTags') == false) return items;
 
     const blogTags = app.forum.attribute('blogTags') || [];
 
