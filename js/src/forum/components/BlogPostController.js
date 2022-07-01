@@ -185,7 +185,7 @@ export default class BlogPostController extends Component {
 
         // Delete article
         if (article.canDelete()) {
-          buttons.add(
+          items.add(
             'delete',
             Button.component(
               {
