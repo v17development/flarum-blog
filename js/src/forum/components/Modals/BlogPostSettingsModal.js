@@ -32,7 +32,7 @@ export default class BlogPostSettingsModal extends Modal {
   }
 
   title() {
-    return 'Blog post settings';
+    return app.translator.trans('v17development-flarum-blog.forum.article_settings.title');
   }
 
   content() {
@@ -49,7 +49,7 @@ export default class BlogPostSettingsModal extends Modal {
     items.add(
       'summary',
       <div className="Form-group">
-        <label>Article summary:</label>
+        <label>{app.translator.trans('v17development-flarum-blog.forum.article_settings.fields.summary.title')}:</label>
         <textarea
           className="FormControl"
           style={{
@@ -59,10 +59,10 @@ export default class BlogPostSettingsModal extends Modal {
             minHeight: '120px',
           }}
           bidi={this.summary}
-          placeholder={'Please enter a summary'}
+          placeholder={app.translator.trans('v17development-flarum-blog.forum.article_settings.fields.summary.placeholder')}
         />
 
-        <small>This summary will be visible on the blog overview page and will be used for SEO purposes.</small>
+        <small>{app.translator.trans('v17development-flarum-blog.forum.article_settings.fields.summary.helper_text')}</small>
       </div>,
       30
     );
@@ -101,16 +101,21 @@ export default class BlogPostSettingsModal extends Modal {
     items.add(
       'image',
       <div className="Form-group V17Blog-ArticleImage">
-        <label>Article image URL:</label>
+        <label>{app.translator.trans('v17development-flarum-blog.forum.article_settings.fields.image.title')}:</label>
         <div data-upload-enabled={!!fofUploadButton}>
           <input type="text" className="FormControl" bidi={this.featuredImage} placeholder="https://" />
           {fofUploadButton}
         </div>
 
-        <small>Best image resolution for social media: 1200x630</small>
+        <small>{app.translator.trans('v17development-flarum-blog.forum.article_settings.fields.image.helper_text')}</small>
 
         {this.featuredImage() !== '' && (
-          <img src={this.featuredImage()} alt="Article image" title="Blog post image" style={{ width: '100%', marginTop: '15px' }} />
+          <img
+            src={this.featuredImage()}
+            alt="Article image"
+            title={app.translator.trans('v17development-flarum-blog.forum.article_settings.fields.image.title')}
+            style={{ width: '100%', marginTop: '15px' }}
+          />
         )}
       </div>,
       30
@@ -127,9 +132,9 @@ export default class BlogPostSettingsModal extends Modal {
             },
           },
           [
-            <b>Highlighted post</b>,
+            <b>{app.translator.trans('v17development-flarum-blog.forum.article_settings.fields.highlight.title')}</b>,
             <div className="helpText" style={{ fontWeight: 500 }}>
-              Give this post a big image on the blog overview page.
+              {app.translator.trans('v17development-flarum-blog.forum.article_settings.fields.highlight.helper_text')}
             </div>,
           ]
         )}
@@ -146,7 +151,7 @@ export default class BlogPostSettingsModal extends Modal {
             className: 'Button Button--primary SupportModal-save',
             loading: this.loading,
           },
-          'Update'
+          app.translator.trans('core.forum.composer_edit.submit_button')
         )}
       </div>,
       -10

@@ -51,7 +51,7 @@ export default class RenameArticleModal extends Modal {
             className: 'Button Button--primary SupportModal-save',
             loading: this.loading,
           },
-          'Update'
+          app.translator.trans('core.forum.composer_edit.submit_button')
         )}
       </div>,
       -10

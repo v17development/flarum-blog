@@ -99,3 +99,20 @@ v17development-flarum-blog:
       comment_section: "The comment section is not available when composing an article."
       no_blog_tags_selected: "None of the tags you have selected is a blog tag. Please select at least one."
       post_without_blog_info: "Are you sure you want to post this blog post? You did not yet enter a blog summary or image."
+
+    article_settings:
+      title: Blog post settings
+
+      fields:
+        summary:
+          title: Article summary
+          placeholder: Please enter a summary
+          helper_text: This summary will be visible on the blog overview page and will be used for SEO purposes.
+
+        image:
+          title: Article image
+          helper_text: "Best image resolution for social media: 1200x630"
+
+        highlight:
+          title: Highlighted post
+          helper_text: Give this post a big image on the blog overview page.
