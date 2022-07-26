@@ -1,4 +1,5 @@
 import { compat } from '@flarum/core/forum';
+import BlogMeta from '../common/Models/BlogMeta';
 import ArticleSubscription from './components/ArticleSubscription';
 import BlogCategories from './components/BlogCategories';
 import BlogAuthor from './components/BlogItemSidebar/BlogAuthor';
@@ -39,5 +40,7 @@ export default () => {
 
     'v17development/blog/pages/BlogItem': BlogItem,
     'v17development/blog/pages/BlogOverview': BlogOverview,
+
+    'v17development/blog/models/BlogMeta': BlogMeta,
   });
 };
