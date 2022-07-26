@@ -22,11 +22,6 @@ class BlogMetaSaving
      */
     public $data;
 
-    /**
-     * @param Tag $tag
-     * @param User $actor
-     * @param array $data
-     */
     public function __construct(BlogMeta $blogMeta, User $actor, array $data)
     {
         $this->blogMeta = $blogMeta;

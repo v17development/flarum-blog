@@ -2,7 +2,7 @@
 
 namespace V17Development\FlarumBlog\BlogMeta\Commands;
 
-use Flarum\Bus\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
 use Flarum\Discussion\DiscussionRepository;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -36,15 +36,15 @@ class CreateBlogMetaHandler
     /**
      * @var Dispatcher
      */
-    protected $bus;
+    protected $dispatcher;
 
-    public function __construct(DiscussionRepository $discussion, TranslatorInterface $translator, SettingsRepositoryInterface $settings, BlogMetaValidator $validator, Dispatcher $bus)
+    public function __construct(DiscussionRepository $discussion, TranslatorInterface $translator, SettingsRepositoryInterface $settings, BlogMetaValidator $validator, Dispatcher $dispatcher)
     {
         $this->discussion = $discussion;
         $this->translator = $translator;
         $this->settings = $settings;
         $this->validator = $validator;
-        $this->bus = $bus;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -84,7 +84,7 @@ class CreateBlogMetaHandler
         }
 
         // Allow extensions to add their own attributes
-        $this->bus->dispatch(
+        $this->dispatcher->dispatch(
             new BlogMetaSaving($blogMeta, $actor, $data)
         );
 
