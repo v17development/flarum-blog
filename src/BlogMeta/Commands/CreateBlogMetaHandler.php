@@ -2,15 +2,14 @@
 
 namespace V17Development\FlarumBlog\BlogMeta\Commands;
 
-use Flarum\Foundation\ValidationException;
-use Flarum\Discussion\Discussion;
+use Illuminate\Contracts\Events\Dispatcher;
 use Flarum\Discussion\DiscussionRepository;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Tobscure\JsonApi\Exception\InvalidParameterException;
 use V17Development\FlarumBlog\BlogMeta\BlogMeta;
 use V17Development\FlarumBlog\BlogMeta\BlogMetaValidator;
 use Illuminate\Support\Arr;
+use V17Development\FlarumBlog\Event\BlogMetaSaving;
 
 class CreateBlogMetaHandler
 {
@@ -35,16 +34,17 @@ class CreateBlogMetaHandler
     protected $validator;
 
     /**
-     * @param DiscussionRepository $discussion
-     * @param TranslatorInterface $translator
-     * @param SettingsRepositoryInterface $settings
+     * @var Dispatcher
      */
-    public function __construct(DiscussionRepository $discussion, TranslatorInterface $translator, SettingsRepositoryInterface $settings, BlogMetaValidator $validator)
+    protected $dispatcher;
+
+    public function __construct(DiscussionRepository $discussion, TranslatorInterface $translator, SettingsRepositoryInterface $settings, BlogMetaValidator $validator, Dispatcher $dispatcher)
     {
         $this->discussion = $discussion;
         $this->translator = $translator;
         $this->settings = $settings;
         $this->validator = $validator;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -64,11 +64,6 @@ class CreateBlogMetaHandler
         $discussionId = Arr::get($data, 'relationships.discussion.data.id');
         $discussion = $this->discussion->findOrFail($discussionId, $actor);
 
-        // Discussion does not exist
-        if (!($discussion instanceof Discussion)) {
-            throw new InvalidParameterException;
-        }
-    
         // Create new blog meta
         $blogMeta = BlogMeta::firstOrNew([
             'discussion_id' => $discussion->id
@@ -82,11 +77,16 @@ class CreateBlogMetaHandler
         $blogMeta->is_sized = Arr::get($data, 'attributes.isSized', false);
 
         // Auto approve if an article already existed or it does not require a review
-        if($discussion->created_at->diffInSeconds(\Carbon\Carbon::now()) > 30 || $this->settings->get('blog_requires_review', false) == false) {
+        if ($discussion->created_at->diffInSeconds(\Carbon\Carbon::now()) > 30 || $this->settings->get('blog_requires_review', false) == false) {
             $blogMeta->is_pending_review = false;
-        }else{
+        } else {
             $blogMeta->is_pending_review = !$actor->can('blog.autoApprovePosts');
         }
+
+        // Allow extensions to add their own attributes
+        $this->dispatcher->dispatch(
+            new BlogMetaSaving($blogMeta, $actor, $data)
+        );
 
         // Validate
         $this->validator->assertValid($blogMeta->getDirty());
