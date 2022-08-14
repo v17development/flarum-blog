@@ -1,6 +1,7 @@
 import ModalManager from 'flarum/forum/components/ModalManager';
 import { override } from 'flarum/common/extend';
 import OverrideModalState from '../states/OverrideModalState';
+import app from 'flarum/forum/app';
 
 /**
  * Notice from V17: Temporary override due to lack of multi-dialogs!
@@ -17,6 +18,14 @@ export default function overrideModalManager() {
 
     return;
   }
+
+  const style = document.createElement('style');
+  style.innerHTML = `
+#modal .ModalManager:not(:last-child),
+.modal-backdrop.in:not(:last-child) {
+  opacity: 0;
+}`;
+  document.head.appendChild(style);
 
   app.modal = new OverrideModalState();
 
