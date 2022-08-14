@@ -8,6 +8,15 @@ import { override } from 'flarum/common/extend';
  */
 
 export default function overrideModalManager() {
+  if (!$.fn.modal) {
+    // Bootstrap modals not defined, so we can assume this is Flarum 1.5 or later,
+    // where modal stacking is available natively.
+    //
+    // In this case, we do not need to override any modal code for the extension.
+
+    return;
+  }
+
   override(ModalManager.prototype, 'view', function () {
     return this.attrs.state.modalList.map((modal) => {
       const Tag = modal?.componentClass;
