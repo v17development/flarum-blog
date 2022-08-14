@@ -64,7 +64,6 @@ app.initializers.add(
      * We'll open a PR to support multi-dialog to the Flarum main repo
      */
     overrideModalManager();
-    app.modal = new OverrideModalState();
   },
   -100000
 );

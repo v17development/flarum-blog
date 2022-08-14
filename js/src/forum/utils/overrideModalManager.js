@@ -1,5 +1,6 @@
 import ModalManager from 'flarum/forum/components/ModalManager';
 import { override } from 'flarum/common/extend';
+import OverrideModalState from '../states/OverrideModalState';
 
 /**
  * Notice from V17: Temporary override due to lack of multi-dialogs!
@@ -16,6 +17,8 @@ export default function overrideModalManager() {
 
     return;
   }
+
+  app.modal = new OverrideModalState();
 
   override(ModalManager.prototype, 'view', function () {
     return this.attrs.state.modalList.map((modal) => {
