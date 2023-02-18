@@ -112,14 +112,14 @@ export default class BlogItem extends Page {
 
     items.add(
       'title',
-      <h3
+      <h1
         className={classList('FlarumBlog-Article-Title', {
           'FlarumBlog-Article-GhostTitle': this.loading,
         })}
       >
         {this?.article?.title?.() || 'Ghost title'}
         {this.article?.isHidden?.() && `(${app.translator.trans('v17development-flarum-blog.forum.hidden')})`}
-      </h3>,
+      </h1>,
       100
     );
 
