@@ -256,12 +256,12 @@ export default class BlogComposer extends Page {
       return;
     }
 
-    // Find knowledge base tags
+    // Find blog tags
     const findblogTags = this.tags.filter((tag) => {
       return blogTags.indexOf(tag.id()) >= 0;
     });
 
-    // No knowledge base tags selected
+    // No blog tags selected
     if (findblogTags.length === 0) {
       alert(app.translator.trans('v17development-flarum-blog.forum.composer.no_blog_tags_selected'));
       return;

@@ -11,15 +11,15 @@ export default function extendTagOverview() {
 
     if (app.forum.attribute('blogHideTags') == false) return markup;
 
-    // Get knowledge base tag ID's
-    const knowledgeBaseTags = app.forum.attribute('blogTags') || [];
+    // Get blog tag ID's
+    const blogTags = app.forum.attribute('blogTags') || [];
 
     // Get tiles
     let tag_tiles = markup.children[1].children[1].children[0].children;
 
-    // Map through the tiles and remove tiles that are part of the knowledge base
+    // Map through the tiles and remove tiles that are part of the blog
     markup.children[1].children[1].children[0].children = tag_tiles.map((tile, i) => {
-      return knowledgeBaseTags.indexOf(this.tags[i].id()) >= 0 ? null : tile;
+      return blogTags.indexOf(this.tags[i].id()) >= 0 ? null : tile;
     });
 
     return markup;
