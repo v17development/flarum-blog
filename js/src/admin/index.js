@@ -39,7 +39,7 @@ app.initializers.add('v17development-flarum-blog', () => {
 
   // Add addPermissions
   extend(PermissionGrid.prototype, 'permissionItems', function (items) {
-    // Add knowledge base permissions
+    // Add blog permissions
     items.add(
       'blog',
       {
