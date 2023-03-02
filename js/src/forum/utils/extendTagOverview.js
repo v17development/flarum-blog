@@ -14,11 +14,13 @@ export default function extendTagOverview() {
     // Get blog tag ID's
     const blogTags = app.forum.attribute('blogTags') || [];
 
-    // Get tiles
-    let tag_tiles = markup.children[1].children[1].children[0].children;
+    const tag_tiles_parent = findChild(markup, 'TagsPage-content', true);
+    const tag_tiles = tag_tiles_parent?.children[0];
+
+    if (!tag_tiles_parent || !tag_tiles) return markup;
 
     // Map through the tiles and remove tiles that are part of the blog
-    markup.children[1].children[1].children[0].children = tag_tiles.map((tile, i) => {
+    tag_tiles.children = tag_tiles.children.map((tile, i) => {
       return blogTags.indexOf(this.tags[i].id()) >= 0 ? null : tile;
     });
 
@@ -36,4 +38,40 @@ export default function extendTagOverview() {
 
     return items;
   });
+}
+
+function findChild(parent, childClass, recursive = false) {
+  const children = getChildren(parent);
+  let child = null;
+
+  for (let i = 0; i < children.length; i++) {
+    const childClassName = children[i]?.attrs?.className || '';
+    if (childClassName.includes(childClass)) {
+      child = children[i];
+      break;
+    }
+  }
+
+  // Recursive search
+  if (recursive && !child) {
+    for (let subParent of children) {
+      const subChild = findChild(subParent, childClass, true);
+      if (subChild) {
+        return subChild;
+      }
+    }
+  }
+
+  return child;
+}
+
+function getChildren(parent) {
+  if (Array.isArray(parent)) {
+    return parent;
+  }
+  const children = parent?.children || [];
+  if (!Array.isArray(children)) {
+    return [];
+  }
+  return children;
 }
