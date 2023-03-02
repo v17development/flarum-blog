@@ -40,7 +40,7 @@ export default function extendTagOverview() {
   });
 }
 
-function findChild(parent, childClass, recursive = false) {
+function findChild(parent, childClass, recursive = false, maxDepth = 50, depth = 0) {
   const children = getChildren(parent);
   let child = null;
 
@@ -53,9 +53,9 @@ function findChild(parent, childClass, recursive = false) {
   }
 
   // Recursive search
-  if (recursive && !child) {
+  if (recursive && !child && depth < maxDepth) {
     for (let subParent of children) {
-      const subChild = findChild(subParent, childClass, true);
+      const subChild = findChild(subParent, childClass, true, maxDepth, depth + 1);
       if (subChild) {
         return subChild;
       }
