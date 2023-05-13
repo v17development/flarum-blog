@@ -30,7 +30,9 @@ export default class FeaturedBlogItem extends Component<Attrs> {
       100
     );
 
-    if (article.isSticky()) {
+    // Sticky is an optional dependency, so we can't
+    // assume method existence.
+    if (article.isSticky && article.isSticky()) {
       items.add('sticky', <span class="BlogFeatured-list-item-isSticky dataItem">{icon('fas fa-thumbtack')}</span>, 80);
     }
 
