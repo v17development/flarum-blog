@@ -13,10 +13,6 @@ import addSidebarNav from './utils/addSidebarNav';
 
 import BlogItem from './pages/BlogItem';
 
-// Create our own modal manager
-import OverrideModalState from './states/OverrideModalState';
-import overrideModalManager from './utils/overrideModalManager';
-
 // Register Flarum Blog
 app.initializers.add(
   'v17development-flarum-blog',
@@ -57,13 +53,6 @@ app.initializers.add(
 
     // Add a link to the blog to the IndexPage sidebar, if enabled.
     addSidebarNav();
-
-    /**
-     * Notice from V17: Temporary override due to lack of multi-dialogs!
-     *
-     * We'll open a PR to support multi-dialog to the Flarum main repo
-     */
-    overrideModalManager();
   },
   -100000
 );
