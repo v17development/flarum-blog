@@ -195,7 +195,7 @@ export default class BlogComposer extends Page {
 
         <div className={'FlarumBlog-Article-Post'}>
           {/* Article name */}
-          <h3 onclick={() => this.openNameArticleModal()} className="FlarumBlog-Article-Title" style={{ cursor: 'pointer' }}>
+          <h1 onclick={() => this.openNameArticleModal()} className="FlarumBlog-Article-Title" style={{ cursor: 'pointer' }}>
             {this.article && this.article.title() && this.article.title() !== ''
               ? this.article.title()
               : app.translator.trans('v17development-flarum-blog.forum.composer.no_title')}
@@ -203,7 +203,7 @@ export default class BlogComposer extends Page {
             <button class="Button Button--text" onclick={(e) => e.preventDefault()}>
               <i className={'fas fa-edit'} />
             </button>
-          </h3>
+          </h1>
 
           <div className="Post-body">
             <Composer
