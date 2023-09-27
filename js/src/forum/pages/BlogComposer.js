@@ -7,8 +7,9 @@ import RenameArticleModal from '../components/Modals/RenameArticleModal';
 import TagDiscussionModal from 'flarum/tags/components/TagDiscussionModal';
 import BlogPostSettingsModal from '../components/Modals/BlogPostSettingsModal';
 import Composer from '../components/Composer/Composer';
-import LanguageDropdown from '../components/LanguageDropdown/LanguageDropdown';
 import ItemList from 'flarum/common/utils/ItemList';
+import Stream from 'flarum/common/utils/Stream';
+import { components } from '@fof-discussion-language';
 
 export default class BlogComposer extends Page {
   oninit(vnode) {
@@ -32,7 +33,7 @@ export default class BlogComposer extends Page {
     this.bodyClass = 'BlogItemPage BlogItemPage--composer';
 
     // Article data
-    this.articleLanguage = m.route.param('lang') ? m.route.param('lang') : app.translator.locale;
+    this.articleLanguage = new Stream(m.route.param('lang') ? m.route.param('lang') : app.translator.locale);
     this.article = app.store.createRecord('discussions');
     this.blogMeta = null;
 
@@ -153,6 +154,11 @@ export default class BlogComposer extends Page {
 
     const blogImage = this.blogMeta && this.blogMeta.featuredImage() ? `url(${this.blogMeta.featuredImage()})` : defaultImage;
 
+    let LanguageDropdown;
+    if ('fof-discussion-language' in flarum.extensions) {
+      LanguageDropdown = components.LanguageDropdown;
+    }
+
     items.add(
       'content',
       <div className="FlarumBlog-Article-Content">
@@ -168,7 +174,13 @@ export default class BlogComposer extends Page {
         <div className={'FlarumBlog-Article-Content-Edit-Button'}>
           <div className={this.languages.length === 0 ? 'FlarumBlog-Article-Content-Edit-Dropdown' : 'FlarumBlog-Article-Content-EditButtons'}>
             {this.languages !== null && this.languages.length >= 1 && (
-              <LanguageDropdown selected={this.articleLanguage} onclick={(language) => (this.articleLanguage = language)} />
+              <LanguageDropdown
+                selected={this.articleLanguage()}
+                onclick={(language) => {
+                  this.articleLanguage(language);
+                  m.redraw();
+                }}
+              />
             )}
 
             <Button className={'Button'} onclick={(e) => this.openBlogSettings(e)} icon={'fas fa-pencil-alt'} loading={this.isSaving}>

@@ -10,8 +10,6 @@ import Composer from './components/Composer/Composer';
 import ComposerPreview from './components/Composer/ComposerPreview';
 import FeaturedBlogItem from './components/FeaturedBlogItem';
 import ForumNav from './components/ForumNav';
-import Language from './components/LanguageDropdown/Language';
-import LanguageDropdown from './components/LanguageDropdown/LanguageDropdown';
 import BlogPostSettingsModal from './components/Modals/BlogPostSettingsModal';
 import RenameArticleModal from './components/Modals/RenameArticleModal';
 import BlogItem from './pages/BlogItem';
@@ -24,9 +22,6 @@ export default () => {
 
     'v17development/blog/components/Composer/Composer': Composer,
     'v17development/blog/components/Composer/ComposerPreview': ComposerPreview,
-
-    'v17development/blog/components/LanguageDropdown/Language': Language,
-    'v17development/blog/components/LanguageDropdown/LanguageDropdown': LanguageDropdown,
 
     'v17development/blog/components/Modals/BlogPostSettingsModal': BlogPostSettingsModal,
     'v17development/blog/components/Modals/RenameArticleModal': RenameArticleModal,

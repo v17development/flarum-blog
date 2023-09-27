@@ -5,7 +5,7 @@ import Page from 'flarum/common/components/Page';
 import Button from 'flarum/common/components/Button';
 import BlogCategories from '../components/BlogCategories';
 import Link from 'flarum/common/components/Link';
-import LanguageDropdown from '../components/LanguageDropdown/LanguageDropdown';
+import { components } from '@fof-discussion-language';
 import ForumNav from '../components/ForumNav';
 import BlogOverviewItem from '../components/BlogOverviewItem';
 import FeaturedBlogItem from '../components/FeaturedBlogItem';
@@ -137,6 +137,11 @@ export default class BlogOverview extends Page {
     const defaultImage = app.forum.attribute('blogDefaultImage')
       ? `url(${app.forum.attribute('baseUrl') + '/assets/' + app.forum.attribute('blogDefaultImage')})`
       : null;
+
+    let LanguageDropdown;
+    if ('fof-discussion-language' in flarum.extensions) {
+      LanguageDropdown = components.LanguageDropdown;
+    }
 
     return [
       app.forum.attribute('blogAddHero') == true && IndexPage.prototype.hero(),
