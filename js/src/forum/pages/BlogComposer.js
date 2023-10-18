@@ -33,7 +33,7 @@ export default class BlogComposer extends Page {
     this.bodyClass = 'BlogItemPage BlogItemPage--composer';
 
     // Article data
-    this.articleLanguage = new Stream(m.route.param('lang') ? m.route.param('lang') : app.translator.locale);
+    this.articleLanguage = Stream(m.route.param('lang') ? m.route.param('lang') : app.translator.locale);
     this.article = app.store.createRecord('discussions');
     this.blogMeta = null;
 
@@ -177,8 +177,9 @@ export default class BlogComposer extends Page {
               <LanguageDropdown
                 selected={this.articleLanguage()}
                 onclick={(language) => {
+                  if (typeof language !== 'string') return;
+
                   this.articleLanguage(language);
-                  m.redraw();
                 }}
               />
             )}
