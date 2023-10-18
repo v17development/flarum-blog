@@ -159,6 +159,8 @@ export default class BlogOverview extends Page {
                 <LanguageDropdown
                   selected={this.currentSelectedLanguage}
                   onclick={(language) => {
+                    if (typeof language !== 'string') return;
+                    
                     this.currentSelectedLanguage = language;
 
                     m.route.set(document.location.pathname, {
