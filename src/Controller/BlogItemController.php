@@ -15,6 +15,31 @@ use V17Development\FlarumBlog\BlogMeta\BlogMeta;
 
 class BlogItemController
 {
+    /**
+     * @var Client
+     */
+    protected $api;
+
+    /**
+     * @var UrlGenerator
+     */
+    protected $url;
+
+    /**
+     * @var SettingsRepositoryInterface
+     */
+    protected $settings;
+
+    /**
+     * @var TranslatorInterface
+     */
+    protected $translator;
+
+    /**
+     * @var TagRepository
+     */
+    protected $tagRepository;
+
     public function __construct(Client $api, UrlGenerator $url, SettingsRepositoryInterface $settings, TagRepository $tagRepository, TranslatorInterface $translator)
     {
         $this->api = $api;

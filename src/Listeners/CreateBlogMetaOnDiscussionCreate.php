@@ -11,6 +11,11 @@ use Illuminate\Support\Arr;
 class CreateBlogMetaOnDiscussionCreate
 {
     /**
+     * @var SettingsRepositoryInterface
+     */
+    protected $settings;
+
+    /**
      * CreateBlogMetaOnDiscussionCreate constructor.
      *
      * @param SettingsRepositoryInterface $settings
