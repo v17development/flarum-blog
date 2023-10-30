@@ -43,7 +43,8 @@
       "optional-dependencies": [
         "flarum/sticky",
         "fof/discussion-language",
-        "askvortsov/flarum-rich-text"
+        "askvortsov/flarum-rich-text",
+        "v17development/flarum-seo"
       ]
     },
     "branch-alias": {
