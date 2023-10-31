@@ -9,6 +9,11 @@ use Flarum\Tags\Api\Serializer\TagSerializer;
 class AttatchTagSerializerAttributes
 {
     /**
+     * @var SettingsRepositoryInterface
+     */
+    protected $settings;
+
+    /**
      * @param SettingsRepositoryInterface $settings
      */
     public function __construct(SettingsRepositoryInterface $settings)

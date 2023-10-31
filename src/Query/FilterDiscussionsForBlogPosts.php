@@ -10,6 +10,11 @@ use Flarum\Discussion\Search\Gambit\FulltextGambit;
 class FilterDiscussionsForBlogPosts
 {
     /**
+     * @var SettingsRepositoryInterface
+     */
+    protected $settings;
+
+    /**
      * FilterDiscussionsForBlogPosts constructor.
      *
      * @param SettingsRepositoryInterface $settings
