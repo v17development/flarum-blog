@@ -14,6 +14,21 @@ use Illuminate\Support\Arr;
 
 class BlogOverviewController
 {
+    /**
+     * @var Client
+     */
+    protected $api;
+
+    /**
+     * @var TranslatorInterface
+     */
+    protected $translator;
+
+    /**
+     * @var ExtensionManager
+     */
+    protected $extensionManager;
+    
     public function __construct(Client $api, TranslatorInterface $translator, ExtensionManager $extensionManager)
     {
         $this->api = $api;
@@ -26,7 +41,7 @@ class BlogOverviewController
         $queryParams = $request->getQueryParams();
 
         // Set meta tags
-        if(class_exists("V17Development\FlarumSeo\Extend")) {
+        if($this->extensionManager->isEnabled('v17development-seo') && class_exists("V17Development\FlarumSeo\Extend")) {
             // Get category
             if(Arr::get($queryParams, 'category')) {
                 $category = Tag::where('slug', Arr::get($queryParams, 'category'))->firstOrFail();
