@@ -3,9 +3,7 @@
 namespace V17Development\FlarumBlog\Controller;
 
 use Flarum\Frontend\Document;
-use Flarum\Api\Controller\ListDiscussionsController;
 use Flarum\Api\Client;
-use Flarum\User\User;
 use Flarum\Extension\ExtensionManager;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
