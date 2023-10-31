@@ -293,7 +293,7 @@ export default class BlogComposer extends Page {
 
     // Add languages if possible
     if (this.languages.length > 0) {
-      relationships.language = app.store.getBy('discussion-languages', 'code', this.articleLanguage);
+      relationships.language = app.store.getBy('discussion-languages', 'code', this.articleLanguage());
     }
 
     const data = {
