@@ -26,15 +26,21 @@
 
   .FlarumBlog-Article {
     @media screen and (min-width: 840px) {
-      display: flex;
-      flex-direction: row;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      grid-template-areas: 'stream nav';
     }
 
     /* Blog Article */
     .FlarumBlog-Article-Container {
       @media screen and (min-width: 840px) {
-        flex-grow: 1;
-        margin-right: 25px;
+        grid-area: stream;
+        grid-row-start: stream;
+        grid-column-start: stream;
+        grid-row-end: stream;
+        grid-column-end: stream;
+        max-width: 100%;
+        min-width: 0;
       }
 
       .FlarumBlog-Article-Content {
@@ -179,7 +185,12 @@
     /** Article sidebar */
     .FlarumBlog-Article-Sidebar {
       @media screen and (max-width: 840px) {
-        margin-top: 25px;
+        align-self: start;
+        position: sticky;
+        grid-area: nav;
+        top: var(--header-height);
+        padding-top: 25px;
+        z-index: 1;
       }
 
       @media screen and (min-width: 840px) {
