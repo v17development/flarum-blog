@@ -4,6 +4,7 @@ namespace V17Development\FlarumBlog\BlogMeta\Commands;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Flarum\Discussion\DiscussionRepository;
+use Flarum\Foundation\DispatchEventsTrait;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use V17Development\FlarumBlog\BlogMeta\BlogMeta;
@@ -13,6 +14,8 @@ use V17Development\FlarumBlog\Event\BlogMetaSaving;
 
 class CreateBlogMetaHandler
 {
+    use DispatchEventsTrait;
+
     /**
      * @var DiscussionRepository
      */
@@ -36,15 +39,20 @@ class CreateBlogMetaHandler
     /**
      * @var Dispatcher
      */
-    protected $dispatcher;
+    protected $events;
 
-    public function __construct(DiscussionRepository $discussion, TranslatorInterface $translator, SettingsRepositoryInterface $settings, BlogMetaValidator $validator, Dispatcher $dispatcher)
-    {
+    public function __construct(
+        DiscussionRepository $discussion,
+        TranslatorInterface $translator,
+        SettingsRepositoryInterface $settings,
+        BlogMetaValidator $validator,
+        Dispatcher $events
+    ) {
         $this->discussion = $discussion;
         $this->translator = $translator;
         $this->settings = $settings;
         $this->validator = $validator;
-        $this->dispatcher = $dispatcher;
+        $this->events = $events;
     }
 
     /**
@@ -84,7 +92,7 @@ class CreateBlogMetaHandler
         }
 
         // Allow extensions to add their own attributes
-        $this->dispatcher->dispatch(
+        $this->events->dispatch(
             new BlogMetaSaving($blogMeta, $actor, $data)
         );
 
@@ -92,6 +100,8 @@ class CreateBlogMetaHandler
         $this->validator->assertValid($blogMeta->getDirty());
 
         $blogMeta->save();
+
+        $this->dispatchEventsFor($blogMeta, $actor);
 
         return $blogMeta;
     }

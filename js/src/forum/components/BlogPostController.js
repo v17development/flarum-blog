@@ -92,6 +92,30 @@ export default class BlogPostController extends Component {
       );
     }
 
+    // Update article SEO
+    if (article.blogMeta() && 'v17development-seo' in flarum.extensions && app.forum.attribute('canConfigureSeo')) {
+      const {
+        components: { MetaSeoModal },
+      } = require('@v17development-seo');
+
+      items.add(
+        'seo',
+        Button.component(
+          {
+            className: 'Button',
+            onclick: () =>
+              app.modal.show(MetaSeoModal, {
+                objectType: 'blogs',
+                objectId: article.blogMeta().id(),
+              }),
+            icon: 'fas fa-search',
+          },
+          app.translator.trans('v17development-flarum-seo.forum.controls.configure_seo')
+        ),
+        70
+      );
+    }
+
     // Approve article
     if (article.blogMeta() && article.blogMeta().isPendingReview()) {
       items.add('separator1', <li className="Dropdown-separator" />, 65);

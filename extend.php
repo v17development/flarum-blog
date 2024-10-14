@@ -38,19 +38,24 @@ use V17Development\FlarumBlog\BlogMeta\BlogMeta;
 use V17Development\FlarumBlog\Query\FilterDiscussionsForBlogPosts;
 use V17Development\FlarumBlog\Query\BlogArticleFilterGambit;
 
-return [
+// SEO
+use V17Development\FlarumBlog\SeoPage\SeoBlogOverviewMeta;
+use V17Development\FlarumBlog\SeoPage\SeoBlogArticleMeta;
+use V17Development\FlarumBlog\Subscribers\SeoBlogSubscriber;
+
+$extend = [
     (new Extend\Frontend('forum'))
-        ->js(__DIR__.'/js/dist/forum.js')
+        ->js(__DIR__ . '/js/dist/forum.js')
         ->css(__DIR__ . '/less/Forum.less')
         ->route('/blog', 'blog.overview', BlogOverviewController::class)
         ->route('/blog/compose', 'blog.compose', BlogComposerController::class)
         ->route('/blog/category/{category}', 'blog.category', BlogOverviewController::class)
         ->route('/blog/{id:[\d\S]+(?:-[^/]*)?}', 'blog.post', BlogItemController::class)
-        // Shall we add RSS?
-        // ->get('/blog/rss.xml', 'blog.rss.xml', RSS::class)
+    // Shall we add RSS?
+    // ->get('/blog/rss.xml', 'blog.rss.xml', RSS::class)
     ,
     (new Extend\Frontend('admin'))
-        ->js(__DIR__.'/js/dist/admin.js')
+        ->js(__DIR__ . '/js/dist/admin.js')
         ->css(__DIR__ . '/less/Admin.less'),
 
     (new Extend\Routes('api'))
@@ -87,9 +92,6 @@ return [
 
     (new Extend\ApiSerializer(TagSerializer::class))
         ->attributes(AttatchTagSerializerAttributes::class),
-    
-    (new Extend\Event)
-        ->listen(Saving::class, CreateBlogMetaOnDiscussionCreate::class),
 
     (new Extend\Filter(DiscussionFilterer::class))
         ->addFilterMutator(FilterDiscussionsForBlogPosts::class),
@@ -97,3 +99,22 @@ return [
     (new Extend\SimpleFlarumSearch(DiscussionSearcher::class))
         ->addGambit(BlogArticleFilterGambit::class),
 ];
+
+// Define events
+$events = (new Extend\Event)
+    ->listen(Saving::class, CreateBlogMetaOnDiscussionCreate::class);
+
+// Extend Flarum SEO
+if (class_exists("V17Development\FlarumSeo\Extend\SEO")) {
+    $extend[] = (new \V17Development\FlarumSeo\Extend\SEO())
+        ->addExtender("blog_category", SeoBlogOverviewMeta::class)
+        ->addExtender("blog_article", SeoBlogArticleMeta::class);
+
+    // Add Blog subscriber event
+    $events->subscribe(SeoBlogSubscriber::class);
+}
+
+// Add events
+$extend[] = $events;
+
+return $extend;

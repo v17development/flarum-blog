@@ -3,13 +3,17 @@
 namespace V17Development\FlarumBlog\Listeners;
 
 use Flarum\Settings\SettingsRepositoryInterface;
+use Illuminate\Contracts\Events\Dispatcher;
 use Flarum\User\Exception\PermissionDeniedException;
 use Flarum\Discussion\Event\Saving;
+use Flarum\Foundation\DispatchEventsTrait;
 use V17Development\FlarumBlog\BlogMeta\BlogMeta;
 use Illuminate\Support\Arr;
 
 class CreateBlogMetaOnDiscussionCreate
 {
+    use DispatchEventsTrait;
+
     /**
      * @var SettingsRepositoryInterface
      */
@@ -20,10 +24,13 @@ class CreateBlogMetaOnDiscussionCreate
      *
      * @param SettingsRepositoryInterface $settings
      */
-    public function __construct(SettingsRepositoryInterface $settings)
-    {
+    public function __construct(
+        SettingsRepositoryInterface $settings,
+        Dispatcher $events
+    ) {
         // Get Flarum settings
         $this->settings = $settings;
+        $this->events = $events;
         $this->blogTags = explode("|", $this->settings->get('blog_tags', ''));
     }
 
@@ -35,7 +42,7 @@ class CreateBlogMetaOnDiscussionCreate
         $discussion = $event->discussion;
 
         // Only add blog meta data if the discussion does not exists yet
-        if($discussion->exists) {
+        if ($discussion->exists) {
             return;
         }
 
@@ -49,7 +56,7 @@ class CreateBlogMetaOnDiscussionCreate
 
             // Make sure it's a blog base discussion!
             if ($discussion->tags && $discussion->tags->whereIn('id', $this->blogTags)->count() > 0) {
-                if(!$event->actor->can('blog.writeArticles')) {
+                if (!$event->actor->can('blog.writeArticles')) {
                     throw new PermissionDeniedException;
                 }
 
@@ -68,8 +75,10 @@ class CreateBlogMetaOnDiscussionCreate
                 // Save meta
                 $blogMeta->save();
 
+                $this->dispatchEventsFor($blogMeta, $event->actor);
+
                 // Autolock articles
-                if($this->settings->get('blog_allow_comments', true) == false) {
+                if ($this->settings->get('blog_allow_comments', true) == false) {
                     $discussion->is_locked = true;
                     $discussion->save();
                 }

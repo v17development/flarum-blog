@@ -5,9 +5,12 @@ namespace V17Development\FlarumBlog\BlogMeta;
 use Flarum\Database\AbstractModel;
 use Flarum\Database\ScopeVisibilityTrait;
 use Flarum\Discussion\Discussion;
+use Flarum\Foundation\EventGeneratorTrait;
+use V17Development\FlarumBlog\Event\BlogMetaCreated;
 
 class BlogMeta extends AbstractModel
 {
+    use EventGeneratorTrait;
     use ScopeVisibilityTrait;
 
     protected $table = 'blog_meta';
@@ -18,7 +21,7 @@ class BlogMeta extends AbstractModel
     protected $guarded = [
         'discussion_id'
     ];
-    
+
     public static function build($discussionId, $featuredImage, $summary, $isFeatured, $isSized, $isPendingReview)
     {
         $blogMeta = new static();
@@ -30,6 +33,20 @@ class BlogMeta extends AbstractModel
         $blogMeta->is_pending_review = $isPendingReview;
 
         return $blogMeta;
+    }
+
+    /**
+     * Boot the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function (self $blogMeta) {
+            $blogMeta->raise(new BlogMetaCreated($blogMeta));
+        });
     }
 
     /**

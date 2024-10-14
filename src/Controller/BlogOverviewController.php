@@ -26,7 +26,7 @@ class BlogOverviewController
      * @var ExtensionManager
      */
     protected $extensionManager;
-    
+
     public function __construct(Client $api, TranslatorInterface $translator, ExtensionManager $extensionManager)
     {
         $this->api = $api;
@@ -38,25 +38,10 @@ class BlogOverviewController
     {
         $queryParams = $request->getQueryParams();
 
-        // Set meta tags
-        if($this->extensionManager->isEnabled('v17development-seo') && class_exists("V17Development\FlarumSeo\Extend")) {
-            // Get category
-            if(Arr::get($queryParams, 'category')) {
-                $category = Tag::where('slug', Arr::get($queryParams, 'category'))->firstOrFail();
-
-                // Set description of the tag has a description
-                if($category->getAttribute("description")) {
-                    \V17Development\FlarumSeo\Extend::setDescription($category->getAttribute("description"));
-                }
-            }
-
-            \V17Development\FlarumSeo\Extend::setTitle((isset($category) ? $category->getAttribute("name") . " - " : "") . $this->translator->trans('v17development-flarum-blog.forum.blog'));
-        }
-
         $q = "";
-        
+
         // Add language support
-        if($this->extensionManager->isEnabled("fof-discussion-language")) {
+        if ($this->extensionManager->isEnabled("fof-discussion-language")) {
             $q = "language:{$document->language} ";
         }
 
