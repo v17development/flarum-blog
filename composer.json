@@ -31,6 +31,9 @@
     "v17development/flarum-seo": "Adds Flarum SEO and Social media tags",
     "fof/upload": "Upload images for blog posts"
   },
+  "conflict": {
+    "v17development/flarum-seo": "<=1.8"
+  },
   "extra": {
     "flarum-extension": {
       "title": "Blog",
